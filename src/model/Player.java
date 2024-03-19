@@ -1,23 +1,16 @@
 package model;
 
-import controller.ControlSet;
-import controller.PlayerController;
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player {
-    private final Position position;
+public class Player extends Entity implements Movable {
     private final int speed = 4;
-    private BufferedImage image;
 
-    public Player() {
-        this.position = new Position(100, 100);
+    public Player(int x, int y) {
+        this.position = new Position(x * 48, y * 48);
         try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/images/boy_down_1.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_down_1.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -42,14 +35,5 @@ public class Player {
 
     public void placeBomb() {
 
-    }
-
-    public void draw(Graphics2D g2) {
-        g2.drawImage(image, position.getX(), position.getY(),48, 48, null);
-
-    }
-
-    public Position getPosition() {
-        return position;
     }
 }
