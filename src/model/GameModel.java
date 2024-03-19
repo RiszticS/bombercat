@@ -10,7 +10,7 @@ public class GameModel {
     private Level currentLevel;
 
 
-    public GameModel(int numberOfPlayers, int levelNumber) {
+    public GameModel(int levelNumber) {
 
         try {
             this.currentLevel = new Level(levelNumber);
