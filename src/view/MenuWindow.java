@@ -43,16 +43,17 @@ public class MenuWindow extends JFrame implements ActionListener {
         settingsButton = createButton("Settings", icon);
         exitButton = createButton("Exit", icon);
 
+        Dimension gap = new Dimension(0, margin);
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBackground(new Color(0, 0, 0, 0));
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
+        buttonPanel.add(Box.createRigidArea(gap));
         buttonPanel.add(newGameButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
+        buttonPanel.add(Box.createRigidArea(gap));
         buttonPanel.add(mapEditorButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
+        buttonPanel.add(Box.createRigidArea(gap));
         buttonPanel.add(settingsButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
+        buttonPanel.add(Box.createRigidArea(gap));
         buttonPanel.add(exitButton);
         buttonPanel.add(Box.createVerticalGlue());
 
@@ -88,16 +89,32 @@ public class MenuWindow extends JFrame implements ActionListener {
         return button;
     }
 
+    private void newGameButtonClick(){
+        this.dispose();
+        GameModel gm = new GameModel(2);
+        GameWindow gw = new GameWindow(gm);
+        GameLoop gc = new GameLoop(gm, gw.getGamePanel());
+        gc.start();
+    }
 
+    private void mapEditorButtonClick(){
+
+    }
+
+    private void exitButtonClick(){
+
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == newGameButton) {
-            this.dispose();
-            GameModel gm = new GameModel(2);
-            GameWindow gw = new GameWindow(gm);
-            GameLoop gc = new GameLoop(gm, gw.getGamePanel());
-            gc.start();
+            newGameButtonClick();
+        }
+        else if(e.getSource() == mapEditorButton) {
+            mapEditorButtonClick();
+        }
+        else if(e.getSource() == exitButton) {
+            exitButtonClick();
         }
     }
 }
