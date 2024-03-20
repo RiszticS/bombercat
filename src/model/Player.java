@@ -17,7 +17,7 @@ public class Player {
     public Player() {
         this.position = new Position(100, 100);
         try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/images/boy_down_1.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_down_1.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
