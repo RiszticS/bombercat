@@ -4,93 +4,91 @@ import controller.GameLoop;
 import model.GameModel;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class MenuWindow extends JFrame implements ActionListener {
-
     private JLabel titleText;
-    private final int buttonWidth = 100;
-    private final int buttonHeight = 30;
+    private final int frameSize = 720;
+    private final int margin = 15;
     private JButton newGameButton;
     private JButton mapEditorButton;
+    private JButton settingsButton;
     private JButton exitButton;
     private JPanel buttonPanel;
+    private final Font fnt;
+    private final Font fnt2;
+    private ImageIcon icon;
 
-    private MenuPanel menuPanel;
     public MenuWindow() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setPreferredSize(new Dimension(720, 720));
+        this.setPreferredSize(new Dimension(frameSize, frameSize));
         this.setTitle("Bomberman");
-        //this.getContentPane().add(menuPanel);
 
         this.titleText = new JLabel("Multiplayer Bomberman");
-        Font fnt = new Font("Calibri",Font.BOLD,30);
+        fnt = new Font("Press Start 2P",Font.BOLD,30);
         titleText.setFont(fnt);
         titleText.setForeground(Color.WHITE);
-        //titleText.setHorizontalAlignment(SwingConstants.CENTER);
         this.titleText.setAlignmentX(CENTER_ALIGNMENT);
-        this.titleText.setAlignmentY(CENTER_ALIGNMENT);
+        this.titleText.setBorder(BorderFactory.createEmptyBorder(margin, margin, margin*5, margin));
 
+        System.out.println(new File("").getAbsolutePath());
+        fnt2 = new Font("Press Start 2P",Font.BOLD,15);
+        icon = new ImageIcon(getClass().getResource("/assets/images/button.png"));
+        newGameButton = createButton("New Game", icon);
+        mapEditorButton = createButton("Map editor", icon);
+        settingsButton = createButton("Settings", icon);
+        exitButton = createButton("Exit", icon);
 
-        this.newGameButton = new JButton();
-        this.mapEditorButton = new JButton();
-        this.exitButton = new JButton();
-
-        Dimension buttonDimension = new Dimension(buttonWidth, buttonHeight);
-
-        this.newGameButton = new JButton("New Game");
-        this.newGameButton.setPreferredSize(buttonDimension);
-        this.newGameButton.setMinimumSize(buttonDimension);
-        this.newGameButton.setAlignmentX(CENTER_ALIGNMENT);
-        this.newGameButton.setAlignmentY(CENTER_ALIGNMENT);
-        this.newGameButton.addActionListener(this);
-
-        //newGameButton.setHorizontalAlignment(SwingConstants.CENTER);
-        this.newGameButton.setFocusable(false);
-
-        this.mapEditorButton = new JButton("Map Editor");
-        this.mapEditorButton.setPreferredSize(buttonDimension);
-        this.mapEditorButton.setAlignmentX(CENTER_ALIGNMENT);
-        this.mapEditorButton.addActionListener(this);
-        //mapEditorButton.setHorizontalAlignment(SwingConstants.CENTER);
-
-        this.mapEditorButton.setFocusable(false);
-
-        this.exitButton = new JButton("Exit");
-        this.exitButton.setPreferredSize(buttonDimension);
-        this.exitButton.setMinimumSize(buttonDimension);
-        this.exitButton.setAlignmentX(CENTER_ALIGNMENT);
-        this.exitButton.setAlignmentY(CENTER_ALIGNMENT);
-        this.exitButton.addActionListener(this);
-        //this.exitButton.setHorizontalAlignment(SwingConstants.CENTER);
-        this.exitButton.setFocusable(false);
-
-
-        this.buttonPanel = new JPanel();
-        this.buttonPanel.setPreferredSize(new Dimension(720, 720));
-        this.buttonPanel.setMinimumSize(new Dimension(720, 720));
-        this.buttonPanel.setBackground(Color.BLUE);
-        //buttonPanel.setBorder(BorderFactory.createLoweredSoftBevelBorder());
-        buttonPanel.setBackground(Color.black);
+        buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        //buttonPanel.setBorder(new EmptyBorder(new Insets(200, 285, 120, 285)));
-        buttonPanel.setVisible(true);
+        buttonPanel.setBackground(new Color(0, 0, 0, 0));
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
+        buttonPanel.add(newGameButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
+        buttonPanel.add(mapEditorButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
+        buttonPanel.add(settingsButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
+        buttonPanel.add(exitButton);
+        buttonPanel.add(Box.createVerticalGlue());
 
-        this.buttonPanel.add(titleText);
-        this.buttonPanel.add(newGameButton);
-        this.buttonPanel.add(mapEditorButton);
-        this.buttonPanel.add(exitButton);
-        this.buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.buttonPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        this.add(buttonPanel);
+        this.setLayout(new BorderLayout());
+        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/assets/images/menuHatter.png")));
+        this.add(background);
+        background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
+        background.setHorizontalAlignment(JLabel.CENTER);
+        background.add(Box.createVerticalGlue());
+        background.add(titleText);
+        background.add(buttonPanel);
+
+        this.setSize(frameSize,frameSize);
+        this.setLocationRelativeTo(null);
         this.pack();
         this.setVisible(true);
     }
+
+    private JButton createButton(String text, ImageIcon icon) {
+        JButton button = new JButton(text);
+        button.setForeground(Color.WHITE);
+        button.setIcon(icon);
+        button.setHorizontalTextPosition(JButton.CENTER);
+        button.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+        button.setFont(fnt2);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setBackground(new Color(0, 0, 0, 0));
+        button.setBorderPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        button.addActionListener(this);
+        button.setFocusable(false);
+        return button;
+    }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
