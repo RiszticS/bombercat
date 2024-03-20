@@ -6,9 +6,13 @@ import java.io.IOException;
 
 public class Player extends Entity implements Movable {
     private final int speed = 4;
+    private int boardX;
+    private int boardY;
 
     public Player(int x, int y) {
         this.position = new Position(x * 48, y * 48);
+        this.boardX = x;
+        this.boardY = y;
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_down_1.png"));
         } catch (IOException e) {
@@ -21,6 +25,14 @@ public class Player extends Entity implements Movable {
         this.image = i;
     }
 
+    public int getBoardX() {
+        return boardX;
+    }
+
+    public int getBoardY() {
+        return boardY;
+    }
+
     public void move(Direction d) {
         if (d == Direction.UP) {
             this.position.changeY(-speed);
@@ -31,6 +43,11 @@ public class Player extends Entity implements Movable {
         }  if (d == Direction.DOWN) {
             this.position.changeY(speed);
         }
+    }
+
+    public void changeBoardPosition(int x, int y) {
+        this.boardX = x;
+        this.boardY = y;
     }
 
     public void placeBomb() {
