@@ -14,7 +14,7 @@ public class Player extends Entity implements Movable {
         this.boardX = x;
         this.boardY = y;
         try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_down_1.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/astronautfront.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

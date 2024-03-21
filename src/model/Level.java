@@ -28,14 +28,14 @@ public class Level {
 
                     Entity currentObject = generateEntity(currentObjectCharacter, rowIndex, colIndex);
 
-                    board[rowIndex][colIndex] = currentObject;
-
                     if (currentObjectCharacter == 'p') {
                         players.add((Player) currentObject);
-                        floorTiles.add(new Floor(rowIndex, colIndex));
+                        floorTiles.add(new Floor(colIndex, rowIndex));
                     } else if (currentObjectCharacter == 'f') {
                         floorTiles.add((Floor) currentObject);
                     }
+
+                    board[rowIndex][colIndex] = currentObject;
                 }
 
                 rowIndex++;
@@ -51,11 +51,11 @@ public class Level {
 
     private Entity generateEntity(char entity, int rowIndex, int colIndex) {
         return switch (entity) {
-            case 'w' -> new Wall(rowIndex, colIndex);
-            case 'c' -> new Chest(rowIndex, colIndex);
-            case 'p' -> new Player(rowIndex, colIndex);
-            case 'f' -> new Floor(rowIndex, colIndex);
-            case 'm' -> new Monster(rowIndex, colIndex);
+            case 'w' -> new Wall(colIndex, rowIndex);
+            case 'c' -> new Chest(colIndex, rowIndex);
+            case 'p' -> new Player(colIndex, rowIndex);
+            case 'f' -> new Floor(colIndex, rowIndex);
+            case 'm' -> new Monster(colIndex, rowIndex);
             default -> new Entity();
         };
     }
@@ -64,10 +64,10 @@ public class Level {
         for (Player p : players) {
             int playerX = p.getPosition().getX() / 48;
             int playerY = p.getPosition().getY() / 48;
-            if(!(board[playerX][playerY] instanceof Player)) {
-                Entity temp = board[p.getBoardX()][p.getBoardY()];
-                board[p.getBoardX()][p.getBoardY()] = board[playerX][playerY];
-                board[playerX][playerY] = temp;
+            if(playerX != p.getBoardX() || playerY != p.getBoardY()) {
+                Entity temp = board[p.getBoardY()][p.getBoardX()];
+                board[p.getBoardY()][p.getBoardX()] = board[playerY][playerX];
+                board[playerY][playerX] = temp;
 
                 p.changeBoardPosition(playerX, playerY);
             }
@@ -81,14 +81,8 @@ public class Level {
         }
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                if(board[i][j] instanceof Floor) {
-                    continue;
-                }
-
-                board[i][j].draw(g2);
-
-                if(board[i][j] instanceof  Player) {
-                    System.out.println(board[i][j].getPosition().getX() + ", " + board[i][j].getPosition().getY());
+                if(!(board[i][j] instanceof Floor)) {
+                    board[i][j].draw(g2);
                 }
             }
         }
