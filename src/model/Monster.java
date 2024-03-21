@@ -1,12 +1,19 @@
 package model;
 
-public class Monster {
-    private final Position position;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+
+public class Monster extends Entity implements Movable {
     private final int speed;
 
-    public Monster() {
-        position = new Position(100, 100);
+    public Monster(int x, int y) {
+        this.position = new Position(x * 48, y * 48);
         speed = 4;
+        try {
+            this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/monster.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void move(Direction d) {
@@ -19,9 +26,5 @@ public class Monster {
         } else if (d == Direction.DOWN) {
             this.position.changeY(speed);
         }
-    }
-
-    public Position getPosition() {
-        return position;
     }
 }

@@ -2,15 +2,22 @@ package model;
 
 import controller.ControlSet;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameModel {
     private final ArrayList<Player> players;
+    private Level currentLevel;
 
-    public GameModel(int numberOfPlayers) {
-        this.players = new ArrayList<>();
-        for (int i = 0; i < numberOfPlayers; i++) {
-            players.add(new Player());
+
+    public GameModel(int levelNumber) {
+
+        try {
+            this.currentLevel = new Level(levelNumber);
+            this.players = this.currentLevel.getPlayers();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -18,5 +25,7 @@ public class GameModel {
         return this.players;
     }
 
-
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
 }

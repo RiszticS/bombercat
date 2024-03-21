@@ -3,6 +3,7 @@ package view;
 import controller.ControlSet;
 import controller.PlayerController;
 import model.GameModel;
+import model.Level;
 import model.Player;
 
 import javax.swing.*;
@@ -43,9 +44,9 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        for (Player player : model.getPlayers()) {
-            player.draw(g2);
-        }
+
+        model.getCurrentLevel().draw(g2);
+
         // Dispose of this graphic context and release any system resources that it is using.
         g2.dispose();
     }
