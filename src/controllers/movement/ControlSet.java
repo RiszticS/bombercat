@@ -1,4 +1,4 @@
-package controller;
+package controllers.movement;
 
 import java.awt.event.KeyEvent;
 

@@ -1,6 +1,6 @@
-package model;
+package models;
 
-import controller.ControlSet;
+import models.entities.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;

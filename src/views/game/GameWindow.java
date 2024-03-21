@@ -1,12 +1,12 @@
-package view;
+package views.game;
 
-import model.GameModel;
+import models.GameModel;
 
 import javax.swing.*;
 
 public class GameWindow extends JFrame {
 
-    private GamePanel gamePanel;
+    private final GamePanel gamePanel;
     public GameWindow(GameModel m) {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);

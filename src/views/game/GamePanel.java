@@ -1,10 +1,9 @@
-package view;
+package views.game;
 
-import controller.ControlSet;
-import controller.PlayerController;
-import model.GameModel;
-import model.Level;
-import model.Player;
+import controllers.movement.ControlSet;
+import controllers.movement.PlayerController;
+import models.GameModel;
+import models.entities.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +45,6 @@ public class GamePanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
 
         model.getCurrentLevel().draw(g2);
-
         // Dispose of this graphic context and release any system resources that it is using.
         g2.dispose();
     }

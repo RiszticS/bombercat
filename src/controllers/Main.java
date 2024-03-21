@@ -1,11 +1,9 @@
-package controller;
+package controllers;
 
-import view.MenuWindow;
+import views.menu.MenuWindow;
 
 public class Main {
     public static void main(String[] args) {
         new MenuWindow();
-
-
     }
 }

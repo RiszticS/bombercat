@@ -1,4 +1,8 @@
-package model;
+package models.entities;
+
+import models.Direction;
+import models.Movable;
+import models.Position;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;

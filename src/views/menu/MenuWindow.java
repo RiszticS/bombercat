@@ -1,7 +1,8 @@
-package view;
+package views.menu;
 
-import controller.GameLoop;
-import model.GameModel;
+import controllers.game.GameLoop;
+import models.GameModel;
+import views.game.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -91,7 +92,7 @@ public class MenuWindow extends JFrame implements ActionListener {
 
     private void newGameButtonClick(){
         this.dispose();
-        GameModel gm = new GameModel(1);
+        GameModel gm = new GameModel(0);
         GameWindow gw = new GameWindow(gm);
         GameLoop gc = new GameLoop(gm, gw.getGamePanel());
         gc.start();

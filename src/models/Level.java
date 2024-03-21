@@ -1,17 +1,19 @@
-package model;
+package models;
+
+import controllers.graphics.SpriteSheet;
+import models.entities.*;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Level {
     private Entity[][] board;
     private ArrayList<Player> players;
     private ArrayList<Floor> floorTiles;
+    private SpriteSheet s;
     public Level(int levelNumber) throws IOException {
         players = new ArrayList<>();
         try {
@@ -40,6 +42,8 @@ public class Level {
 
                 rowIndex++;
             }
+
+            s = new SpriteSheet("/assets/images/wall.png", 3, 3, 9, 0, 5, 5);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -86,5 +90,7 @@ public class Level {
                 }
             }
         }
+
+        s.draw(g2);
     }
 }

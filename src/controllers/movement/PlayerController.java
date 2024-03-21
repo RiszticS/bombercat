@@ -1,7 +1,7 @@
-package controller;
+package controllers.movement;
 
-import model.Direction;
-import model.Player;
+import models.Direction;
+import models.entities.Player;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

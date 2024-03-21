@@ -1,7 +1,8 @@
-package controller;
+package controllers.game;
 
-import model.GameModel;
-import view.GamePanel;
+import controllers.movement.PlayerController;
+import models.GameModel;
+import views.game.GamePanel;
 
 public class GameLoop implements Runnable {
     GameModel gameModel;
