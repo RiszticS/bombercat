@@ -9,7 +9,6 @@ public class GameModel {
     private final ArrayList<Player> players;
     private Level currentLevel;
 
-
     public GameModel(int levelNumber) {
 
         try {

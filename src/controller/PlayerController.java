@@ -1,6 +1,7 @@
 package controller;
 
 import model.Direction;
+import model.Level;
 import model.Player;
 
 import java.awt.event.KeyEvent;
@@ -34,7 +35,7 @@ public class PlayerController implements KeyListener {
             leftPressed = true;
         }  if (code == right) {
             rightPressed = true;
-        }  if (code == placeBomb) {
+        }else  if (code == placeBomb) {
             player.placeBomb();
         }
     }
