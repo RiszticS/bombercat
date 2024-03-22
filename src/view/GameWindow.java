@@ -15,6 +15,7 @@ public class GameWindow extends JFrame {
         this.getContentPane().add(gamePanel);
         this.pack();
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
     }
 
     public GamePanel getGamePanel() {

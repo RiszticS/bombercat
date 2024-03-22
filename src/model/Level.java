@@ -12,6 +12,8 @@ public class Level {
     private Entity[][] board;
     private ArrayList<Player> players;
     private ArrayList<Floor> floorTiles;
+    private ArrayList<Wall> wallTiles;
+
     public Level(int levelNumber) throws IOException {
         players = new ArrayList<>();
         try {
@@ -21,6 +23,7 @@ public class Level {
 
             board = new Entity[15][15];
             floorTiles = new ArrayList<>();
+            wallTiles = new ArrayList<>();
             int rowIndex = 0;
             while((currentLine = reader.readLine()) != null) {
                 for(int colIndex = 0; colIndex < 15; colIndex++) {
@@ -33,6 +36,8 @@ public class Level {
                         floorTiles.add(new Floor(colIndex, rowIndex));
                     } else if (currentObjectCharacter == 'f') {
                         floorTiles.add((Floor) currentObject);
+                    } else if (currentObjectCharacter == 'w') {
+                        wallTiles.add((Wall) currentObject);
                     }
 
                     board[rowIndex][colIndex] = currentObject;
@@ -43,6 +48,7 @@ public class Level {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public ArrayList<Player> getPlayers() {
@@ -86,5 +92,9 @@ public class Level {
                 }
             }
         }
+    }
+
+    public ArrayList<Wall> getWallTiles() {
+        return this.wallTiles;
     }
 }

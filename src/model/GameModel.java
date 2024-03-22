@@ -9,7 +9,6 @@ public class GameModel {
     private final ArrayList<Player> players;
     private Level currentLevel;
 
-
     public GameModel(int levelNumber) {
 
         try {
@@ -28,4 +27,27 @@ public class GameModel {
     public Level getCurrentLevel() {
         return currentLevel;
     }
+
+    public void checkCollisions() {
+        for (Player p : players) {
+            for (Wall w : this.currentLevel.getWallTiles()) {
+                if (p.collidesWith(w)) {
+                    ArrayList<Direction> collisionDirections = p.checkCollisionDirectionWith(w);
+                    if (collisionDirections.contains(Direction.UP)) {
+                        p.disableDirection(Direction.UP);
+                    } if (collisionDirections.contains(Direction.DOWN)) {
+                        p.disableDirection(Direction.DOWN);
+                    } if (collisionDirections.contains(Direction.RIGHT)) {
+                        p.disableDirection(Direction.RIGHT);
+                    } if (collisionDirections.contains(Direction.LEFT)) {
+                        p.disableDirection(Direction.LEFT);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
 }
