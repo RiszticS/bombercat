@@ -12,11 +12,9 @@ public class Level {
     private Entity[][] board;
     private ArrayList<Player> players;
     private ArrayList<Floor> floorTiles;
-    public static ArrayList<Bomb> bombs;
 
     public Level(int levelNumber) throws IOException {
         players = new ArrayList<>();
-        bombs = new ArrayList<>();
         try {
             BufferedReader  reader = new BufferedReader(new FileReader("src/assets/levels/level" + levelNumber + ".txt"));
 
@@ -36,10 +34,7 @@ public class Level {
                         floorTiles.add(new Floor(colIndex, rowIndex));
                     } else if (currentObjectCharacter == 'f') {
                         floorTiles.add((Floor) currentObject);
-                    } else if (currentObjectCharacter == 'b') {
-                        bombs.add((Bomb) currentObject);
                 }
-
 
                 board[rowIndex][colIndex] = currentObject;
                 }
@@ -54,14 +49,13 @@ public class Level {
         return players;
     }
 
-    public Entity generateEntity(char entity, int rowIndex, int colIndex) {
+    private Entity generateEntity(char entity, int rowIndex, int colIndex) {
         return switch (entity) {
             case 'w' -> new Wall(colIndex, rowIndex);
             case 'c' -> new Chest(colIndex, rowIndex);
             case 'p' -> new Player(colIndex, rowIndex);
             case 'f' -> new Floor(colIndex, rowIndex);
             case 'm' -> new Monster(colIndex, rowIndex);
-            case 'b' -> new Bomb(colIndex, rowIndex);
             default -> new Entity();
         };
     }
@@ -85,13 +79,10 @@ public class Level {
         for(Floor f : floorTiles) {
             f.draw(g2);
         }
-        for(Bomb b : bombs){
-            b.draw(g2);
-            //bombs.remove(b);
-        }
+
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                if(!(board[i][j] instanceof Floor) && !(board[i][j] instanceof Bomb)){
+                if(!(board[i][j] instanceof Floor)){
                     board[i][j].draw(g2);
                 }
             }

@@ -60,23 +60,18 @@ public class Player extends Entity implements Movable {
     }
 
     public void placeBomb() {
-        int boardX = this.getPosition().getX();
-        int boardY = this.getPosition().getY();
-        Bomb bomb = new Bomb(boardX, boardY);
-        bombs.add(bomb);
-        Level.bombs.add(bomb);
-        //Level.bombs.remove(bomb);
+        Bomb bomb = new Bomb(this.position.getX(), this.position.getY());
+        this.bombs.add(bomb);
         this.bomb = bomb;
     }
 
-
     @Override
     public void draw(Graphics2D g) {
-        super.draw(g);
-        if(!bombs.isEmpty()){
-            this.bomb.draw(g);
-            System.out.println("playewrbumm");
-            bombs.remove(bomb);
+        if(!bombs.isEmpty()) {
+            for (Bomb b : bombs) {
+                b.draw(g);
+            }
         }
+        super.draw(g);
     }
 }
