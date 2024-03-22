@@ -55,7 +55,7 @@ public class PlayerController implements KeyListener {
         }
     }
 
-    public void updatePlayer(GameModel model) {
+    public void updatePlayer() {
         if (this.upPressed) {
             player.move(Direction.UP);
         }  else if (this.downPressed) {

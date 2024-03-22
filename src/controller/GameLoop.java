@@ -46,7 +46,7 @@ public class GameLoop implements Runnable {
     public void updateModel() {
         this.gameModel.checkCollisions();
         for (PlayerController pc : gamePanel.getPlayerControllers()) {
-            pc.updatePlayer(this.gameModel);
+            pc.updatePlayer();
         }
     }
 

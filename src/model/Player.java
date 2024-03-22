@@ -126,50 +126,26 @@ public class Player extends Entity implements Movable {
         if (this.currentDirection == Direction.UP) {
             if (imageNumber == 1) {
                 g2.drawImage(images[2], position.getX(), position.getY(), 48, 48, null);
-                //g2.setColor(Color.RED);
-                //g2.drawRect(position.getX(), position.getY(), 48, 48);
-                //hitbox.draw(g2);
             } else if (imageNumber == 2) {
                 g2.drawImage(images[3], position.getX(), position.getY(), 48, 48, null);
-                //g2.setColor(Color.RED);
-                //g2.drawRect(position.getX(), position.getY(), 48, 48);
-                //hitbox.draw(g2);
             }
         } else if (this.currentDirection == Direction.DOWN) {
             if (imageNumber == 1) {
                 g2.drawImage(images[0], position.getX(), position.getY(), 48, 48, null);
-                //g2.setColor(Color.RED);
-                //g2.drawRect(position.getX(), position.getY(), 48, 48);
-                //hitbox.draw(g2);
             } else if (imageNumber == 2) {
                 g2.drawImage(images[1], position.getX(), position.getY(), 48, 48, null);
-                //g2.setColor(Color.RED);
-                //g2.drawRect(position.getX(), position.getY(), 48, 48);
-                //hitbox.draw(g2);
             }
         } else if (this.currentDirection == Direction.LEFT) {
             if (imageNumber == 1) {
                 g2.drawImage(images[4], position.getX(), position.getY(), 48, 48, null);
-                //g2.setColor(Color.RED);
-                //g2.drawRect(position.getX(), position.getY(), 48, 48);
-                //hitbox.draw(g2);
             } else if (imageNumber == 2) {
                 g2.drawImage(images[5], position.getX(), position.getY(), 48, 48, null);
-                //g2.setColor(Color.RED);
-                //g2.drawRect(position.getX(), position.getY(), 48, 48);
-                //hitbox.draw(g2);
             }
         } else {
             if (imageNumber == 1) {
                 g2.drawImage(images[6], position.getX(), position.getY(), 48, 48, null);
-                //g2.setColor(Color.RED);
-                //g2.drawRect(position.getX(), position.getY(), 48, 48);
-                //hitbox.draw(g2);
             } else if (imageNumber == 2) {
                 g2.drawImage(images[7], position.getX(), position.getY(), 48, 48, null);
-                //g2.setColor(Color.RED);
-                //g2.drawRect(position.getX(), position.getY(), 48, 48);
-                //hitbox.draw(g2);
             }
         }
     }
@@ -190,12 +166,19 @@ public class Player extends Entity implements Movable {
         return hitbox.checkCollisionDirection(e.getHitbox());
     }
 
-    public void printAvailableDirections() {
-        System.out.println(availableDirections.keySet());
-        System.out.println(availableDirections.values());
+    public void handleCollisionWith(Entity e) {
+        if (e.getClass() == Wall.class && this.collidesWith(e)) {
+            ArrayList<Direction> collisionDirections = this.checkCollisionDirectionWith(e);
+            if (collisionDirections.contains(Direction.UP)) {
+                this.disableDirection(Direction.UP);
+            } if (collisionDirections.contains(Direction.DOWN)) {
+                this.disableDirection(Direction.DOWN);
+            } if (collisionDirections.contains(Direction.RIGHT)) {
+                this.disableDirection(Direction.RIGHT);
+            } if (collisionDirections.contains(Direction.LEFT)) {
+                this.disableDirection(Direction.LEFT);
+            }
+        }
     }
 
-    public HashMap<Direction, Boolean> getAvailableDirections() {
-        return availableDirections;
-    }
 }

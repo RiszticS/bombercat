@@ -3,25 +3,6 @@ package model;
 import java.awt.*;
 import java.util.ArrayList;
 
-/*public class Hitbox extends Rectangle {
-    public Hitbox(int x, int y, int width, int height) {
-        super(x, y, width, height);
-    }
-
-    public void draw(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
-        g2.fillRect(this.x, this.y, width, height);
-    }
-
-    public void changeX(int x) {
-        this.x += x;
-    }
-
-    public void changeY(int y) {
-        this.y += y;
-    }
-}*/
-
 public class Hitbox {
     private final Rectangle top;
     private final Rectangle bottom;
@@ -33,8 +14,6 @@ public class Hitbox {
     public Hitbox(int x, int y, int width, int height) {
         this.top = new Rectangle(x + w, y, width - 2*w, w);
         this.bottom = new Rectangle(x + w, y + height - w, width - 2*w, w);
-        //this.top = new Rectangle(x, y, width, w);
-        //this.bottom = new Rectangle(x, y + height - w, width, w);
         this.right = new Rectangle(x + width - w, y + w, w, height - 2*w);
         this.left = new Rectangle(x, y + w, w, height - 2*w);
     }
@@ -63,30 +42,6 @@ public class Hitbox {
         left.y += y;
         right.y += y;
     }
-
-    /*public Direction checkCollisionDirection(Hitbox other) {
-        if (this.top.intersects(other.getBottom()) ||
-            this.top.intersects(other.getLeft()) ||
-            this.top.intersects(other.getRight()) ||
-            this.top.intersects(other.getTop())
-           ) { return Direction.UP; }
-        if (this.bottom.intersects(other.getTop()) ||
-            this.bottom.intersects(other.getRight()) ||
-            this.bottom.intersects(other.getLeft()) ||
-            this.bottom.intersects(other.getBottom())
-        ) { return Direction.DOWN; }
-        if (this.right.intersects(other.getLeft()) ||
-            this.right.intersects(other.getTop()) ||
-            this.right.intersects(other.getBottom()) ||
-            this.right.intersects(other.getRight())
-        ) { return Direction.RIGHT; }
-        if (this.left.intersects(other.getRight()) ||
-            this.left.intersects(other.getTop()) ||
-            this.left.intersects(other.getBottom()) ||
-            this.left.intersects(other.getLeft())
-        ) { return Direction.LEFT; }
-        return null;
-    }*/
 
     public ArrayList<Direction> checkCollisionDirection(Hitbox other) {
         ArrayList<Direction> collidingDirections = new ArrayList<>();
