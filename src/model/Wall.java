@@ -15,10 +15,4 @@ public class Wall extends Entity {
             throw new RuntimeException(e);
         }
     }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        g2.drawImage(this.image, this.position.getX(), this.position.getY(),48, 48, null);
-    }
-
 }
