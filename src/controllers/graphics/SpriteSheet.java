@@ -1,29 +1,35 @@
 package controllers.graphics;
 
+import models.Position;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SpriteSheet {
-    private ArrayList<BufferedImage> images;
+class SpriteSheet {
+    private final ArrayList<BufferedImage> images;
     private int iterator;
-    private int imageCount;
-    private int gap;
+    private final int imageCount;
+    private final int width;
+    private final int height;
 
-    public SpriteSheet(String path, int x, int y, int count, int gap, int width, int height) {
-        iterator = 0;
-        imageCount = count;
-        this.gap = gap;
+    private Position position;
+
+    public SpriteSheet(String path, int xAmount, int yAmount, int count, int gap, int width, int height) {
+        this.iterator = 0;
+        this.imageCount = count;
+        this.width = width;
+        this.height = height;
 
         images = new ArrayList<>();
         BufferedImage sheet;
         try {
             sheet = ImageIO.read(getClass().getResource(path));
 
-            for (int i = 0; i < y; i++) {
-                for(int j = 0; j < x; j++) {
+            for (int i = 0; i < yAmount; i++) {
+                for(int j = 0; j < xAmount; j++) {
                     images.add(sheet.getSubimage((j * width) + (j * gap),i * height + i * gap, width, height));
 
                     if(images.size() == count) {
@@ -37,6 +43,22 @@ public class SpriteSheet {
         }
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
     public BufferedImage next() {
         iterator++;
 
@@ -45,11 +67,5 @@ public class SpriteSheet {
         }
 
         return images.get(iterator);
-    }
-
-    public void draw(Graphics2D g2) {
-        for(int i = 0; i < imageCount; i++) {
-            g2.drawImage(images.get(i), 48 * i, 48 * i,48, 48, null);
-        }
     }
 }
