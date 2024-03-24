@@ -30,7 +30,8 @@ class SpriteSheet {
 
             for (int i = 0; i < yAmount; i++) {
                 for(int j = 0; j < xAmount; j++) {
-                    images.add(sheet.getSubimage((j * width) + (j * gap),i * height + i * gap, width, height));
+                    System.out.println((j * width) + (j * 0));
+                    images.add(sheet.getSubimage((j * width) + (j * 0),i * height + i * gap, width, height));
 
                     if(images.size() == count) {
                         break;
@@ -66,6 +67,10 @@ class SpriteSheet {
             iterator = 0;
         }
 
+        return images.get(iterator);
+    }
+
+    public BufferedImage current() {
         return images.get(iterator);
     }
 }

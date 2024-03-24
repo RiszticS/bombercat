@@ -11,7 +11,7 @@ public class StaticGraphics implements GraphicsManager {
     }
 
     @Override
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2, int x, int y) {
         g2.drawImage(image.getImage(), image.getPosition().getX(), image.getPosition().getY(), image.getWidth(), image.getHeight(), null);
     }
 }
