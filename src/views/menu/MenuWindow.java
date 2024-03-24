@@ -92,7 +92,7 @@ public class MenuWindow extends JFrame implements ActionListener {
 
     private void newGameButtonClick(){
         this.dispose();
-        GameModel gm = new GameModel(0);
+        GameModel gm = new GameModel(1);
         GameWindow gw = new GameWindow(gm);
         GameLoop gc = new GameLoop(gm, gw.getGamePanel());
         gc.start();

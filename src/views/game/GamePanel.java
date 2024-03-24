@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     // SCREEN SETTINGS
-    private final int defaultTileSize = 32; // 16x16 tile
+    private final int defaultTileSize = 32; // 32x32 tile
     private final int scale = 2;
-    private final int tileSize = defaultTileSize * scale; // 48x48 tile
+    private final int tileSize = defaultTileSize * scale; // 64x64 tile
     private final int numberOfRows = 15;
     private final int numberOfColumns = 15;
     private final int panelWidth = numberOfColumns * tileSize; // 720px

@@ -18,6 +18,6 @@ public class Entity {
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(this.image, this.position.getX(), this.position.getY(),48, 48, null);
+        g2.drawImage(this.image, this.position.getX(), this.position.getY(),64, 64, null);
     }
 }

@@ -23,11 +23,11 @@ public class Player extends Entity implements Movable {
     private Direction currentDirection;
 
     public Player(int x, int y) {
-        this.position = new Position(x * 48, y * 48);
+        this.position = new Position(x * 64, y * 64);
         this.boardX = x;
         this.boardY = y;
         this.images = new BufferedImage[8];
-        this.hitbox = new Hitbox(this.position.getX() + 12, this.position.getY() + 24, 24, 24);
+        this.hitbox = new Hitbox(this.position.getX() + 12, this.position.getY() + 24, 32, 32);
         this.imageCounter = 0;
         this.imageNumber = 1;
 
@@ -129,27 +129,27 @@ public class Player extends Entity implements Movable {
     public void draw(Graphics2D g2) {
         if (this.currentDirection == Direction.UP) {
             if (imageNumber == 1) {
-                g2.drawImage(images[2], position.getX(), position.getY(), 48, 48, null);
+                g2.drawImage(images[2], position.getX(), position.getY(), 64, 64, null);
             } else if (imageNumber == 2) {
-                g2.drawImage(images[3], position.getX(), position.getY(), 48, 48, null);
+                g2.drawImage(images[3], position.getX(), position.getY(), 64, 64, null);
             }
         } else if (this.currentDirection == Direction.DOWN) {
             if (imageNumber == 1) {
-                g2.drawImage(images[0], position.getX(), position.getY(), 48, 48, null);
+                g2.drawImage(images[0], position.getX(), position.getY(), 64, 64, null);
             } else if (imageNumber == 2) {
-                g2.drawImage(images[1], position.getX(), position.getY(), 48, 48, null);
+                g2.drawImage(images[1], position.getX(), position.getY(), 64, 64, null);
             }
         } else if (this.currentDirection == Direction.LEFT) {
             if (imageNumber == 1) {
-                g2.drawImage(images[4], position.getX(), position.getY(), 48, 48, null);
+                g2.drawImage(images[4], position.getX(), position.getY(), 64, 64, null);
             } else if (imageNumber == 2) {
-                g2.drawImage(images[5], position.getX(), position.getY(), 48, 48, null);
+                g2.drawImage(images[5], position.getX(), position.getY(), 64, 64, null);
             }
         } else {
             if (imageNumber == 1) {
-                g2.drawImage(images[6], position.getX(), position.getY(), 48, 48, null);
+                g2.drawImage(images[6], position.getX(), position.getY(), 64, 64, null);
             } else if (imageNumber == 2) {
-                g2.drawImage(images[7], position.getX(), position.getY(), 48, 48, null);
+                g2.drawImage(images[7], position.getX(), position.getY(), 64, 64, null);
             }
         }
     }

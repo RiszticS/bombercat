@@ -1,15 +1,8 @@
-package controller;
-
-import model.Direction;
-import model.Hitbox;
-import view.MenuWindow;
-
-import java.util.HashMap;
+package controllers;
+import views.menu.MenuWindow;
 
 public class Main {
     public static void main(String[] args) {
         new MenuWindow();
-
-
     }
 }

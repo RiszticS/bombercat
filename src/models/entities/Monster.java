@@ -11,7 +11,7 @@ public class Monster extends Entity implements Movable {
     private final int speed;
 
     public Monster(int x, int y) {
-        this.position = new Position(x * 48, y * 48);
+        this.position = new Position(x * 64, y * 64);
         speed = 4;
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/monster.png"));

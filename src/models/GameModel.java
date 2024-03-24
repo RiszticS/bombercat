@@ -1,6 +1,7 @@
 package models;
 
 import models.entities.Player;
+import models.entities.Wall;
 
 import java.io.IOException;
 import java.util.ArrayList;
