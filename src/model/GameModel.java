@@ -27,4 +27,16 @@ public class GameModel {
     public Level getCurrentLevel() {
         return currentLevel;
     }
+
+    public void checkCollisions() {
+        for (Player p : players) {
+            for (Wall w : this.currentLevel.getWallTiles()) {
+                p.handleCollisionWith(w);
+            }
+        }
+    }
+
+
+
+
 }
