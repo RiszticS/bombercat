@@ -6,9 +6,13 @@ import java.awt.image.BufferedImage;
 public class Entity {
     protected Position position;
     protected BufferedImage image;
+    protected Hitbox hitbox;
 
     public Position getPosition() {
         return position;
+    }
+    public Hitbox getHitbox() {
+        return this.hitbox;
     }
 
     public void draw(Graphics2D g) {

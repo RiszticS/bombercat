@@ -1,6 +1,7 @@
 package controller;
 
 import model.Direction;
+import model.GameModel;
 import model.Player;
 
 import java.awt.event.KeyEvent;
@@ -28,13 +29,13 @@ public class PlayerController implements KeyListener {
 
         if (code == up) {
             upPressed = true;
-        }  if (code == down) {
+        }  else if (code == down) {
             downPressed = true;
-        }  if (code == left) {
+        }  else if (code == left) {
             leftPressed = true;
-        }  if (code == right) {
+        }  else if (code == right) {
             rightPressed = true;
-        }  if (code == placeBomb) {
+        }  else if (code == placeBomb) {
             player.placeBomb();
         }
     }
@@ -45,11 +46,11 @@ public class PlayerController implements KeyListener {
 
         if (code == up) {
             upPressed = false;
-        }  if (code == down) {
+        }  else if (code == down) {
             downPressed = false;
-        }  if (code == left) {
+        }  else if (code == left) {
             leftPressed = false;
-        }  if (code == right) {
+        }  else if (code == right) {
             rightPressed = false;
         }
     }
@@ -57,11 +58,11 @@ public class PlayerController implements KeyListener {
     public void updatePlayer() {
         if (this.upPressed) {
             player.move(Direction.UP);
-        }  if (this.downPressed) {
+        }  else if (this.downPressed) {
             player.move(Direction.DOWN);
-        }  if (this.leftPressed) {
+        }  else if (this.leftPressed) {
             player.move(Direction.LEFT);
-        }  if (this.rightPressed) {
+        }  else if (this.rightPressed) {
             player.move(Direction.RIGHT);
         }
     }

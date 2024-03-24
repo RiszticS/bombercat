@@ -9,7 +9,6 @@ public class GameModel {
     private final ArrayList<Player> players;
     private Level currentLevel;
 
-
     public GameModel(int levelNumber) {
 
         try {
@@ -28,4 +27,16 @@ public class GameModel {
     public Level getCurrentLevel() {
         return currentLevel;
     }
+
+    public void checkCollisions() {
+        for (Player p : players) {
+            for (Wall w : this.currentLevel.getWallTiles()) {
+                p.handleCollisionWith(w);
+            }
+        }
+    }
+
+
+
+
 }
