@@ -9,8 +9,9 @@ import java.util.ArrayList;
 
 public class Bomb extends Entity {
     private ArrayList<Explosion> explosions;
-    private static final int EXPLOSION_DURATION = 3000;
-    private static final int EXPLOSION_DELETE = 6000; // 6 seconds
+    private static final int EXPLOSION_DURATION = 2000;
+
+    private final int EXPLOSION_DELETE = 4000; // 4 seconds
     private long startTime;
     private boolean exploded;
 
@@ -26,11 +27,11 @@ public class Bomb extends Entity {
         startTimer();
     }
 
-    public void addExplosion(Explosion explosion) {
+    private void addExplosion(Explosion explosion) {
         explosions.add(explosion);
     }
 
-    public void startTimer() {
+    private void startTimer() {
         startTime = System.currentTimeMillis();
     }
 
@@ -38,12 +39,16 @@ public class Bomb extends Entity {
         return System.currentTimeMillis() - startTime >= EXPLOSION_DURATION;
     }
 
-    public void handleExplosion() {
+    public int getEXPLOSION_DELETE() {
+        return EXPLOSION_DELETE;
+    }
+
+    private void handleExplosion() {
         this.image = null;
         int x[] = {0, 48, 0, -48, 0};
         int y[] = {0, 0, -48, 0, 48};
         for(int i = 0; i < 5; i++){
-            Explosion explosion = new Explosion(position.getX() + x[i], position.getY() + y[i], 3000); // 3 seconds
+            Explosion explosion = new Explosion(position.getX() + x[i], position.getY() + y[i], 2000); // 3 seconds
             this.addExplosion(explosion);
         }
     }
@@ -52,7 +57,7 @@ public class Bomb extends Entity {
         return exploded;
     }
 
-    private boolean delayed(){
+    public boolean delayed(){
         exploded =  System.currentTimeMillis() - startTime >= EXPLOSION_DELETE;
         return exploded;
     }
@@ -62,15 +67,6 @@ public class Bomb extends Entity {
         for (int i = 0; i < explosions.size(); i++){
             explosions.set(i, null);
         }
-
-        /*
-        if(delayed()){
-            System.out.println("torol");
-            for (Explosion exp: explosions) {
-                exp.removeImage();
-            }
-        }*/
-
     }
 
     @Override
@@ -89,16 +85,6 @@ public class Bomb extends Entity {
                     exp.draw(g);
                 }
             }
-
         }
-
-
-        /*
-        if (hasExploded()){
-            handleExplosion();
-            for (Explosion explosion : explosions) {
-                explosion.draw(g);
-            }
-        }*/
     }
 }

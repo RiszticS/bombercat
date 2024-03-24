@@ -7,14 +7,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Explosion extends Entity {
-    private int r;
-    private int maxRadius;
     private long startTime;
-    private long duration;
     private boolean expired;
+    private long duration;
+
     public Explosion(int x, int y, long duration) {
-        this.r = 2;
-        this.maxRadius = 5;
         this.position = new Position(x, y);
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/explosion.png"));
@@ -24,9 +21,14 @@ public class Explosion extends Entity {
         this.startTime = System.currentTimeMillis();
         this.duration = duration;
         this.expired = false;
+        startTimer();
+    }
+    private void startTimer() {
+        startTime = System.currentTimeMillis();
+    }
+    public boolean isExpired(){
+        expired =  System.currentTimeMillis() - startTime >= duration;
+        return expired;
     }
 
-    public void removeImage(){
-        this.image = null;
-    }
 }

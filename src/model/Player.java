@@ -15,6 +15,7 @@ public class Player extends Entity implements Movable {
     private int boardY;
     public Bomb bomb;
     public ArrayList<Bomb> bombs;
+    private long bombTimer;
 
     public Player(int x, int y) {
         this.position = new Position(x * 48, y * 48);
@@ -59,7 +60,15 @@ public class Player extends Entity implements Movable {
         this.boardY = y;
     }
 
+    private void bombTimer() {
+        bombTimer = System.currentTimeMillis();
+    }
+    public boolean bombHasExploded(Bomb b){
+        return System.currentTimeMillis() - bombTimer >= b.getEXPLOSION_DELETE();
+    }
+
     public void placeBomb() {
+        bombTimer();
         Bomb bomb = new Bomb(this.position.getX(), this.position.getY());
         this.bombs.add(bomb);
         this.bomb = bomb;
@@ -68,7 +77,7 @@ public class Player extends Entity implements Movable {
     @Override
     public void draw(Graphics2D g) {
         if(!bombs.isEmpty()) {
-            for (Bomb b : bombs) {
+            for(Bomb b : bombs){
                 b.draw(g);
             }
         }
