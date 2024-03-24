@@ -14,9 +14,9 @@ public class Player extends Entity implements Movable {
     private final int speed = 4;
     private int boardX;
     private int boardY;
-    public Bomb bomb;
-    public ArrayList<Bomb> bombs;
-    private long bombTimer;
+    private Bomb bomb;
+    private ArrayList<Bomb> bombs;
+    private int placedBombs;
     private BufferedImage[] images;
     private int imageCounter;
     private int imageNumber;
@@ -54,7 +54,8 @@ public class Player extends Entity implements Movable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        bombs = new ArrayList<>();
+        this.bombs = new ArrayList<>();
+        this.placedBombs = 0;
 
         this.availableDirections = new HashMap<>();
         availableDirections.put(Direction.UP, true);
@@ -124,28 +125,26 @@ public class Player extends Entity implements Movable {
         this.boardY = y;
     }
 
-    private void bombTimer() {
-        bombTimer = System.currentTimeMillis();
-    }
-    public boolean bombHasExploded(Bomb b){
-        return System.currentTimeMillis() - bombTimer >= b.getEXPLOSION_DELETE();
-    }
-
     public void placeBomb() {
-        bombTimer();
-        Bomb bomb = new Bomb(this.position.getX(), this.position.getY());
-        this.bombs.add(bomb);
-        this.bomb = bomb;
+        if(placedBombs == 0){
+            Bomb bomb = new Bomb(this.position.getX(), this.position.getY());
+            this.bombs.add(bomb);
+            this.bomb = bomb;
+            placedBombs++;
+        }
     }
 
-    @Override
-    public void draw(Graphics2D g) {
-        if(!bombs.isEmpty()) {
-            for(Bomb b : bombs){
-                b.draw(g);
+    public void removeBomb(){
+        for(int i = 0; i < bombs.size(); i++){
+            if(bombs.get(i) != null && bombs.get(i).hasDeleted()){
+                bombs.set(i, null);
+                placedBombs = 0;
             }
         }
-        super.draw(g);
+    }
+
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
     }
 
     @Override
@@ -175,6 +174,15 @@ public class Player extends Entity implements Movable {
                 g2.drawImage(images[7], position.getX(), position.getY(), 48, 48, null);
             }
         }
+        if(!bombs.isEmpty()) {
+            for(Bomb b : bombs){
+                if(b != null){
+                    b.draw(g2);
+                }
+            }
+            removeBomb();
+        }
+        super.draw(g2);
     }
 
     public void disableDirection(Direction d) {
@@ -194,7 +202,7 @@ public class Player extends Entity implements Movable {
     }
 
     public void handleCollisionWith(Entity e) {
-        if (e.getClass() == Wall.class && this.collidesWith(e)) {
+        if ((e.getClass() == Wall.class || e.getClass() == Bomb.class) && this.collidesWith(e)) {
             ArrayList<Direction> collisionDirections = this.checkCollisionDirectionWith(e);
             if (collisionDirections.contains(Direction.UP)) {
                 this.disableDirection(Direction.UP);
