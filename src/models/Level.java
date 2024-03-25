@@ -1,6 +1,6 @@
 package models;
 
-import controllers.graphics.AnimatedGraphics;
+import controllers.graphics.StaticAnimatedGraphics;
 import controllers.graphics.GraphicsManager;
 import models.entities.*;
 
@@ -14,12 +14,8 @@ public class Level {
     private Entity[][] board;
     private ArrayList<Player> players;
     private ArrayList<Floor> floorTiles;
-//    GraphicsManager right;
-//    GraphicsManager down;
-//    GraphicsManager left;
-//    GraphicsManager up;
-//    GraphicsManager idle;
     private ArrayList<Wall> wallTiles;
+    private ArrayList<Chest> chestTiles;
 
     public Level(int levelNumber) throws IOException {
         players = new ArrayList<>();
@@ -31,6 +27,7 @@ public class Level {
             board = new Entity[15][15];
             floorTiles = new ArrayList<>();
             wallTiles = new ArrayList<>();
+            chestTiles = new ArrayList<>();
             int rowIndex = 0;
             while((currentLine = reader.readLine()) != null) {
                 for(int colIndex = 0; colIndex < 15; colIndex++) {
@@ -41,10 +38,15 @@ public class Level {
                     if (currentObjectCharacter == 'p') {
                         players.add((Player) currentObject);
                         floorTiles.add(new Floor(colIndex, rowIndex));
-                    } else if (currentObjectCharacter == 'f') {
+                    } else if (currentObjectCharacter == 'm') {
+                        floorTiles.add(new Floor(colIndex, rowIndex));
+                    }else if (currentObjectCharacter == 'f') {
                         floorTiles.add((Floor) currentObject);
                     } else if (currentObjectCharacter == 'w') {
                         wallTiles.add((Wall) currentObject);
+                    } else if (currentObjectCharacter == 'c') {
+                        chestTiles.add((Chest) currentObject);
+                        floorTiles.add(new Floor(colIndex, rowIndex));
                     }
 
                     board[rowIndex][colIndex] = currentObject;
@@ -55,11 +57,7 @@ public class Level {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        right = new AnimatedGraphics("/assets/images/astronautwalkright.png", 6, 1, 6, 0, 32, 48, 6);
-//        down = new AnimatedGraphics("/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 5);
-//        left = new AnimatedGraphics("/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 6);
-//        up = new AnimatedGraphics("/assets/images/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 5);
-//        idle = new AnimatedGraphics("/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 5);
+
     }
 
     public ArrayList<Player> getPlayers() {
@@ -103,15 +101,13 @@ public class Level {
                 }
             }
         }
-
-//        right.draw(g2, 50, 50);
-//        down.draw(g2, 110, 50);
-//        left.draw(g2, 170, 50);
-//        up.draw(g2, 230, 50);
-//        idle.draw(g2, 290, 50);
     }
 
     public ArrayList<Wall> getWallTiles() {
         return this.wallTiles;
+    }
+
+    public ArrayList<Chest> getChestTiles() {
+        return chestTiles;
     }
 }

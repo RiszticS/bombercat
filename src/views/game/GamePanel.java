@@ -16,8 +16,8 @@ public class GamePanel extends JPanel {
     private final int tileSize = defaultTileSize * scale; // 64x64 tile
     private final int numberOfRows = 15;
     private final int numberOfColumns = 15;
-    private final int panelWidth = numberOfColumns * tileSize; // 720px
-    private final int panelHeight = numberOfRows * tileSize; // 720px
+    private final int panelWidth = numberOfColumns * tileSize; // 960px
+    private final int panelHeight = numberOfRows * tileSize; // 960px
 
     GameModel model;
     private final ArrayList<PlayerController> playerControllers;

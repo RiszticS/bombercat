@@ -2,23 +2,19 @@ package controllers.graphics;
 
 import java.awt.*;
 
-public class AnimatedGraphics implements GraphicsManager {
+public class StaticAnimatedGraphics implements GraphicsManager {
     private int imageDelay;
     private final SpriteSheet tileSheet;
     private int frameSwitch;
     private int width;
     private int height;
-    public AnimatedGraphics(String path, int xAmount, int yAmount, int count, int gap, int width, int height, int speed) {
-        this.tileSheet = new SpriteSheet(path, xAmount, yAmount, count, gap, width, height);
+    public StaticAnimatedGraphics(String path, int xAmount, int yAmount, int count, int gap, int width, int height, int speed) {
+        this.tileSheet = new SpriteSheet(path, xAmount, yAmount, count, gap, width, height, speed);
         this.imageDelay = 0;
         this.frameSwitch = speed;
         this.width = width;
         this.height = height;
         System.out.println("Frame time: " + frameSwitch);
-    }
-
-    public AnimatedGraphics(SpriteSheet tileSheet) {
-        this.tileSheet = tileSheet;
     }
 
     @Override

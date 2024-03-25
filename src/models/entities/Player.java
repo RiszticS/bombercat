@@ -1,13 +1,12 @@
 package models.entities;
 
+import controllers.graphics.AnimationConfiguration;
+import controllers.graphics.MovingAnimationGraphics;
 import models.Direction;
 import models.Movable;
 import models.Position;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,43 +14,24 @@ public class Player extends Entity implements Movable {
     private final int speed = 4;
     private int boardX;
     private int boardY;
-    private BufferedImage[] images;
-    private int imageCounter;
-    private int imageNumber;
     private final Hitbox hitbox;
     private HashMap<Direction, Boolean> availableDirections;
-    private Direction currentDirection;
+    private Direction previousDirection;
+    private final MovingAnimationGraphics graphicsManager;
 
     public Player(int x, int y) {
         this.position = new Position(x * 64, y * 64);
         this.boardX = x;
         this.boardY = y;
-        this.images = new BufferedImage[8];
-        this.hitbox = new Hitbox(this.position.getX() + 12, this.position.getY() + 24, 32, 32);
-        this.imageCounter = 0;
-        this.imageNumber = 1;
+        this.hitbox = new Hitbox(this.position.getX() + 5, this.position.getY() + 36, 54, 54);
 
-        try {
-            BufferedImage image1 = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_down_1.png"));
-            BufferedImage image2 = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_down_2.png"));
-            BufferedImage image3 = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_up_1.png"));
-            BufferedImage image4 = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_up_2.png"));
-            BufferedImage image5 = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_left_1.png"));
-            BufferedImage image6 = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_left_2.png"));
-            BufferedImage image7 = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_right_1.png"));
-            BufferedImage image8 = ImageIO.read(getClass().getResourceAsStream("/assets/images/boy_right_2.png"));
-            images[0] = image1;
-            images[1] = image2;
-            images[2] = image3;
-            images[3] = image4;
-            images[4] = image5;
-            images[5] = image6;
-            images[6] = image7;
-            images[7] = image8;
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 5));
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkright.png", 6, 1, 6, 0, 32, 48, 6));
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 5));
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 6));
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 5));
+        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration);
 
         this.availableDirections = new HashMap<>();
         availableDirections.put(Direction.UP, true);
@@ -59,7 +39,8 @@ public class Player extends Entity implements Movable {
         availableDirections.put(Direction.LEFT, true);
         availableDirections.put(Direction.RIGHT, true);
 
-        this.currentDirection = Direction.DOWN;
+        this.previousDirection = Direction.IDLE;
+        graphicsManager.changeDirection(Direction.IDLE);
     }
 
 
@@ -73,7 +54,7 @@ public class Player extends Entity implements Movable {
 
     public void move(Direction d) {
         if (d == Direction.UP && availableDirections.get(Direction.UP) ) {
-            this.currentDirection = Direction.UP;
+            graphicsManager.changeDirection(d);
             this.position.changeY(-speed);
             this.hitbox.changeY(-speed);
             enableDirection(Direction.DOWN);
@@ -81,7 +62,8 @@ public class Player extends Entity implements Movable {
             enableDirection(Direction.RIGHT);
         }
         else if (d == Direction.RIGHT && availableDirections.get(Direction.RIGHT)) {
-            this.currentDirection = Direction.RIGHT;
+            graphicsManager.changeDirection(d);
+            this.previousDirection = Direction.RIGHT;
             this.position.changeX(speed);
             this.hitbox.changeX(speed);
             enableDirection(Direction.DOWN);
@@ -89,7 +71,8 @@ public class Player extends Entity implements Movable {
             enableDirection(Direction.UP);
         }
         else if (d == Direction.LEFT && availableDirections.get(Direction.LEFT)) {
-            this.currentDirection = Direction.LEFT;
+            graphicsManager.changeDirection(d);
+            this.previousDirection = Direction.LEFT;
             this.position.changeX(-speed);
             this.hitbox.changeX(-speed);
             enableDirection(Direction.DOWN);
@@ -97,25 +80,31 @@ public class Player extends Entity implements Movable {
             enableDirection(Direction.RIGHT);
         }
         else if (d == Direction.DOWN && availableDirections.get(Direction.DOWN)) {
-            this.currentDirection = Direction.DOWN;
+            graphicsManager.changeDirection(d);
+            this.previousDirection = Direction.DOWN;
             this.position.changeY(speed);
             this.hitbox.changeY(speed);
             enableDirection(Direction.UP);
             enableDirection(Direction.LEFT);
             enableDirection(Direction.RIGHT);
-        }
-
-        imageCounter++;
-        if (imageCounter > 10) {
-            if (imageNumber == 1) {
-                imageNumber = 2;
-            } else if (imageNumber == 2) {
-                imageNumber = 1;
-            }
-            imageCounter = 0;
+        } else {
+            graphicsManager.changeDirection(Direction.IDLE);
+            enableDirection(Direction.UP);
+            enableDirection(Direction.LEFT);
+            enableDirection(Direction.RIGHT);
+            enableDirection(Direction.DOWN);
         }
     }
 
+    private Direction copyDirection(Direction d) {
+        return switch (d) {
+            case UP -> Direction.UP;
+            case RIGHT -> Direction.RIGHT;
+            case DOWN -> Direction.DOWN;
+            case LEFT -> Direction.LEFT;
+            default -> Direction.IDLE;
+        };
+    }
     public void changeBoardPosition(int x, int y) {
         this.boardX = x;
         this.boardY = y;
@@ -127,31 +116,8 @@ public class Player extends Entity implements Movable {
 
     @Override
     public void draw(Graphics2D g2) {
-        if (this.currentDirection == Direction.UP) {
-            if (imageNumber == 1) {
-                g2.drawImage(images[2], position.getX(), position.getY(), 64, 64, null);
-            } else if (imageNumber == 2) {
-                g2.drawImage(images[3], position.getX(), position.getY(), 64, 64, null);
-            }
-        } else if (this.currentDirection == Direction.DOWN) {
-            if (imageNumber == 1) {
-                g2.drawImage(images[0], position.getX(), position.getY(), 64, 64, null);
-            } else if (imageNumber == 2) {
-                g2.drawImage(images[1], position.getX(), position.getY(), 64, 64, null);
-            }
-        } else if (this.currentDirection == Direction.LEFT) {
-            if (imageNumber == 1) {
-                g2.drawImage(images[4], position.getX(), position.getY(), 64, 64, null);
-            } else if (imageNumber == 2) {
-                g2.drawImage(images[5], position.getX(), position.getY(), 64, 64, null);
-            }
-        } else {
-            if (imageNumber == 1) {
-                g2.drawImage(images[6], position.getX(), position.getY(), 64, 64, null);
-            } else if (imageNumber == 2) {
-                g2.drawImage(images[7], position.getX(), position.getY(), 64, 64, null);
-            }
-        }
+        graphicsManager.draw(g2, this.position.getX(), this.position.getY());
+        //hitbox.draw(g2);
     }
 
     public void disableDirection(Direction d) {
@@ -171,7 +137,7 @@ public class Player extends Entity implements Movable {
     }
 
     public void handleCollisionWith(Entity e) {
-        if (e.getClass() == Wall.class && this.collidesWith(e)) {
+        if ((e.getClass() == Wall.class || e.getClass() == Chest.class) && this.collidesWith(e)) {
             ArrayList<Direction> collisionDirections = this.checkCollisionDirectionWith(e);
             if (collisionDirections.contains(Direction.UP)) {
                 this.disableDirection(Direction.UP);

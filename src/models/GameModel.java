@@ -1,5 +1,6 @@
 package models;
 
+import models.entities.Chest;
 import models.entities.Player;
 import models.entities.Wall;
 
@@ -34,10 +35,10 @@ public class GameModel {
             for (Wall w : this.currentLevel.getWallTiles()) {
                 p.handleCollisionWith(w);
             }
+
+            for (Chest c : this.currentLevel.getChestTiles()) {
+                p.handleCollisionWith(c);
+            }
         }
     }
-
-
-
-
 }
