@@ -17,6 +17,8 @@ public class Player extends Entity implements Movable {
     private Bomb bomb;
     private ArrayList<Bomb> bombs;
     private int placedBombs;
+    private int bombCounter;
+    private int bombRadius;
     private BufferedImage[] images;
     private int imageCounter;
     private int imageNumber;
@@ -56,6 +58,8 @@ public class Player extends Entity implements Movable {
         }
         this.bombs = new ArrayList<>();
         this.placedBombs = 0;
+        this.bombCounter = 1;
+        this.bombRadius = 1;
 
         this.availableDirections = new HashMap<>();
         availableDirections.put(Direction.UP, true);
@@ -126,25 +130,23 @@ public class Player extends Entity implements Movable {
     }
 
     public void placeBomb() {
-        if(placedBombs == 0){
-            Bomb bomb = new Bomb(this.position.getX(), this.position.getY());
+        Bomb bomb = new Bomb(this.position.getX(), this.position.getY(), bombRadius);
+        if(bombs.size() < bombCounter){
             this.bombs.add(bomb);
             this.bomb = bomb;
             placedBombs++;
         }
     }
 
-    public void removeBomb(){
-        for(int i = 0; i < bombs.size(); i++){
-            if(bombs.get(i) != null && bombs.get(i).hasDeleted()){
-                bombs.set(i, null);
-                placedBombs = 0;
-            }
-        }
-    }
-
     public ArrayList<Bomb> getBombs() {
         return bombs;
+    }
+
+    public void addPlusBombs(){
+        bombCounter++;
+    }
+    public void addExtendedExplosion(){
+        bombRadius++;
     }
 
     @Override
@@ -175,12 +177,16 @@ public class Player extends Entity implements Movable {
             }
         }
         if(!bombs.isEmpty()) {
-            for(Bomb b : bombs){
-                if(b != null){
-                    b.draw(g2);
+            for (int i = 0; i < bombs.size(); i++) {
+                if (bombs.get(i) != null) {
+                    bombs.get(i).draw(g2);
+                    if(bombs.get(i).hasDeleted()){
+                        bombs.set(i, null);
+                        bombs.remove(i);
+                        placedBombs = 0;
+                    }
                 }
             }
-            removeBomb();
         }
         super.draw(g2);
     }
@@ -216,4 +222,15 @@ public class Player extends Entity implements Movable {
         }
     }
 
+    public void handleCollisionWithPowerUps(PowerUp pu){
+        if (this.collidesWith(pu) && pu.getClass() == PlusBomb.class && !pu.isPickedUp()){
+            addPlusBombs();
+            pu.setPickedUp(true);
+        }
+        if (this.collidesWith(pu) && pu.getClass() == ExtendedExplosion.class && !pu.isPickedUp()){
+            addExtendedExplosion();
+            pu.setPickedUp(true);
+
+        }
+    }
 }

@@ -9,23 +9,22 @@ import java.util.ArrayList;
 
 public class Bomb extends Entity {
     private ArrayList<Explosion> explosions;
+    private int radius;
     private static final int EXPLOSION_DURATION = 2000;
     private static final int EXPLOSION_DELETE = 4000;
     private long startTime;
     private boolean deleted;
-    private final Hitbox hitbox;
 
-    public Bomb(int x, int y) {
+    public Bomb(int x, int y, int radius) {
         this.position = new Position(x, y);
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/bomb.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), 48, 48);
-
         this.explosions = new ArrayList<>();
+        this.radius = radius;
         this.deleted = false;
         startTimer();
     }
@@ -43,13 +42,16 @@ public class Bomb extends Entity {
         deleted =  System.currentTimeMillis() - startTime >= EXPLOSION_DELETE;
         return deleted;
     }
+
     private void handleExplosion() {
         this.image = null;
         int x[] = {0, 48, 0, -48, 0};
         int y[] = {0, 0, -48, 0, 48};
-        for(int i = 0; i < 5; i++){
-            Explosion explosion = new Explosion(position.getX() + x[i], position.getY() + y[i], 2000); // 3 seconds
-            this.addExplosion(explosion);
+        for(int i = 0; i < 5; i++) {
+            for (int j = 1; j <= radius; j++) {
+                Explosion explosion = new Explosion(position.getX() + x[i] * j, position.getY() + y[i] * j, 2000); // 2 seconds
+                this.addExplosion(explosion);
+            }
         }
     }
 
@@ -77,6 +79,5 @@ public class Bomb extends Entity {
                 }
             }
         }
-        hitbox.draw(g2);
     }
 }
