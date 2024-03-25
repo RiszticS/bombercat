@@ -96,15 +96,6 @@ public class Player extends Entity implements Movable {
         }
     }
 
-    private Direction copyDirection(Direction d) {
-        return switch (d) {
-            case UP -> Direction.UP;
-            case RIGHT -> Direction.RIGHT;
-            case DOWN -> Direction.DOWN;
-            case LEFT -> Direction.LEFT;
-            default -> Direction.IDLE;
-        };
-    }
     public void changeBoardPosition(int x, int y) {
         this.boardX = x;
         this.boardY = y;
