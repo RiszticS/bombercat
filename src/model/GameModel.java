@@ -17,7 +17,6 @@ public class GameModel {
             this.currentLevel = new Level(levelNumber);
             this.players = this.currentLevel.getPlayers();
             this.monsters = this.currentLevel.getMonsters();
-        } catch (IOException e) {
             this.powerUps = this.currentLevel.getPowerUps();
         }
         catch (IOException e) {
