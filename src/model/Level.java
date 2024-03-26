@@ -51,7 +51,10 @@ public class Level {
                         floorTiles.add((Floor) currentObject);
                     } else if (currentObjectCharacter == 'w') {
                         wallTiles.add((Wall) currentObject);
+                    }else if (currentObjectCharacter == 'c') {
+                        floorTiles.add(new Floor(colIndex, rowIndex));
                     }
+
 
                     board[rowIndex][colIndex] = currentObject;
                 }
