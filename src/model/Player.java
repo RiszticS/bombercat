@@ -12,8 +12,6 @@ import java.util.HashMap;
 
 public class Player extends Entity implements Movable {
     private final int speed = 4;
-    private int boardX;
-    private int boardY;
     private Bomb bomb;
     private ArrayList<Bomb> bombs;
     private int placedBombs;
@@ -71,13 +69,7 @@ public class Player extends Entity implements Movable {
     }
 
 
-    public int getBoardX() {
-        return boardX;
-    }
 
-    public int getBoardY() {
-        return boardY;
-    }
 
     public void move(Direction d) {
         if (d == Direction.UP && availableDirections.get(Direction.UP) ) {
@@ -122,11 +114,6 @@ public class Player extends Entity implements Movable {
             }
             imageCounter = 0;
         }
-    }
-
-    public void changeBoardPosition(int x, int y) {
-        this.boardX = x;
-        this.boardY = y;
     }
 
     public void placeBomb() {

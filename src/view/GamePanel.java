@@ -12,6 +12,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
+    // SCREEN SETTINGS
     private final int defaultTileSize = 16; // 16x16 tile
     private final int scale = 3;
     private final int tileSize = defaultTileSize * scale; // 48x48 tile
@@ -46,6 +47,7 @@ public class GamePanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
 
         model.getCurrentLevel().draw(g2);
+
         // Dispose of this graphic context and release any system resources that it is using.
         g2.dispose();
     }
