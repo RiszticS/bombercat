@@ -7,7 +7,6 @@ public class Entity {
     protected Position position;
     protected BufferedImage image;
     protected Hitbox hitbox;
-
     public Position getPosition() {
         return position;
     }
