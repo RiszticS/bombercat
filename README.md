@@ -33,7 +33,7 @@ A játékosoknak taktikailag kell gondolkodniuk a játék során, például meg 
 ### Gameplay
 -**Jelenleg:**
 
-![Alt text](image-1.png)
+![Alt text](418826731_1799347167229292_2911542899721377493_n.png)
 
 -**Terv:**
 
