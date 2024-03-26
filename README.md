@@ -19,9 +19,6 @@ A játékosok különféle bónuszokat gyűjthetnek be a játékmezőn, amelyek 
 -**Ellenségek Elpusztítása:**
 A játékosoknek lehetőségük van bombákkal vagy más módon elpusztítani a játékban szereplő szörnyeket vagy más játékosokat. Ez pontokat vagy más előnyöket szerezhet nekik a játék során.
 
--**Tárgyak Gyűjtése:**
-A játékosok olyan tárgyakat is gyűjthetnek, amelyek nem feltétlenül közvetlenül befolyásolják a játékmenetet, de esztétikai vagy más módon érdekesek lehetnek.
-
 -**Támadások Elkerülése:**
 A játékosoknak figyelniük kell a körülöttük zajló eseményeket, és megpróbálniuk elkerülni a más játékosok által lerakott bombákat és támadásokat.
 
