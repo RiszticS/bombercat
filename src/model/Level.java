@@ -14,10 +14,18 @@ public class Level {
     private ArrayList<Monster> monsters;
     private ArrayList<Floor> floorTiles;
     private ArrayList<Wall> wallTiles;
+    private ArrayList<PowerUp> powerUps;
+    private PlusBomb p1;
+    private ExtendedExplosion exe;
 
     public Level(int levelNumber) throws IOException {
         players = new ArrayList<>();
         monsters = new ArrayList<>();
+        powerUps = new ArrayList<>();
+        p1 = new PlusBomb(1, 1);
+        powerUps.add(p1);
+        exe = new ExtendedExplosion(10, 1);
+        powerUps.add(exe);
         try {
             BufferedReader  reader = new BufferedReader(new FileReader("src/assets/levels/level" + levelNumber + ".txt"));
 
@@ -53,6 +61,7 @@ public class Level {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public ArrayList<Player> getPlayers() {
@@ -61,6 +70,10 @@ public class Level {
 
     public ArrayList<Monster> getMonsters() {
         return monsters;
+    }
+
+    public ArrayList<PowerUp> getPowerUps() {
+        return powerUps;
     }
 
     private Entity generateEntity(char entity, int rowIndex, int colIndex) {
@@ -88,12 +101,22 @@ public class Level {
         }
     }
 
+    public void removePowerUp(){
+        for (int i = 0; i < powerUps.size(); i++) {
+            if (powerUps.get(i) != null && powerUps.get(i).isPickedUp()) {
+                powerUps.set(i, null);
+                powerUps.remove(i);
+            }
+        }
+    }
+
     public void draw(Graphics2D g2) {
         changeEntityPosition(players);
         changeEntityPosition(monsters);
         for(Floor f : floorTiles) {
             f.draw(g2);
         }
+
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                 if(!(board[i][j] instanceof Floor)) {
@@ -101,6 +124,19 @@ public class Level {
                 }
             }
         }
+        if(!powerUps.isEmpty()){
+            for (int i = 0; i < powerUps.size(); i++) {
+                if (powerUps.get(i) != null) {
+                    powerUps.get(i).draw(g2);
+                    if(powerUps.get(i).isPickedUp()){
+                        powerUps.set(i, null);
+                        powerUps.remove(i);
+                    }
+                }
+            }
+        }
+
+
     }
 
     public ArrayList<Wall> getWallTiles() {

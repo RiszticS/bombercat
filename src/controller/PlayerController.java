@@ -1,6 +1,7 @@
 package controller;
 
 import model.Direction;
+import model.Level;
 import model.GameModel;
 import model.Player;
 

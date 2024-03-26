@@ -2,6 +2,7 @@ package view;
 
 import controller.ControlSet;
 import controller.PlayerController;
+import model.Bomb;
 import model.GameModel;
 import model.Level;
 import model.Player;
@@ -47,6 +48,7 @@ public class GamePanel extends JPanel {
 
         model.getCurrentLevel().draw(g2);
 
+        // Dispose of this graphic context and release any system resources that it is using.
         g2.dispose();
     }
 

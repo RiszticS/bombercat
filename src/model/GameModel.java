@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class GameModel {
     private final ArrayList<Player> players;
     private final ArrayList<Monster> monsters;
+    private ArrayList<PowerUp> powerUps;
     private Level currentLevel;
 
     public GameModel(int levelNumber) {
@@ -17,6 +18,9 @@ public class GameModel {
             this.players = this.currentLevel.getPlayers();
             this.monsters = this.currentLevel.getMonsters();
         } catch (IOException e) {
+            this.powerUps = this.currentLevel.getPowerUps();
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -37,6 +41,9 @@ public class GameModel {
         for (Player p : players) {
             for (Wall w : this.currentLevel.getWallTiles()) {
                 p.handleCollisionWith(w);
+            }
+            for (PowerUp pu : this.currentLevel.getPowerUps()){
+                p.handleCollisionWithPowerUps(pu);
             }
         }
         for (Monster m : monsters) {
