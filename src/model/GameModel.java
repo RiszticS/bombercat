@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class GameModel {
     private final ArrayList<Player> players;
+    private final ArrayList<Monster> monsters;
     private Level currentLevel;
 
     public GameModel(int levelNumber) {
@@ -14,14 +15,18 @@ public class GameModel {
         try {
             this.currentLevel = new Level(levelNumber);
             this.players = this.currentLevel.getPlayers();
-        }
-        catch (IOException e) {
+            this.monsters = this.currentLevel.getMonsters();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public ArrayList<Player> getPlayers() {
         return this.players;
+    }
+
+    public ArrayList<Monster> getMonsters() {
+        return this.monsters;
     }
 
     public Level getCurrentLevel() {
@@ -34,9 +39,12 @@ public class GameModel {
                 p.handleCollisionWith(w);
             }
         }
+        for (Monster m : monsters) {
+            for (Wall w : this.currentLevel.getWallTiles()) {
+                m.handleCollisionWith(w);
+            }
+
+        }
     }
-
-
-
 
 }

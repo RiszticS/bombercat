@@ -11,11 +11,13 @@ import java.util.ArrayList;
 public class Level {
     private Entity[][] board;
     private ArrayList<Player> players;
+    private ArrayList<Monster> monsters;
     private ArrayList<Floor> floorTiles;
     private ArrayList<Wall> wallTiles;
 
     public Level(int levelNumber) throws IOException {
         players = new ArrayList<>();
+        monsters = new ArrayList<>();
         try {
             BufferedReader  reader = new BufferedReader(new FileReader("src/assets/levels/level" + levelNumber + ".txt"));
 
@@ -34,7 +36,10 @@ public class Level {
                     if (currentObjectCharacter == 'p') {
                         players.add((Player) currentObject);
                         floorTiles.add(new Floor(colIndex, rowIndex));
-                    } else if (currentObjectCharacter == 'f') {
+                    }else if (currentObjectCharacter == 'm') {
+                        monsters.add((Monster) currentObject);
+                        floorTiles.add(new Floor(colIndex, rowIndex));
+                    }else if (currentObjectCharacter == 'f') {
                         floorTiles.add((Floor) currentObject);
                     } else if (currentObjectCharacter == 'w') {
                         wallTiles.add((Wall) currentObject);
@@ -48,11 +53,14 @@ public class Level {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
     }
 
     private Entity generateEntity(char entity, int rowIndex, int colIndex) {
@@ -66,22 +74,23 @@ public class Level {
         };
     }
 
-    public void changePlayerPosition() {
-        for (Player p : players) {
-            int playerX = p.getPosition().getX() / 48;
-            int playerY = p.getPosition().getY() / 48;
-            if(playerX != p.getBoardX() || playerY != p.getBoardY()) {
-                Entity temp = board[p.getBoardY()][p.getBoardX()];
-                board[p.getBoardY()][p.getBoardX()] = board[playerY][playerX];
-                board[playerY][playerX] = temp;
+    public void changeEntityPosition(ArrayList<? extends Entity> entities) {
+        for (Entity entity : entities) {
+            int entityX = entity.getPosition().getX() / 48;
+            int entityY = entity.getPosition().getY() / 48;
+            if(entityX != entity.getBoardX() || entityY != entity.getBoardY()) {
+                Entity temp = board[entity.getBoardY()][entity.getBoardX()];
+                board[entity.getBoardY()][entity.getBoardX()] = board[entityY][entityX];
+                board[entityY][entityX] = temp;
 
-                p.changeBoardPosition(playerX, playerY);
+                entity.changeBoardPosition(entityX, entityY);
             }
         }
     }
 
     public void draw(Graphics2D g2) {
-        changePlayerPosition();
+        changeEntityPosition(players);
+        changeEntityPosition(monsters);
         for(Floor f : floorTiles) {
             f.draw(g2);
         }
