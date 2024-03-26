@@ -49,7 +49,7 @@ public class Bomb extends Entity {
         int y[] = {0, 0, -48, 0, 48};
         for(int i = 0; i < 5; i++) {
             for (int j = 1; j <= radius; j++) {
-                Explosion explosion = new Explosion(position.getX() + x[i] * j, position.getY() + y[i] * j, 2000); // 2 seconds
+                Explosion explosion = new Explosion(position.getX() + x[i] * j, position.getY() + y[i] * j, 2000);
                 this.addExplosion(explosion);
             }
         }
