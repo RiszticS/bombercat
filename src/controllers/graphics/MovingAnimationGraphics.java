@@ -3,6 +3,7 @@ package controllers.graphics;
 import models.Direction;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class MovingAnimationGraphics implements GraphicsManager {
@@ -30,17 +31,23 @@ public class MovingAnimationGraphics implements GraphicsManager {
             currentSheet.reset();
             this.frameSwitch = currentSheet.getSpeed();
             currentIndex = direction.getIndex();
+            imageDelay = 0;
         }
     }
 
     @Override
     public void draw(Graphics2D g2, int x, int y) {
+
+        BufferedImage toDraw;
+
         if (imageDelay == frameSwitch) {
-            g2.drawImage(this.currentSheet.next(), x, y, this.currentSheet.getWidth() * 2, this.currentSheet.getHeight() * 2, null);
+            toDraw = this.currentSheet.next();
             imageDelay = 0;
         } else {
-            g2.drawImage(this.currentSheet.current(), x, y, this.currentSheet.getWidth() * 2, this.currentSheet.getHeight() * 2, null);
             imageDelay++;
+            toDraw = this.currentSheet.current();
         }
+
+        g2.drawImage(toDraw, x, y, this.currentSheet.getWidth() * 2, this.currentSheet.getHeight() * 2, null);
     }
 }
