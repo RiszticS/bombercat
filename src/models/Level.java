@@ -1,7 +1,5 @@
 package models;
 
-import controllers.graphics.StaticAnimatedGraphics;
-import controllers.graphics.GraphicsManager;
 import models.entities.*;
 
 import java.awt.*;
@@ -11,11 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Level {
-    private Entity[][] board;
-    private ArrayList<Player> players;
-    private ArrayList<Floor> floorTiles;
-    private ArrayList<Wall> wallTiles;
-    private ArrayList<Chest> chestTiles;
+    private final Entity[][] board;
+    private final ArrayList<Player> players;
+    private final ArrayList<Floor> floorTiles;
+    private final ArrayList<Wall> wallTiles;
+    private final ArrayList<Chest> chestTiles;
 
     public Level(int levelNumber) throws IOException {
         players = new ArrayList<>();

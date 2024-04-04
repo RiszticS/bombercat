@@ -15,8 +15,7 @@ public class Player extends Entity implements Movable {
     private int boardX;
     private int boardY;
     private final Hitbox hitbox;
-    private HashMap<Direction, Boolean> availableDirections;
-    private Direction previousDirection;
+    private final HashMap<Direction, Boolean> availableDirections;
     private final MovingAnimationGraphics graphicsManager;
 
     public Player(int x, int y) {
@@ -39,7 +38,6 @@ public class Player extends Entity implements Movable {
         availableDirections.put(Direction.LEFT, true);
         availableDirections.put(Direction.RIGHT, true);
 
-        this.previousDirection = Direction.IDLE;
         graphicsManager.changeDirection(Direction.IDLE);
     }
 
@@ -63,7 +61,6 @@ public class Player extends Entity implements Movable {
         }
         else if (d == Direction.RIGHT && availableDirections.get(Direction.RIGHT)) {
             graphicsManager.changeDirection(d);
-            this.previousDirection = Direction.RIGHT;
             this.position.changeX(speed);
             this.hitbox.changeX(speed);
             enableDirection(Direction.DOWN);
@@ -72,7 +69,6 @@ public class Player extends Entity implements Movable {
         }
         else if (d == Direction.LEFT && availableDirections.get(Direction.LEFT)) {
             graphicsManager.changeDirection(d);
-            this.previousDirection = Direction.LEFT;
             this.position.changeX(-speed);
             this.hitbox.changeX(-speed);
             enableDirection(Direction.DOWN);
@@ -81,7 +77,6 @@ public class Player extends Entity implements Movable {
         }
         else if (d == Direction.DOWN && availableDirections.get(Direction.DOWN)) {
             graphicsManager.changeDirection(d);
-            this.previousDirection = Direction.DOWN;
             this.position.changeY(speed);
             this.hitbox.changeY(speed);
             enableDirection(Direction.UP);

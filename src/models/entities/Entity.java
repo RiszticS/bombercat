@@ -1,6 +1,5 @@
 package models.entities;
 
-import controllers.graphics.GraphicsManager;
 import models.Position;
 
 import java.awt.*;
