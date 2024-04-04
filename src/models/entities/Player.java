@@ -102,7 +102,7 @@ public class Player extends Entity implements Movable {
     }
 
     public void placeBomb() {
-        Bomb bomb = new Bomb(this.position.getX(), this.position.getY(), bombRadius);
+        Bomb bomb = new Bomb(((this.hitbox.getX() + 28) / 64) * 64, ((this.hitbox.getY() + 28) / 64) * 64, bombRadius);
         if(bombs.size() < bombCounter){
             this.bombs.add(bomb);
             this.bomb = bomb;
