@@ -3,6 +3,8 @@ package controllers.game;
 import controllers.movement.PlayerController;
 import models.GameModel;
 import views.game.GamePanel;
+import model.*;
+import view.GamePanel;
 
 public class GameLoop implements Runnable {
     GameModel gameModel;
@@ -49,11 +51,13 @@ public class GameLoop implements Runnable {
         for (PlayerController pc : gamePanel.getPlayerControllers()) {
             pc.updatePlayer();
         }
+        for(Monster m : gameModel.getMonsters()){
+            m.move(m.getCurrentDirection());
+        }
     }
 
     public void repaintScreen() {
         gamePanel.repaint();
     }
-
 
 }
