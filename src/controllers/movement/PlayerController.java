@@ -64,5 +64,13 @@ public class PlayerController implements KeyListener {
         }  else if (this.rightPressed) {
             player.move(Direction.RIGHT);
         }
+
+        if(isIdle()) {
+            player.setIdle();
+        }
+    }
+
+    private boolean isIdle() {
+        return  !upPressed && !rightPressed && !downPressed && !leftPressed;
     }
 }

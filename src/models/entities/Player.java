@@ -108,7 +108,7 @@ public class Player extends Entity implements Movable {
     @Override
     public void draw(Graphics2D g2) {
         graphicsManager.draw(g2, this.position.getX(), this.position.getY());
-        //hitbox.draw(g2);
+        hitbox.draw(g2);
     }
 
     public void disableDirection(Direction d) {
@@ -142,4 +142,12 @@ public class Player extends Entity implements Movable {
         }
     }
 
+    public void setIdle() {
+        graphicsManager.changeDirection(Direction.IDLE);
+    }
+
+    @Override
+    public Hitbox getHitbox() {
+        return this.hitbox;
+    }
 }

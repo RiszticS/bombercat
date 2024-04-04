@@ -110,4 +110,12 @@ public class Hitbox {
     public Rectangle getRight() {
         return right;
     }
+
+    public int getX() {
+        return  top.x + w;
+    }
+
+    public int getY() {
+        return top.y + w;
+    }
 }

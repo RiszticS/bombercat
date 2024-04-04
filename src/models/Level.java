@@ -77,8 +77,8 @@ public class Level {
 
     public void changePlayerPosition() {
         for (Player p : players) {
-            int playerX = p.getPosition().getX() / 48;
-            int playerY = p.getPosition().getY() / 48;
+            int playerX = (p.getHitbox().getX()) / 64;
+            int playerY = (p.getHitbox().getY()) / 64;
             if(playerX != p.getBoardX() || playerY != p.getBoardY()) {
                 Entity temp = board[p.getBoardY()][p.getBoardX()];
                 board[p.getBoardY()][p.getBoardX()] = board[playerY][playerX];
