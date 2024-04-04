@@ -1,5 +1,7 @@
 package models.entities;
 
+import models.Position;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
@@ -15,7 +17,7 @@ public class Explosion extends Entity {
             throw new RuntimeException(e);
         }
         this.duration = duration;
-        this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), 48, 48);
+        this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), 64, 64);
     }
 
     @Override

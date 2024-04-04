@@ -14,11 +14,7 @@ public class Level {
     private final ArrayList<Floor> floorTiles;
     private final ArrayList<Wall> wallTiles;
     private final ArrayList<Chest> chestTiles;
-    private Entity[][] board;
-    private ArrayList<Player> players;
     private ArrayList<Monster> monsters;
-    private ArrayList<Floor> floorTiles;
-    private ArrayList<Wall> wallTiles;
     private ArrayList<PowerUp> powerUps;
     private PlusBomb p1;
     private ExtendedExplosion exe;

@@ -35,6 +35,6 @@ public class Entity {
     }
 
     public void draw(Graphics2D g) {
-        g.drawImage(this.image, this.position.getX(), this.position.getY(),48, 48, null);
+        g.drawImage(this.image, this.position.getX(), this.position.getY(),64, 64, null);
     }
 }

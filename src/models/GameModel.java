@@ -1,8 +1,6 @@
 package models;
 
-import models.entities.Chest;
-import models.entities.Player;
-import models.entities.Wall;
+import models.entities.*;
 
 import java.io.IOException;
 import java.util.ArrayList;

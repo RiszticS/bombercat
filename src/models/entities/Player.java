@@ -3,26 +3,37 @@ package models.entities;
 import controllers.graphics.AnimationConfiguration;
 import controllers.graphics.MovingAnimationGraphics;
 import models.Direction;
-import models.Movable;
 import models.Position;
+import models.Movable;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Entity implements Movable {
     private final int speed = 4;
-    private int boardX;
-    private int boardY;
+    private Bomb bomb;
+    private ArrayList<Bomb> bombs;
+    private int placedBombs;
+    private int bombCounter;
+    private int bombRadius;
+    private BufferedImage[] images;
+    private int imageCounter;
+    private int imageNumber;
     private final Hitbox hitbox;
-    private final HashMap<Direction, Boolean> availableDirections;
-    private final MovingAnimationGraphics graphicsManager;
+    private HashMap<Direction, Boolean> availableDirections;
+    private Direction currentDirection;
+    private MovingAnimationGraphics graphicsManager;
 
     public Player(int x, int y) {
         this.position = new Position(x * 64, y * 64);
         this.boardX = x;
         this.boardY = y;
+        this.images = new BufferedImage[8];
         this.hitbox = new Hitbox(this.position.getX() + 5, this.position.getY() + 36, 54, 54);
+        this.imageCounter = 0;
+        this.imageNumber = 1;
 
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
         animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 5));
@@ -32,23 +43,22 @@ public class Player extends Entity implements Movable {
         animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 5));
         this.graphicsManager = new MovingAnimationGraphics(animationConfiguration);
 
+        this.bombs = new ArrayList<>();
+        this.placedBombs = 0;
+        this.bombCounter = 1;
+        this.bombRadius = 1;
+
         this.availableDirections = new HashMap<>();
         availableDirections.put(Direction.UP, true);
         availableDirections.put(Direction.DOWN, true);
         availableDirections.put(Direction.LEFT, true);
         availableDirections.put(Direction.RIGHT, true);
 
-        graphicsManager.changeDirection(Direction.IDLE);
+        this.currentDirection = Direction.DOWN;
     }
 
 
-    public int getBoardX() {
-        return boardX;
-    }
 
-    public int getBoardY() {
-        return boardY;
-    }
 
     public void move(Direction d) {
         if (d == Direction.UP && availableDirections.get(Direction.UP) ) {
@@ -91,19 +101,42 @@ public class Player extends Entity implements Movable {
         }
     }
 
-    public void changeBoardPosition(int x, int y) {
-        this.boardX = x;
-        this.boardY = y;
+    public void placeBomb() {
+        Bomb bomb = new Bomb(this.position.getX(), this.position.getY(), bombRadius);
+        if(bombs.size() < bombCounter){
+            this.bombs.add(bomb);
+            this.bomb = bomb;
+            placedBombs++;
+        }
     }
 
-    public void placeBomb() {
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
+    }
 
+    public void addPlusBombs(){
+        bombCounter++;
+    }
+    public void addExtendedExplosion(){
+        bombRadius++;
     }
 
     @Override
     public void draw(Graphics2D g2) {
         graphicsManager.draw(g2, this.position.getX(), this.position.getY());
         hitbox.draw(g2);
+        if(!bombs.isEmpty()) {
+            for (int i = 0; i < bombs.size(); i++) {
+                if (bombs.get(i) != null) {
+                    bombs.get(i).draw(g2);
+                    if(bombs.get(i).hasDeleted()){
+                        bombs.set(i, null);
+                        bombs.remove(i);
+                        placedBombs = 0;
+                    }
+                }
+            }
+        }
     }
 
     public void disableDirection(Direction d) {
@@ -123,7 +156,7 @@ public class Player extends Entity implements Movable {
     }
 
     public void handleCollisionWith(Entity e) {
-        if ((e.getClass() == Wall.class || e.getClass() == Chest.class) && this.collidesWith(e)) {
+        if ((e.getClass() == Wall.class || e.getClass() == Bomb.class || e.getClass() == Chest.class) && this.collidesWith(e)) {
             ArrayList<Direction> collisionDirections = this.checkCollisionDirectionWith(e);
             if (collisionDirections.contains(Direction.UP)) {
                 this.disableDirection(Direction.UP);
@@ -137,6 +170,17 @@ public class Player extends Entity implements Movable {
         }
     }
 
+    public void handleCollisionWithPowerUps(PowerUp pu){
+        if (this.collidesWith(pu) && pu.getClass() == PlusBomb.class && !pu.isPickedUp()){
+            addPlusBombs();
+            pu.setPickedUp(true);
+        }
+        if (this.collidesWith(pu) && pu.getClass() == ExtendedExplosion.class && !pu.isPickedUp()){
+            addExtendedExplosion();
+            pu.setPickedUp(true);
+        }
+    }
+
     public void setIdle() {
         graphicsManager.changeDirection(Direction.IDLE);
     }
@@ -145,4 +189,5 @@ public class Player extends Entity implements Movable {
     public Hitbox getHitbox() {
         return this.hitbox;
     }
+
 }

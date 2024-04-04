@@ -4,12 +4,6 @@ import controllers.movement.ControlSet;
 import controllers.movement.PlayerController;
 import models.GameModel;
 import models.entities.Player;
-import controller.ControlSet;
-import controller.PlayerController;
-import model.Bomb;
-import model.GameModel;
-import model.Level;
-import model.Player;
 
 import javax.swing.*;
 import java.awt.*;

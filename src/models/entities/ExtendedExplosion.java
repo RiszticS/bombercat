@@ -1,10 +1,9 @@
-package model;
+package models.entities;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.io.IOException;
 
-public class ExtendedExplosion extends PowerUp{
+public class ExtendedExplosion extends PowerUp {
     public ExtendedExplosion(int x, int y) {
         super(x,y);
         try {

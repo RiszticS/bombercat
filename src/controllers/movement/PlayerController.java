@@ -2,10 +2,6 @@ package controllers.movement;
 
 import models.Direction;
 import models.entities.Player;
-import model.Direction;
-import model.Level;
-import model.GameModel;
-import model.Player;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

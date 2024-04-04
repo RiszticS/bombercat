@@ -2,9 +2,9 @@ package controllers.game;
 
 import controllers.movement.PlayerController;
 import models.GameModel;
+import models.entities.Monster;
 import views.game.GamePanel;
-import model.*;
-import view.GamePanel;
+
 
 public class GameLoop implements Runnable {
     GameModel gameModel;
