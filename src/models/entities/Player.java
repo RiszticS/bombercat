@@ -1,5 +1,6 @@
 package models.entities;
 
+import controllers.configuration.GraphicProperties;
 import controllers.graphics.AnimationConfiguration;
 import controllers.graphics.MovingAnimationGraphics;
 import models.Direction;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Entity implements Movable {
+    private GraphicProperties gProperty;
     private final int speed = 4;
     private Bomb bomb;
     private ArrayList<Bomb> bombs;
@@ -27,7 +29,8 @@ public class Player extends Entity implements Movable {
     private MovingAnimationGraphics graphicsManager;
 
     public Player(int x, int y) {
-        this.position = new Position(x * 64, y * 64);
+        this.gProperty = new GraphicProperties();
+        this.position = new Position(x * gProperty.getTileSize(), y * gProperty.getTileSize());
         this.boardX = x;
         this.boardY = y;
         this.images = new BufferedImage[8];

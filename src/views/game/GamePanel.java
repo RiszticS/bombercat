@@ -1,5 +1,6 @@
 package views.game;
 
+import controllers.configuration.GraphicProperties;
 import controllers.movement.ControlSet;
 import controllers.movement.PlayerController;
 import models.GameModel;
@@ -10,19 +11,17 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
-    // SCREEN SETTINGS
-    private final int defaultTileSize = 32; // 32x32 tile
-    private final int scale = 2;
-    private final int tileSize = defaultTileSize * scale; // 64x64 tile
-    private final int numberOfRows = 15;
-    private final int numberOfColumns = 15;
-    private final int panelWidth = numberOfColumns * tileSize; // 960px
-    private final int panelHeight = numberOfRows * tileSize; // 960px
-
     GameModel model;
     private final ArrayList<PlayerController> playerControllers;
 
     public GamePanel(GameModel m) {
+        GraphicProperties gProperty = new GraphicProperties();
+        int tileSize = gProperty.getTileSize();
+        int numberOfColumns = gProperty.getColNumber();
+        int numberOfRows = gProperty.getRowNumber();;
+        int panelWidth = numberOfColumns * tileSize;
+        int panelHeight = numberOfRows * tileSize;
+
         this.model = m;
         this.playerControllers = new ArrayList<>();
 
