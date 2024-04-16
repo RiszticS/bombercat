@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Entity implements Movable {
-    private GraphicProperties gProperty;
     private final int speed = 4;
     private Bomb bomb;
     private ArrayList<Bomb> bombs;
@@ -29,8 +28,7 @@ public class Player extends Entity implements Movable {
     private MovingAnimationGraphics graphicsManager;
 
     public Player(int x, int y) {
-        this.gProperty = new GraphicProperties();
-        this.position = new Position(x * gProperty.getTileSize(), y * gProperty.getTileSize());
+        this.position = new Position(x * GraphicProperties.getTileSize(), y * GraphicProperties.getTileSize());
         this.boardX = x;
         this.boardY = y;
         this.images = new BufferedImage[8];
@@ -105,7 +103,7 @@ public class Player extends Entity implements Movable {
     }
 
     public void placeBomb() {
-        Bomb bomb = new Bomb(((this.hitbox.getX() + 28) / 64) * 64, ((this.hitbox.getY() + 28) / 64) * 64, bombRadius);
+        Bomb bomb = new Bomb(((this.hitbox.getX() + 28) / GraphicProperties.getTileSize()) * GraphicProperties.getTileSize(), ((this.hitbox.getY() + 28) / GraphicProperties.getTileSize()) * GraphicProperties.getTileSize(), bombRadius);
         if(bombs.size() < bombCounter){
             this.bombs.add(bomb);
             this.bomb = bomb;

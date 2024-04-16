@@ -1,5 +1,6 @@
 package models.entities;
 
+import controllers.configuration.GraphicProperties;
 import models.Position;
 
 import javax.imageio.ImageIO;
@@ -24,7 +25,7 @@ public class Bomb extends Entity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), 64, 64);
+        this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), GraphicProperties.getTileSize(), GraphicProperties.getTileSize());
         this.explosions = new ArrayList<>();
         this.radius = radius;
         this.deleted = false;
@@ -47,8 +48,8 @@ public class Bomb extends Entity {
 
     private void handleExplosion() {
         this.image = null;
-        int x[] = {0, 64, 0, -64, 0};
-        int y[] = {0, 0, -64, 0, 64};
+        int[] x = {0, GraphicProperties.getTileSize(), 0, -GraphicProperties.getTileSize(), 0};
+        int[] y = {0, 0, -GraphicProperties.getTileSize(), 0, GraphicProperties.getTileSize()};
         for(int i = 0; i < 5; i++) {
             for (int j = 1; j <= radius; j++) {
                 Explosion explosion = new Explosion(position.getX() + x[i] * j, position.getY() + y[i] * j, 2000);
@@ -59,9 +60,7 @@ public class Bomb extends Entity {
 
     public void removeExplosion(){
         this.image = null;
-        for (int i = 0; i < explosions.size(); i++){
-            explosions.set(i, null);
-        }
+        explosions.replaceAll(ignored -> null);
     }
 
     @Override

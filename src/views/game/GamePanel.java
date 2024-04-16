@@ -15,10 +15,9 @@ public class GamePanel extends JPanel {
     private final ArrayList<PlayerController> playerControllers;
 
     public GamePanel(GameModel m) {
-        GraphicProperties gProperty = new GraphicProperties();
-        int tileSize = gProperty.getTileSize();
-        int numberOfColumns = gProperty.getColNumber();
-        int numberOfRows = gProperty.getRowNumber();;
+        int tileSize = GraphicProperties.getTileSize();
+        int numberOfColumns = GraphicProperties.getColNumber();
+        int numberOfRows = GraphicProperties.getRowNumber();;
         int panelWidth = numberOfColumns * tileSize;
         int panelHeight = numberOfRows * tileSize;
 

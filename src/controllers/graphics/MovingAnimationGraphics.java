@@ -19,7 +19,7 @@ public class MovingAnimationGraphics implements GraphicsManager {
             tileSheets.add(new SpriteSheet(config.getPath(), config.getxAmount(), config.getyAmount(), config.getCount(), config.getGap(), config.getWidth(), config.getHeight(), config.getSpeed()));
         }
 
-        this.currentSheet = tileSheets.get(0);
+        this.currentSheet = tileSheets.getFirst();
         currentIndex = 0;
         this.imageDelay = 0;
         this.frameSwitch = currentSheet.getSpeed();

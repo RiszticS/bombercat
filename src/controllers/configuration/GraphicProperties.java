@@ -1,25 +1,23 @@
 package controllers.configuration;
 
+import models.GameModel;
+
 public class GraphicProperties {
-    ConfigurationManager cm;
+    private static final ConfigurationManager cm = new ConfigurationManager("graphics.properties");
 
-    public GraphicProperties() {
-        cm = new ConfigurationManager("graphics.properties");
-    }
-
-    public int getTileSize() {
+    public static int getTileSize() {
         return Integer.parseInt(cm.getProperty("tile_size"));
     }
 
-    public int getColNumber() {
+    public static int getColNumber() {
         return Integer.parseInt(cm.getProperty("col_number"));
     }
 
-    public int getRowNumber() {
+    public static int getRowNumber() {
         return Integer.parseInt(cm.getProperty("row_number"));
     }
 
-    public void changeTileSize(int newSize) {
+    public static void changeTileSize(int newSize) {
         cm.changeProperty("tile_size", "" + newSize);
     }
 }

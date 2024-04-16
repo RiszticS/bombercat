@@ -1,5 +1,6 @@
 package models.entities;
 
+import controllers.configuration.GraphicProperties;
 import models.Position;
 
 import java.awt.*;
@@ -35,6 +36,6 @@ public class Entity {
     }
 
     public void draw(Graphics2D g) {
-        g.drawImage(this.image, this.position.getX(), this.position.getY(),64, 64, null);
+        g.drawImage(this.image, this.position.getX(), this.position.getY(), GraphicProperties.getTileSize(), GraphicProperties.getTileSize(), null);
     }
 }

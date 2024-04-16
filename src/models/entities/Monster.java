@@ -1,5 +1,6 @@
 package models.entities;
 
+import controllers.configuration.GraphicProperties;
 import models.Direction;
 import models.Movable;
 import models.Position;
@@ -19,10 +20,10 @@ public class Monster extends Entity implements Movable {
 
     public Monster(int x, int y) {
         random = new Random();
-        this.position = new Position(x * 64, y * 64);
+        this.position = new Position(x * GraphicProperties.getTileSize(), y * GraphicProperties.getTileSize());
         this.boardX = x;
         this.boardY = y;
-        this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), 64, 64);
+        this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), GraphicProperties.getTileSize(), GraphicProperties.getTileSize());
         speed = random.nextInt(4) + 2;
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/monster.png"));

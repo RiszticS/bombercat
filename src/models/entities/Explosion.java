@@ -1,5 +1,6 @@
 package models.entities;
 
+import controllers.configuration.GraphicProperties;
 import models.Position;
 
 import javax.imageio.ImageIO;
@@ -17,7 +18,7 @@ public class Explosion extends Entity {
             throw new RuntimeException(e);
         }
         this.duration = duration;
-        this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), 64, 64);
+        this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), GraphicProperties.getTileSize(), GraphicProperties.getTileSize());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package models;
 
+import controllers.configuration.GraphicProperties;
 import models.entities.*;
 
 import java.awt.*;
@@ -95,8 +96,8 @@ public class Level {
 
     public void changeEntityPosition(ArrayList<? extends Entity> entities) {
         for (Entity entity : entities) {
-            int entityX = entity.getHitbox().getX() / 64;
-            int entityY = entity.getHitbox().getY() / 64;
+            int entityX = entity.getHitbox().getX() / GraphicProperties.getTileSize();
+            int entityY = entity.getHitbox().getY() / GraphicProperties.getTileSize();
             if(entityX != entity.getBoardX() || entityY != entity.getBoardY()) {
                 Entity temp = board[entity.getBoardY()][entity.getBoardX()];
                 board[entity.getBoardY()][entity.getBoardX()] = board[entityY][entityX];
