@@ -1,5 +1,6 @@
 package controllers.graphics;
 
+import controllers.configuration.GraphicProperties;
 import models.Direction;
 
 import java.awt.*;
@@ -48,6 +49,6 @@ public class MovingAnimationGraphics implements GraphicsManager {
             toDraw = this.currentSheet.current();
         }
 
-        g2.drawImage(toDraw, x, y, this.currentSheet.getWidth() * 2, this.currentSheet.getHeight() * 2, null);
+        g2.drawImage(toDraw, x, y, (int)Math.round(this.currentSheet.getWidth() * 2 * (GraphicProperties.getTileSize() / 64.0)),  (int)Math.round(this.currentSheet.getHeight() * 2 * (GraphicProperties.getTileSize() / 64.0)), null);
     }
 }

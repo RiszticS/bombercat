@@ -32,7 +32,7 @@ public class Player extends Entity implements Movable {
         this.boardX = x;
         this.boardY = y;
         this.images = new BufferedImage[8];
-        this.hitbox = new Hitbox(this.position.getX() + 5, this.position.getY() + 36, 54, 54);
+        this.hitbox = new Hitbox(this.position.getX() + 5, this.position.getY() + ((int)Math.round(48 * 2 * (GraphicProperties.getTileSize() / 64.0)) - GraphicProperties.getTileSize()), (int)Math.round(GraphicProperties.getTileSize() * 0.95), (int)Math.round(GraphicProperties.getTileSize() * 0.95 ));
         this.imageCounter = 0;
         this.imageNumber = 1;
 
@@ -125,7 +125,7 @@ public class Player extends Entity implements Movable {
     @Override
     public void draw(Graphics2D g2) {
         graphicsManager.draw(g2, this.position.getX(), this.position.getY());
-        hitbox.draw(g2);
+        //hitbox.draw(g2);
         if(!bombs.isEmpty()) {
             for (int i = 0; i < bombs.size(); i++) {
                 if (bombs.get(i) != null) {
