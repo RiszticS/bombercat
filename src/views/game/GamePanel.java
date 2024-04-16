@@ -1,6 +1,7 @@
 package views.game;
 
 import controllers.configuration.GraphicProperties;
+import controllers.graphics.GraphicsController;
 import controllers.movement.ControlSet;
 import controllers.movement.PlayerController;
 import models.GameModel;
@@ -43,6 +44,8 @@ public class GamePanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
 
         model.getCurrentLevel().draw(g2);
+
+        GraphicsController.draw(g2);
         // Dispose of this graphic context and release any system resources that it is using.
         g2.dispose();
     }

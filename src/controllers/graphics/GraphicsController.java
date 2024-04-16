@@ -3,20 +3,16 @@ package controllers.graphics;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class GraphicsController implements GraphicsManager{
-    private final ArrayList<GraphicsManager> managers;
+public class GraphicsController {
+    private static final ArrayList<GraphicsManager> managers = new ArrayList<>();
 
-    public GraphicsController() {
-        this.managers = new ArrayList<>();
+    public static void addManager(GraphicsManager gm) {
+        GraphicsController.managers.add(gm);
     }
 
-    public void addManager(GraphicsManager gm) {
-        this.managers.add(gm);
-    }
-
-    public void draw(Graphics2D g2, int x, int y) {
+    public static void draw(Graphics2D g2) {
         for(GraphicsManager gm : managers) {
-            gm.draw(g2, x, y);
+            gm.draw(g2);
         }
     }
 }
