@@ -2,6 +2,7 @@ package models.entities;
 
 import controllers.configuration.GraphicProperties;
 import controllers.graphics.AnimationConfiguration;
+import controllers.graphics.GraphicsController;
 import controllers.graphics.MovingAnimationGraphics;
 import models.Direction;
 import models.Position;
@@ -26,7 +27,6 @@ public class Player extends Entity implements Movable {
     private HashMap<Direction, Boolean> availableDirections;
     private Direction currentDirection;
     private MovingAnimationGraphics graphicsManager;
-
     public Player(int x, int y) {
         this.position = new Position(x * GraphicProperties.getTileSize(), y * GraphicProperties.getTileSize());
         this.boardX = x;
@@ -42,7 +42,9 @@ public class Player extends Entity implements Movable {
         animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 5));
         animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 6));
         animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 5));
-        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration);
+        graphicsManager = new MovingAnimationGraphics(animationConfiguration, this.position);
+
+        GraphicsController.addManager(this.graphicsManager);
 
         this.bombs = new ArrayList<>();
         this.placedBombs = 0;
@@ -124,8 +126,6 @@ public class Player extends Entity implements Movable {
 
     @Override
     public void draw(Graphics2D g2) {
-        graphicsManager.draw(g2, this.position.getX(), this.position.getY());
-        //hitbox.draw(g2);
         if(!bombs.isEmpty()) {
             for (int i = 0; i < bombs.size(); i++) {
                 if (bombs.get(i) != null) {

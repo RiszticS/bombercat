@@ -2,6 +2,7 @@ package controllers.graphics;
 
 import controllers.configuration.GraphicProperties;
 import models.Direction;
+import models.Position;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,8 +14,10 @@ public class MovingAnimationGraphics implements GraphicsManager {
     private int frameSwitch;
     private SpriteSheet currentSheet;
     private int currentIndex;
-    public MovingAnimationGraphics(ArrayList<AnimationConfiguration> sheets) {
+    private Position postion;
+    public MovingAnimationGraphics(ArrayList<AnimationConfiguration> sheets, Position position) {
         this.tileSheets = new ArrayList<>();
+        this.postion = position;
 
         for (AnimationConfiguration config : sheets) {
             tileSheets.add(new SpriteSheet(config.getPath(), config.getxAmount(), config.getyAmount(), config.getCount(), config.getGap(), config.getWidth(), config.getHeight(), config.getSpeed()));
@@ -37,7 +40,7 @@ public class MovingAnimationGraphics implements GraphicsManager {
     }
 
     @Override
-    public void draw(Graphics2D g2, int x, int y) {
+    public void draw(Graphics2D g2) {
 
         BufferedImage toDraw;
 
@@ -49,6 +52,8 @@ public class MovingAnimationGraphics implements GraphicsManager {
             toDraw = this.currentSheet.current();
         }
 
-        g2.drawImage(toDraw, x, y, (int)Math.round(this.currentSheet.getWidth() * 2 * (GraphicProperties.getTileSize() / 64.0)),  (int)Math.round(this.currentSheet.getHeight() * 2 * (GraphicProperties.getTileSize() / 64.0)), null);
+        System.out.println("X: " + this.postion.getX() + ", Y: " + this.postion.getY());
+
+        g2.drawImage(toDraw, this.postion.getX(), this.postion.getY(), (int)Math.round(this.currentSheet.getWidth() * 2 * (GraphicProperties.getTileSize() / 64.0)),  (int)Math.round(this.currentSheet.getHeight() * 2 * (GraphicProperties.getTileSize() / 64.0)), null);
     }
 }
