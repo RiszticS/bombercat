@@ -26,7 +26,7 @@ public class Monster extends Entity implements Movable {
         this.hitbox = new Hitbox(this.position.getX(), this.position.getY(), GraphicProperties.getTileSize(), GraphicProperties.getTileSize());
         speed = random.nextInt(4) + 2;
         try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/monster.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/monster.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

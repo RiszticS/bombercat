@@ -21,7 +21,7 @@ public class Bomb extends Entity {
     public Bomb(int x, int y, int radius) {
         this.position = new Position(x, y);
         try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/bomb.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/bomb.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

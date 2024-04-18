@@ -6,12 +6,12 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigurationManager {
-    private Properties prop;
+    private final Properties prop;
     private final String config;
 
     public ConfigurationManager(String config) {
         this.config = config;
-        try (FileInputStream input = new FileInputStream(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "/assets/configurations/" + this.config)){
+        try (FileInputStream input = new FileInputStream(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "/main/assets/configurations/" + this.config)){
             prop = new Properties();
 
             prop.load(input);
@@ -21,7 +21,7 @@ public class ConfigurationManager {
     }
 
     public String getProperty(String property) {
-        return  prop.getProperty(property);
+        return prop.getProperty(property);
     }
 
     public void changeProperty(String property, String newValue) {

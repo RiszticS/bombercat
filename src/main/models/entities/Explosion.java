@@ -13,7 +13,7 @@ public class Explosion extends Entity {
     public Explosion(int x, int y, long duration) {
         this.position = new Position(x, y);
         try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/explosion.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/explosion.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

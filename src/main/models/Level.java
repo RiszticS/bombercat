@@ -29,7 +29,7 @@ public class Level {
         exe = new ExtendedExplosion(10, 1);
         powerUps.add(exe);
         try {
-            BufferedReader  reader = new BufferedReader(new FileReader("src/main.assets/levels/level" + levelNumber + ".txt"));
+            BufferedReader  reader = new BufferedReader(new FileReader("src/main/assets/levels/level" + levelNumber + ".txt"));
 
             String currentLine;
 

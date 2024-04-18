@@ -10,7 +10,7 @@ public class Floor extends Entity {
     public Floor(int x, int y) {
         this.position = new Position(x * GraphicProperties.getTileSize(), y * GraphicProperties.getTileSize());
         try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/assets/images/floor.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/floor.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
