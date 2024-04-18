@@ -1,7 +1,7 @@
 package main.models.entities;
 
 import main.controllers.configuration.GraphicProperties;
-import main.controllers.graphics.AnimationConfiguration;
+import main.models.graphics.AnimationConfiguration;
 import main.controllers.graphics.GraphicsController;
 import main.controllers.graphics.MovingAnimationGraphics;
 import main.models.Direction;

@@ -1,4 +1,4 @@
-package main.controllers.graphics;
+package main.models.graphics;
 
 import main.models.Position;
 
@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-class SpriteSheet {
+public class SpriteSheet {
     private final ArrayList<BufferedImage> images;
     private int iterator;
     private final int imageCount;

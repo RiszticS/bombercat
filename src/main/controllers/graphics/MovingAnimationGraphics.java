@@ -3,6 +3,8 @@ package main.controllers.graphics;
 import main.controllers.configuration.GraphicProperties;
 import main.models.Direction;
 import main.models.Position;
+import main.models.graphics.AnimationConfiguration;
+import main.models.graphics.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,13 +16,13 @@ public class MovingAnimationGraphics implements GraphicsManager {
     private int frameSwitch;
     private SpriteSheet currentSheet;
     private int currentIndex;
-    private Position postion;
+    private final Position position;
     public MovingAnimationGraphics(ArrayList<AnimationConfiguration> sheets, Position position) {
         this.tileSheets = new ArrayList<>();
-        this.postion = position;
+        this.position = position;
 
         for (AnimationConfiguration config : sheets) {
-            tileSheets.add(new SpriteSheet(config.getPath(), config.getxAmount(), config.getyAmount(), config.getCount(), config.getGap(), config.getWidth(), config.getHeight(), config.getSpeed()));
+            tileSheets.add(new SpriteSheet(config.path(), config.xAmount(), config.yAmount(), config.count(), config.gap(), config.width(), config.height(), config.speed()));
         }
 
         this.currentSheet = tileSheets.getFirst();
@@ -52,8 +54,6 @@ public class MovingAnimationGraphics implements GraphicsManager {
             toDraw = this.currentSheet.current();
         }
 
-        System.out.println("X: " + this.postion.getX() + ", Y: " + this.postion.getY());
-
-        g2.drawImage(toDraw, this.postion.getX(), this.postion.getY(), (int)Math.round(this.currentSheet.getWidth() * 2 * (GraphicProperties.getTileSize() / 64.0)),  (int)Math.round(this.currentSheet.getHeight() * 2 * (GraphicProperties.getTileSize() / 64.0)), null);
+        g2.drawImage(toDraw, this.position.getX(), this.position.getY(), (int)Math.round(this.currentSheet.getWidth() * 2 * (GraphicProperties.getTileSize() / 64.0)),  (int)Math.round(this.currentSheet.getHeight() * 2 * (GraphicProperties.getTileSize() / 64.0)), null);
     }
 }

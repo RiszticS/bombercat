@@ -1,4 +1,4 @@
-package main.controllers.graphics;
+package main.models.graphics;
 
 import main.models.Position;
 
@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-class Sprite {
+public class Sprite {
     private final BufferedImage image;
     private Position position;
 
