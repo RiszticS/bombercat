@@ -1,9 +1,5 @@
 package views.menu;
 
-import controllers.game.GameLoop;
-import models.GameModel;
-import views.game.GameWindow;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,7 +28,7 @@ public class PlayerSelector extends JPanel implements ActionListener {
 
         playerButtons = new JButton[3];
         for (int i = 0; i < playerButtons.length; i++) {
-            playerButtons[i]=menuWindow.createButton("",null,new ImageIcon(getClass().getResource("/assets/images/gui/+.png")),null,null);
+            playerButtons[i] = menuWindow.createButton("", null, new ImageIcon(getClass().getResource("/assets/images/gui/playerselector/+.png")), null, null);
         }
         playerButtons[0].addActionListener(this);
 
@@ -52,7 +48,7 @@ public class PlayerSelector extends JPanel implements ActionListener {
         String[] buttonLabels = {"Back", "Next"};
         navigationButtons = new JButton[buttonLabels.length];
         for (int i = 0; i < buttonLabels.length; i++) {
-            navigationButtons[i] =  menuWindow.createButton(buttonLabels[i],this, new ImageIcon(getClass().getResource("/assets/images/gui/button.png")),new ImageIcon(getClass().getResource("/assets/images/gui/buttonHover.png")),new ImageIcon(getClass().getResource("/assets/images/gui/buttonPressed.png")));
+            navigationButtons[i] = menuWindow.createButton(buttonLabels[i], this, new ImageIcon(getClass().getResource("/assets/images/gui/buttons/button.png")), new ImageIcon(getClass().getResource("/assets/images/gui/buttons/buttonHover.png")), new ImageIcon(getClass().getResource("/assets/images/gui/buttons/buttonPressed.png")));
             buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
             buttonPanel.add(navigationButtons[i]);
         }
@@ -60,7 +56,7 @@ public class PlayerSelector extends JPanel implements ActionListener {
         buttonPanel.add(Box.createVerticalGlue());
         playerSelectorPanel.add(BorderLayout.SOUTH, buttonPanel);
 
-        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/assets/images/gui/background.png")));
+        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/assets/images/gui/backgrounds/background.png")));
         this.setLayout(new BorderLayout());
         this.add(background);
         this.setOpaque(false);
@@ -71,36 +67,52 @@ public class PlayerSelector extends JPanel implements ActionListener {
     }
 
     private void playerButtonClick(int index) {
-        playerNumber++;
-        ImageIcon icon =new ImageIcon(getClass().getResource("/assets/images/gui/astronaut" + index + ".gif"));
-        playerButtons[index].setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));;
+        ImageIcon icon = new ImageIcon(getClass().getResource("/assets/images/gui/playerselector/astronaut" + index + ".gif"));
+        playerButtons[index].setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
         playerButtons[index].setIcon(icon);
         switch (index) {
             case 0:
+                playerNumber = 1;
                 playerButtons[index].removeActionListener(this);
                 playerButtons[index + 1].addActionListener(this);
                 navigationButtons[1].setVisible(true);
                 break;
             case 1:
+                playerNumber = 2;
                 playerButtons[index].removeActionListener(this);
                 playerButtons[index + 1].addActionListener(this);
                 break;
             case 2:
+                playerNumber = 3;
                 playerButtons[index].removeActionListener(this);
                 break;
         }
     }
 
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
     private void nextButtonClick() {
-        GameModel gm = new GameModel(1);
-        GameWindow gw = new GameWindow(gm);
-        GameLoop gc = new GameLoop(gm, gw.getGamePanel());
-        gc.start();
-        menuWindow.dispose();
+        menuWindow.initLevelSelector();
+        menuWindow.changePanel("LevelSelector");
     }
 
     private void backButtonClick() {
+        resetButtons();
         menuWindow.changePanel("MainMenu");
+    }
+
+    private void resetButtons() {
+        ImageIcon icon = new ImageIcon(getClass().getResource("/assets/images/gui/playerselector/+.png"));
+        for (JButton playerButton : playerButtons) {
+            playerButton.removeActionListener(this);
+            playerButton.setIcon(icon);
+            playerButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+        }
+        playerButtons[0].addActionListener(this);
+        navigationButtons[1].setVisible(false);
+        playerNumber = 0;
     }
 
     @Override
