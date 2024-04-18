@@ -47,7 +47,7 @@ public class Level {
                     Entity currentObject = generateEntity(currentObjectCharacter, rowIndex, colIndex);
 
                     if (currentObjectCharacter == 'p') {
-                        if (playerNumber > playersCount) players.add((Player) currentObject);
+                        if (!(currentObject instanceof Floor)) players.add((Player) currentObject);
                         floorTiles.add(new Floor(colIndex, rowIndex));
                         playersCount++;
                     } else if (currentObjectCharacter == 'm') {

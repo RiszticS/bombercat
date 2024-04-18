@@ -9,7 +9,7 @@ public class MenuWindow extends JFrame {
     private final int frameSize = 720;
     private final JPanel cards;
     private final MainMenu mainMenu;
-    public PlayerSelector playerSelector;
+    private PlayerSelector playerSelector;
     private LevelSelector levelSelector;
 
     public MenuWindow() {
@@ -36,6 +36,10 @@ public class MenuWindow extends JFrame {
     public void initLevelSelector() {
         levelSelector = new LevelSelector(this);
         cards.add(levelSelector, "LevelSelector");
+    }
+
+    public PlayerSelector getPlayerSelector(){
+        return playerSelector;
     }
 
     public JButton createButton(String text, ActionListener actionListener, ImageIcon icon, ImageIcon iconHover, ImageIcon iconPressed) {
