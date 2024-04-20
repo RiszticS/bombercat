@@ -1,12 +1,11 @@
-package main.models.entities;
+package models.entities;
 
-import main.controllers.configuration.GraphicProperties;
-import main.models.graphics.AnimationConfiguration;
-import main.controllers.graphics.GraphicsController;
-import main.controllers.graphics.MovingAnimationGraphics;
-import main.models.Direction;
-import main.models.Position;
-import main.models.Movable;
+import controllers.configuration.GraphicProperties;
+import controllers.graphics.AnimationConfiguration;
+import controllers.graphics.MovingAnimationGraphics;
+import models.Direction;
+import models.Position;
+import models.Movable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Entity implements Movable {
+    private GraphicProperties gProperty;
     private final int speed = 4;
     private Bomb bomb;
     private ArrayList<Bomb> bombs;
@@ -27,24 +27,24 @@ public class Player extends Entity implements Movable {
     private HashMap<Direction, Boolean> availableDirections;
     private Direction currentDirection;
     private MovingAnimationGraphics graphicsManager;
+
     public Player(int x, int y) {
-        this.position = new Position(x * GraphicProperties.getTileSize(), y * GraphicProperties.getTileSize());
+        this.gProperty = new GraphicProperties();
+        this.position = new Position(x * gProperty.getTileSize(), y * gProperty.getTileSize());
         this.boardX = x;
         this.boardY = y;
         this.images = new BufferedImage[8];
-        this.hitbox = new Hitbox(this.position.getX() + 5, this.position.getY() + ((int)Math.round(48 * 2 * (GraphicProperties.getTileSize() / 64.0)) - GraphicProperties.getTileSize()), (int)Math.round(GraphicProperties.getTileSize() * 0.95), (int)Math.round(GraphicProperties.getTileSize() * 0.95 ));
+        this.hitbox = new Hitbox(this.position.getX() + 5, this.position.getY() + 36, 54, 54);
         this.imageCounter = 0;
         this.imageNumber = 1;
 
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 5));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkright.png", 6, 1, 6, 0, 32, 48, 6));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 5));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 6));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 5));
-        graphicsManager = new MovingAnimationGraphics(animationConfiguration, this.position);
-
-        GraphicsController.addManager(this.graphicsManager);
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 2));
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkright.png", 6, 1, 6, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
+        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration);
 
         this.bombs = new ArrayList<>();
         this.placedBombs = 0;
@@ -105,7 +105,7 @@ public class Player extends Entity implements Movable {
     }
 
     public void placeBomb() {
-        Bomb bomb = new Bomb(((this.hitbox.getX() + 28) / GraphicProperties.getTileSize()) * GraphicProperties.getTileSize(), ((this.hitbox.getY() + 28) / GraphicProperties.getTileSize()) * GraphicProperties.getTileSize(), bombRadius);
+        Bomb bomb = new Bomb(((this.hitbox.getX() + 28) / 64) * 64, ((this.hitbox.getY() + 28) / 64) * 64, bombRadius);
         if(bombs.size() < bombCounter){
             this.bombs.add(bomb);
             this.bomb = bomb;
@@ -126,6 +126,8 @@ public class Player extends Entity implements Movable {
 
     @Override
     public void draw(Graphics2D g2) {
+        graphicsManager.draw(g2, this.position.getX(), this.position.getY());
+        hitbox.draw(g2);
         if(!bombs.isEmpty()) {
             for (int i = 0; i < bombs.size(); i++) {
                 if (bombs.get(i) != null) {

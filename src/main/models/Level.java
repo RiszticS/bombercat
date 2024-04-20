@@ -1,7 +1,6 @@
-package main.models;
+package models;
 
-import main.controllers.configuration.GraphicProperties;
-import main.models.entities.*;
+import models.entities.*;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -19,8 +18,10 @@ public class Level {
     private ArrayList<PowerUp> powerUps;
     private PlusBomb p1;
     private ExtendedExplosion exe;
+    private final int playerNumber;
+    private int playersCount;
 
-    public Level(int levelNumber) throws IOException {
+    public Level(int levelNumber, int playerNumber) throws IOException {
         players = new ArrayList<>();
         monsters = new ArrayList<>();
         powerUps = new ArrayList<>();
@@ -28,8 +29,9 @@ public class Level {
         powerUps.add(p1);
         exe = new ExtendedExplosion(10, 1);
         powerUps.add(exe);
+        this.playerNumber = playerNumber;
         try {
-            BufferedReader  reader = new BufferedReader(new FileReader("src/main/assets/levels/level" + levelNumber + ".txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("src/assets/levels/level" + levelNumber + ".txt"));
 
             String currentLine;
 
@@ -38,19 +40,20 @@ public class Level {
             wallTiles = new ArrayList<>();
             chestTiles = new ArrayList<>();
             int rowIndex = 0;
-            while((currentLine = reader.readLine()) != null) {
-                for(int colIndex = 0; colIndex < 15; colIndex++) {
+            while ((currentLine = reader.readLine()) != null) {
+                for (int colIndex = 0; colIndex < 15; colIndex++) {
                     char currentObjectCharacter = currentLine.charAt(colIndex);
 
                     Entity currentObject = generateEntity(currentObjectCharacter, rowIndex, colIndex);
 
                     if (currentObjectCharacter == 'p') {
-                        players.add((Player) currentObject);
+                        if (!(currentObject instanceof Floor)) players.add((Player) currentObject);
                         floorTiles.add(new Floor(colIndex, rowIndex));
-                    }else if (currentObjectCharacter == 'm') {
+                        playersCount++;
+                    } else if (currentObjectCharacter == 'm') {
                         monsters.add((Monster) currentObject);
                         floorTiles.add(new Floor(colIndex, rowIndex));
-                    }else if (currentObjectCharacter == 'f') {
+                    } else if (currentObjectCharacter == 'f') {
                         floorTiles.add((Floor) currentObject);
                     } else if (currentObjectCharacter == 'w') {
                         wallTiles.add((Wall) currentObject);
@@ -59,16 +62,13 @@ public class Level {
                         floorTiles.add(new Floor(colIndex, rowIndex));
                     }
 
-
                     board[rowIndex][colIndex] = currentObject;
                 }
-
                 rowIndex++;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public ArrayList<Player> getPlayers() {
@@ -87,7 +87,7 @@ public class Level {
         return switch (entity) {
             case 'w' -> new Wall(colIndex, rowIndex);
             case 'c' -> new Chest(colIndex, rowIndex);
-            case 'p' -> new Player(colIndex, rowIndex);
+            case 'p' -> (playerNumber > playersCount) ? new Player(colIndex, rowIndex) : new Floor(colIndex, rowIndex);
             case 'f' -> new Floor(colIndex, rowIndex);
             case 'm' -> new Monster(colIndex, rowIndex);
             default -> new Entity();
@@ -96,9 +96,9 @@ public class Level {
 
     public void changeEntityPosition(ArrayList<? extends Entity> entities) {
         for (Entity entity : entities) {
-            int entityX = entity.getHitbox().getX() / GraphicProperties.getTileSize();
-            int entityY = entity.getHitbox().getY() / GraphicProperties.getTileSize();
-            if(entityX != entity.getBoardX() || entityY != entity.getBoardY()) {
+            int entityX = entity.getHitbox().getX() / 64;
+            int entityY = entity.getHitbox().getY() / 64;
+            if (entityX != entity.getBoardX() || entityY != entity.getBoardY()) {
                 Entity temp = board[entity.getBoardY()][entity.getBoardX()];
                 board[entity.getBoardY()][entity.getBoardX()] = board[entityY][entityX];
                 board[entityY][entityX] = temp;
@@ -108,7 +108,7 @@ public class Level {
         }
     }
 
-    public void removePowerUp(){
+    public void removePowerUp() {
         for (int i = 0; i < powerUps.size(); i++) {
             if (powerUps.get(i) != null && powerUps.get(i).isPickedUp()) {
                 powerUps.set(i, null);
@@ -120,22 +120,22 @@ public class Level {
     public void draw(Graphics2D g2) {
         changeEntityPosition(players);
         changeEntityPosition(monsters);
-        for(Floor f : floorTiles) {
+        for (Floor f : floorTiles) {
             f.draw(g2);
         }
 
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                if(!(board[i][j] instanceof Floor)) {
+                if (!(board[i][j] instanceof Floor)) {
                     board[i][j].draw(g2);
                 }
             }
         }
-        if(!powerUps.isEmpty()){
+        if (!powerUps.isEmpty()) {
             for (int i = 0; i < powerUps.size(); i++) {
                 if (powerUps.get(i) != null) {
                     powerUps.get(i).draw(g2);
-                    if(powerUps.get(i).isPickedUp()){
+                    if (powerUps.get(i).isPickedUp()) {
                         powerUps.set(i, null);
                         powerUps.remove(i);
                     }

@@ -11,15 +11,13 @@ public class GameModel {
     private ArrayList<PowerUp> powerUps;
     private Level currentLevel;
 
-    public GameModel(int levelNumber) {
-
+    public GameModel(int levelNumber, int playerNumber) {
         try {
-            this.currentLevel = new Level(levelNumber);
+            this.currentLevel = new Level(levelNumber, playerNumber);
             this.players = this.currentLevel.getPlayers();
             this.monsters = this.currentLevel.getMonsters();
             this.powerUps = this.currentLevel.getPowerUps();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -41,7 +39,7 @@ public class GameModel {
             for (Wall w : this.currentLevel.getWallTiles()) {
                 p.handleCollisionWith(w);
             }
-            for (PowerUp pu : this.currentLevel.getPowerUps()){
+            for (PowerUp pu : this.currentLevel.getPowerUps()) {
                 p.handleCollisionWithPowerUps(pu);
             }
 
