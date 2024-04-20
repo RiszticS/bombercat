@@ -1,18 +1,21 @@
-package main.models.entities;
+package main.model.entities;
 
+import main.controllers.configuration.ControlsProperties;
 import main.controllers.configuration.GraphicProperties;
-import main.models.graphics.AnimationConfiguration;
+import main.controllers.movement.PlayerControls;
+import main.model.graphics.AnimationConfiguration;
 import main.controllers.graphics.MovingAnimationGraphics;
-import main.models.Direction;
-import main.models.Position;
-import main.models.Movable;
+import main.model.Direction;
+import main.model.Position;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Player extends Entity implements Movable {
+public class Player extends Entity implements KeyListener {
     private GraphicProperties gProperty;
     private final int speed = 4;
     private Bomb bomb;
@@ -27,8 +30,13 @@ public class Player extends Entity implements Movable {
     private HashMap<Direction, Boolean> availableDirections;
     private Direction currentDirection;
     private MovingAnimationGraphics graphicsManager;
+    private PlayerControls controls;
+    private static int numberOfInstances = 0;
+    private boolean upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, plantBombKeyPressed;
+
 
     public Player(int x, int y) {
+        numberOfInstances++;
         this.gProperty = new GraphicProperties();
         this.position = new Position(x * gProperty.getTileSize(), y * gProperty.getTileSize());
         this.boardX = x;
@@ -58,6 +66,31 @@ public class Player extends Entity implements Movable {
         availableDirections.put(Direction.RIGHT, true);
 
         this.currentDirection = Direction.DOWN;
+
+        this.upKeyPressed = false;
+        this.downKeyPressed = false;
+        this.leftKeyPressed = false;
+        this.rightKeyPressed = false;
+        this.plantBombKeyPressed = false;
+
+        controls = ControlsProperties.getPlayerControls(numberOfInstances);
+    }
+
+
+    public void update() {
+        if (upKeyPressed) {
+            move(Direction.UP);
+        } else if (downKeyPressed) {
+            move(Direction.DOWN);
+        } else if (leftKeyPressed) {
+            move(Direction.LEFT);
+        } else if (rightKeyPressed) {
+            move(Direction.RIGHT);
+        } else if (plantBombKeyPressed) {
+            plantBomb();
+        } else {
+            move(Direction.IDLE);
+        }
     }
 
 
@@ -104,7 +137,7 @@ public class Player extends Entity implements Movable {
         }
     }
 
-    public void placeBomb() {
+    public void plantBomb() {
         Bomb bomb = new Bomb(((this.hitbox.getX() + 28) / 64) * 64, ((this.hitbox.getY() + 28) / 64) * 64, bombRadius);
         if(bombs.size() < bombCounter){
             this.bombs.add(bomb);
@@ -193,4 +226,38 @@ public class Player extends Entity implements Movable {
         return this.hitbox;
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == controls.getUp()) {
+            upKeyPressed = true;
+        } else if (e.getKeyCode() == controls.getDown()) {
+            downKeyPressed = true;
+        } else if (e.getKeyCode() == controls.getLeft()) {
+            leftKeyPressed = true;
+        } else if (e.getKeyCode() == controls.getRight()) {
+            rightKeyPressed = true;
+        } else if (e.getKeyCode() == controls.getBomb()) {
+            plantBombKeyPressed = true;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == controls.getUp()) {
+            upKeyPressed = false;
+        } else if (e.getKeyCode() == controls.getDown()) {
+            downKeyPressed = false;
+        } else if (e.getKeyCode() == controls.getLeft()) {
+            leftKeyPressed = false;
+        } else if (e.getKeyCode() == controls.getRight()) {
+            rightKeyPressed = false;
+        } else if (e.getKeyCode() == controls.getBomb()) {
+            plantBombKeyPressed = false;
+        }
+    }
 }

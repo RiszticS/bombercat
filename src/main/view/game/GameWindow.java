@@ -1,6 +1,6 @@
 package main.view.game;
 
-import main.models.GameModel;
+import main.model.GameModel;
 
 import javax.swing.*;
 

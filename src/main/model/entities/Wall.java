@@ -1,13 +1,9 @@
-package main.models.entities;
+package main.model.entities;
 
 import main.controllers.configuration.GraphicProperties;
 import main.controllers.graphics.GraphicsController;
 import main.controllers.graphics.StaticGraphics;
-import main.models.Position;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.IOException;
+import main.model.Position;
 
 public class Wall extends Entity {
 

@@ -1,9 +1,8 @@
-package main.models.entities;
+package main.model.entities;
 
 import main.controllers.configuration.GraphicProperties;
-import main.models.Direction;
-import main.models.Movable;
-import main.models.Position;
+import main.model.Direction;
+import main.model.Position;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Monster extends Entity implements Movable {
+public class Monster extends Entity {
     private final int speed;
     private final Hitbox hitbox;
     private HashMap<Direction, Boolean> availableDirections;

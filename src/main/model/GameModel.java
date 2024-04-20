@@ -1,7 +1,7 @@
-package main.models;
+package main.model;
 
-import main.models.entities.*;
-import main.models.Level;
+import main.model.entities.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -34,7 +34,7 @@ public class GameModel {
         return currentLevel;
     }
 
-    public void checkCollisions() {
+    private void checkCollisions() {
         for (Player p : players) {
             for (Wall w : this.currentLevel.getWallTiles()) {
                 p.handleCollisionWith(w);
@@ -52,6 +52,16 @@ public class GameModel {
                 m.handleCollisionWith(w);
             }
 
+        }
+    }
+
+    public void update() {
+        checkCollisions();
+        for (Player p : players) {
+            p.update();
+        }
+        for(Monster m : monsters){
+            m.move(m.getCurrentDirection());
         }
     }
 

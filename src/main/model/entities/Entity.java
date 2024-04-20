@@ -1,7 +1,7 @@
-package main.models.entities;
+package main.model.entities;
 
 import main.controllers.configuration.GraphicProperties;
-import main.models.Position;
+import main.model.Position;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

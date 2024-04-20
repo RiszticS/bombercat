@@ -1,7 +1,7 @@
 package main.controllers.graphics;
 
-import main.models.Position;
-import main.models.graphics.SpriteSheet;
+import main.model.Position;
+import main.model.graphics.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

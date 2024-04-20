@@ -1,8 +1,8 @@
-package main.models.entities;
+package main.model.entities;
 
 import java.awt.*;
 import java.util.ArrayList;
-import main.models.Direction;
+import main.model.Direction;
 
 public class Hitbox {
     private final Rectangle top;

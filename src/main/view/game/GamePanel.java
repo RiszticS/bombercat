@@ -2,10 +2,8 @@ package main.view.game;
 
 import main.controllers.configuration.GraphicProperties;
 import main.controllers.graphics.GraphicsController;
-import main.controllers.movement.ControlSet;
-import main.controllers.movement.PlayerController;
-import main.models.GameModel;
-import main.models.entities.Player;
+import main.model.GameModel;
+import main.model.entities.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,24 +11,16 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     GameModel model;
-    private final ArrayList<PlayerController> playerControllers;
 
-    public GamePanel(GameModel m) {
+    public GamePanel(GameModel gameModel) {
+        this.model = gameModel;
         int tileSize = GraphicProperties.getTileSize();
         int numberOfColumns = GraphicProperties.getColNumber();
         int numberOfRows = GraphicProperties.getRowNumber();;
         int panelWidth = numberOfColumns * tileSize;
         int panelHeight = numberOfRows * tileSize;
-
-        this.model = m;
-        this.playerControllers = new ArrayList<>();
-
-        int i = 0;
-        for (Player player : model.getPlayers()) {
-            PlayerController pc = new PlayerController(player, ControlSet.values()[i]);
-            playerControllers.add(pc);
-            this.addKeyListener(pc);
-            i++;
+        for (Player p : model.getPlayers()) {
+            this.addKeyListener(p);
         }
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.setBackground(Color.BLACK);
@@ -48,9 +38,5 @@ public class GamePanel extends JPanel {
         GraphicsController.draw(g2);
         // Dispose of this graphic context and release any system resources that it is using.
         g2.dispose();
-    }
-
-    public ArrayList<PlayerController> getPlayerControllers() {
-        return playerControllers;
     }
 }

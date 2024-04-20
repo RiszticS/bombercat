@@ -1,9 +1,9 @@
 package main.view.menu;
 
 import main.controllers.game.GameLoop;
-import main.models.Direction;
-import main.models.GameModel;
-import main.models.Position;
+import main.model.Direction;
+import main.model.GameModel;
+import main.model.Position;
 import main.view.game.GameWindow;
 
 import javax.swing.*;

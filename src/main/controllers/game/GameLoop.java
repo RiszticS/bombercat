@@ -1,8 +1,7 @@
 package main.controllers.game;
 
-import main.controllers.movement.PlayerController;
-import main.models.GameModel;
-import main.models.entities.Monster;
+import main.model.GameModel;
+import main.model.entities.Monster;
 import main.view.game.GamePanel;
 
 
@@ -37,27 +36,12 @@ public class GameLoop implements Runnable {
 
             if (delta >= 1) {
                 // 1 UPDATE: update information such as character position.
-                updateModel();
+                gameModel.update();
                 // 2 DRAW: draw the screen with the updated information.
-                repaintScreen();
+                gamePanel.repaint();
                 delta--;
             }
 
         }
     }
-
-    public void updateModel() {
-        this.gameModel.checkCollisions();
-        for (PlayerController pc : gamePanel.getPlayerControllers()) {
-            pc.updatePlayer();
-        }
-        for(Monster m : gameModel.getMonsters()){
-            m.move(m.getCurrentDirection());
-        }
-    }
-
-    public void repaintScreen() {
-        gamePanel.repaint();
-    }
-
 }

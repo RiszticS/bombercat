@@ -1,6 +1,6 @@
-package main.models;
+package main.model;
 
-import main.models.entities.*;
+import main.model.entities.*;
 
 import java.awt.*;
 import java.io.BufferedReader;

@@ -1,7 +1,7 @@
 package main.controllers.graphics;
 
-import main.models.Position;
-import main.models.graphics.Sprite;
+import main.model.Position;
+import main.model.graphics.Sprite;
 
 import java.awt.*;
 

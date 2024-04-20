@@ -1,7 +1,5 @@
 package main.controllers.configuration;
 
-import main.models.GameModel;
-
 public class GraphicProperties {
     private static final ConfigurationManager cm = new ConfigurationManager("graphics.properties");
 

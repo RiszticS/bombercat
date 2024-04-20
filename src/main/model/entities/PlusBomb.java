@@ -1,4 +1,4 @@
-package main.models.entities;
+package main.model.entities;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;

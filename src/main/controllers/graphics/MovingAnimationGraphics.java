@@ -1,10 +1,10 @@
 package main.controllers.graphics;
 
 import main.controllers.configuration.GraphicProperties;
-import main.models.Direction;
-import main.models.Position;
-import main.models.graphics.AnimationConfiguration;
-import main.models.graphics.SpriteSheet;
+import main.model.Direction;
+import main.model.Position;
+import main.model.graphics.AnimationConfiguration;
+import main.model.graphics.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
