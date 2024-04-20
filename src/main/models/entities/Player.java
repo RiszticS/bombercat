@@ -1,11 +1,11 @@
-package models.entities;
+package main.models.entities;
 
-import controllers.configuration.GraphicProperties;
-import controllers.graphics.AnimationConfiguration;
-import controllers.graphics.MovingAnimationGraphics;
-import models.Direction;
-import models.Position;
-import models.Movable;
+import main.controllers.configuration.GraphicProperties;
+import main.models.graphics.AnimationConfiguration;
+import main.controllers.graphics.MovingAnimationGraphics;
+import main.models.Direction;
+import main.models.Position;
+import main.models.Movable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -39,12 +39,12 @@ public class Player extends Entity implements Movable {
         this.imageNumber = 1;
 
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
-        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 2));
-        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkright.png", 6, 1, 6, 0, 32, 48, 3));
-        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
-        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
-        animationConfiguration.add(new AnimationConfiguration("/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
-        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration);
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 2));
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkright.png", 6, 1, 6, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
+        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position);
 
         this.bombs = new ArrayList<>();
         this.placedBombs = 0;
@@ -126,7 +126,7 @@ public class Player extends Entity implements Movable {
 
     @Override
     public void draw(Graphics2D g2) {
-        graphicsManager.draw(g2, this.position.getX(), this.position.getY());
+        graphicsManager.draw(g2);
         hitbox.draw(g2);
         if(!bombs.isEmpty()) {
             for (int i = 0; i < bombs.size(); i++) {

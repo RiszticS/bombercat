@@ -1,11 +1,10 @@
-package main.views.menu;
+package main.view.menu;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class MenuWindow extends JFrame {
-
     private final int frameSize = 720;
     private final JPanel cards;
     private final MainMenu mainMenu;

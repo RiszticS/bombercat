@@ -1,4 +1,4 @@
-package main.views.game;
+package main.view.game;
 
 import main.controllers.configuration.GraphicProperties;
 import main.controllers.graphics.GraphicsController;

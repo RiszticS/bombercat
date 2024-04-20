@@ -1,6 +1,6 @@
-package models;
+package main.models;
 
-import models.entities.*;
+import main.models.entities.*;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -31,7 +31,7 @@ public class Level {
         powerUps.add(exe);
         this.playerNumber = playerNumber;
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("src/assets/levels/level" + levelNumber + ".txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("src/main/assets/levels/level" + levelNumber + ".txt"));
 
             String currentLine;
 

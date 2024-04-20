@@ -1,4 +1,4 @@
-package views.menu;
+package main.view.menu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,13 +22,16 @@ public class MainMenu extends JPanel implements ActionListener {
         String[] buttonLabels = {"New Game", "Map editor", "Settings", "Exit"};
         buttons = new JButton[buttonLabels.length];
         for (int i = 0; i < buttonLabels.length; i++) {
-            buttons[i] = menuWindow.createButton(buttonLabels[i], this, new ImageIcon(getClass().getResource("/assets/images/gui/buttons/button.png")), new ImageIcon(getClass().getResource("/assets/images/gui/buttons/buttonHover.png")), new ImageIcon(getClass().getResource("/assets/images/gui/buttons/buttonPressed.png")));
+            buttons[i] = menuWindow.createButton(buttonLabels[i], this,
+                    new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/button.png")),
+                    new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonHover.png")),
+                    new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonPressed.png")));
             buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
             buttonPanel.add(buttons[i]);
         }
         buttonPanel.add(Box.createVerticalGlue());
 
-        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/assets/images/gui/backgrounds/mainMenuBackground.gif")));
+        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/main/assets/images/gui/backgrounds/mainMenuBackground.gif")));
         this.setLayout(new BorderLayout());
         this.add(background);
         background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));

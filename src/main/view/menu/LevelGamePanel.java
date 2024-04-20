@@ -1,10 +1,10 @@
-package views.menu;
+package main.view.menu;
 
-import controllers.game.GameLoop;
-import models.Direction;
-import models.GameModel;
-import models.Position;
-import views.game.GameWindow;
+import main.controllers.game.GameLoop;
+import main.models.Direction;
+import main.models.GameModel;
+import main.models.Position;
+import main.view.game.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,11 +42,11 @@ public class LevelGamePanel extends JPanel {
 
         int[] levelPositionX = {10, 490, 580};
         int[] levelPositionY = {200, 480, 20};
-        rocketImage = loadImage("src/assets/images/gui/levelselector/rocket.png");
+        rocketImage = loadImage("src/main/assets/images/gui/levelselector/rocket.png");
         levelsImages = new BufferedImage[3];
         levelsPositions = new Position[3];
         for (int i = 0; i < levelsImages.length; i++) {
-            levelsImages[i] = loadImage("src/assets/images/gui/levelselector/level" + (i + 1) + ".png");
+            levelsImages[i] = loadImage("src/main/assets/images/gui/levelselector/level" + (i + 1) + ".png");
             levelsPositions[i] = new Position(levelPositionX[i], levelPositionY[i]);
         }
         movement();

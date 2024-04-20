@@ -3,7 +3,7 @@ package main.controllers.game;
 import main.controllers.movement.PlayerController;
 import main.models.GameModel;
 import main.models.entities.Monster;
-import main.views.game.GamePanel;
+import main.view.game.GamePanel;
 
 
 public class GameLoop implements Runnable {
