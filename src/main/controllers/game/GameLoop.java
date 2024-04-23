@@ -1,7 +1,6 @@
 package main.controllers.game;
 
 import main.model.GameModel;
-import main.model.entities.Monster;
 import main.view.game.GamePanel;
 
 

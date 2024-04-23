@@ -1,10 +1,10 @@
-package main.model.entities;
+package main.model.fixedElements;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
 
-public class ExtendedExplosion extends PowerUp {
-    public ExtendedExplosion(int x, int y) {
+/*public class PowerUpBombRange extends PowerUp {
+    public PowerUpBombRange(int x, int y) {
         super(x,y);
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/extendedExplosion.png"));
@@ -12,4 +12,4 @@ public class ExtendedExplosion extends PowerUp {
             throw new RuntimeException(e);
         }
     }
-}
+}*/

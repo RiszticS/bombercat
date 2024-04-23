@@ -1,8 +1,8 @@
 package main.controllers.graphics;
 
 import main.controllers.configuration.GraphicProperties;
-import main.model.Direction;
-import main.model.Position;
+import main.model.positions.Direction;
+import main.model.positions.Position;
 import main.model.graphics.AnimationConfiguration;
 import main.model.graphics.SpriteSheet;
 

@@ -1,6 +1,6 @@
 package main.model.graphics;
 
-import main.model.Position;
+import main.model.positions.Position;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

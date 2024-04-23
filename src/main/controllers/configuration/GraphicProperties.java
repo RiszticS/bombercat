@@ -18,4 +18,8 @@ public class GraphicProperties {
     public static void changeTileSize(int newSize) {
         cm.changeProperty("tile_size", "" + newSize);
     }
+
+    public static int getFPS() {
+        return Integer.parseInt(cm.getProperty("FPS"));
+    }
 }

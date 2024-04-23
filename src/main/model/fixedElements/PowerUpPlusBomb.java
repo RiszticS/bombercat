@@ -1,11 +1,11 @@
-package main.model.entities;
+package main.model.fixedElements;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
 
-public class PlusBomb extends PowerUp{
+/*public class PowerUpPlusBomb extends PowerUp {
 
-    public PlusBomb(int x, int y) {
+    public PowerUpPlusBomb(int x, int y) {
         super(x,y);
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/plusBomb.png"));
@@ -13,4 +13,4 @@ public class PlusBomb extends PowerUp{
             throw new RuntimeException(e);
         }
     }
-}
+}*/

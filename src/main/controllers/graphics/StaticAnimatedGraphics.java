@@ -1,6 +1,6 @@
 package main.controllers.graphics;
 
-import main.model.Position;
+import main.model.positions.Position;
 import main.model.graphics.SpriteSheet;
 
 import java.awt.*;

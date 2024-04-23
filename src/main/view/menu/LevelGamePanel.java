@@ -1,9 +1,10 @@
 package main.view.menu;
 
 import main.controllers.game.GameLoop;
-import main.model.Direction;
+import main.model.positions.Direction;
 import main.model.GameModel;
-import main.model.Position;
+import main.model.positions.CoordinatePosition;
+import main.model.positions.Position;
 import main.view.game.GameWindow;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ import java.io.IOException;
 public class LevelGamePanel extends JPanel {
 
     private final BufferedImage rocketImage;
-    private final Position rocketPosition = new Position(350, 200);
+    private final CoordinatePosition rocketPosition = new CoordinatePosition(350, 200);
     private static final int ROCKET_SIZE = 50;
     private static final int MOVE_DISTANCE = 5;
 
@@ -47,7 +48,7 @@ public class LevelGamePanel extends JPanel {
         levelsPositions = new Position[3];
         for (int i = 0; i < levelsImages.length; i++) {
             levelsImages[i] = loadImage("src/main/assets/images/gui/levelselector/level" + (i + 1) + ".png");
-            levelsPositions[i] = new Position(levelPositionX[i], levelPositionY[i]);
+            levelsPositions[i] = new CoordinatePosition(levelPositionX[i], levelPositionY[i]);
         }
         movement();
     }

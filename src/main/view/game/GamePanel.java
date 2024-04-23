@@ -3,11 +3,10 @@ package main.view.game;
 import main.controllers.configuration.GraphicProperties;
 import main.controllers.graphics.GraphicsController;
 import main.model.GameModel;
-import main.model.entities.Player;
+import main.model.movingElements.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     GameModel model;
@@ -19,7 +18,7 @@ public class GamePanel extends JPanel {
         int numberOfRows = GraphicProperties.getRowNumber();;
         int panelWidth = numberOfColumns * tileSize;
         int panelHeight = numberOfRows * tileSize;
-        for (Player p : model.getPlayers()) {
+        for (Player p : model.getCurrentLevel().getPlayers()) {
             this.addKeyListener(p);
         }
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
