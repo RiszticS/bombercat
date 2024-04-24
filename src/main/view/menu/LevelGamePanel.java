@@ -126,9 +126,22 @@ public class LevelGamePanel extends JPanel {
         }
     }
 
+    /*
+
+    Ádám:
+
+    Ide a startGame metódus 141-ik sorába, harmadik paraméterként beégettem, hogy alapból 3 kör legyen.
+    Kérlek ide valósíts meg egy felületet, ahol meg lehet adni, hogy hány kör legyen, és aszerint
+    legyen példányosítva a GameModel.
+
+    Köszönöm!
+
+    Szabolcs
+
+     */
     private void startGame(int level) {
         timer.stop();
-        GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber());
+        GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber(), 3);
         GameWindow gw = new GameWindow(gm);
         GameLoop gc = new GameLoop(gm, gw.getGamePanel());
         gc.start();

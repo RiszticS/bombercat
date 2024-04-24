@@ -25,7 +25,8 @@ public class Player extends MovingElement implements KeyListener {
     private ArrayList<PowerUp> powerUps;
     private final ArrayDeque<Bomb> bombs;
     private final RenderTimer plantBombCooldown;
-    private static int numberOfInstancesCreated = 1;
+    private static int numberOfInstancesCreated = 0;
+    private final int id;
 
     /**
      * The Player class extends the MovingElement abstract class. These kinds of classes have to types of
@@ -48,6 +49,7 @@ public class Player extends MovingElement implements KeyListener {
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
         this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position);
         GraphicsController.addManager(this.graphicsManager);
+        numberOfInstancesCreated++;
         controls = ControlsProperties.getPlayerControls(numberOfInstancesCreated);
 
         this.upKeyPressed = false;
@@ -60,7 +62,7 @@ public class Player extends MovingElement implements KeyListener {
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
-        numberOfInstancesCreated++;
+        this.id = numberOfInstancesCreated;
     }
 
     public Player(MatrixPosition p) {
@@ -74,7 +76,7 @@ public class Player extends MovingElement implements KeyListener {
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
         this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position);
         GraphicsController.addManager(this.graphicsManager);
-
+        numberOfInstancesCreated++;
         controls = ControlsProperties.getPlayerControls(numberOfInstancesCreated);
         this.upKeyPressed = false;
         this.downKeyPressed = false;
@@ -86,7 +88,7 @@ public class Player extends MovingElement implements KeyListener {
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
-        numberOfInstancesCreated++;
+        this.id = numberOfInstancesCreated;
     }
 
     /**
@@ -199,5 +201,13 @@ public class Player extends MovingElement implements KeyListener {
         } else if (e.getKeyCode() == controls.getBomb()) {
             plantBombKeyPressed = false;
         }
+    }
+
+    public static void resetNumberOfInstancesCreated() {
+        numberOfInstancesCreated = 0;
+    }
+
+    public int getId() {
+        return id;
     }
 }

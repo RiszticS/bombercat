@@ -36,7 +36,6 @@ public class Level {
     private final ArrayList<Player> players;
     private final ArrayList<Monster> monsters;
     private final ArrayList<PowerUp> powerUps;
-    private final ArrayList<MovingElement> deadElements;
     private final int playerNumber;
     private int playersCount;
     private RenderTimer winCountdown;
@@ -47,7 +46,6 @@ public class Level {
         this.players = new ArrayList<>();
         this.monsters = new ArrayList<>();
         this.powerUps = new ArrayList<>();
-        this.deadElements = new ArrayList<>();
         this.playerNumber = playerNumber;
         this.winCountdown = new RenderTimer(300);
         this.draw = false;
@@ -55,9 +53,9 @@ public class Level {
         this.winCheckingInProgress = false;
         this.winner = null;
 
-        players.add(new Player(new MatrixPosition(1,1)));
-        players.add(new Player(new MatrixPosition(1, 3)));
-        players.add(new Player(new MatrixPosition(1, 5)));
+        for (int i = 0; i < playerNumber; i++) {
+            players.add(new Player(new MatrixPosition(1,(i+1) * 2)));
+        }
 
         monsters.add(new Monster(new MatrixPosition(5,5)));
     }
@@ -128,13 +126,14 @@ public class Level {
     }
 
     private void checkForWin() {
-        if (players.size() == 1) {
+        if (playersAliveCount() == 1) {
             if (!winCheckingInProgress) {
                 winCountdown.start();
                 winCheckingInProgress = true;
             } else {
-                if (winCountdown.finished() && players.size() == 1) {
+                if (winCountdown.finished() && playersAliveCount() == 1) {
                     this.winner = players.getFirst();
+                    win = true;
                 } else {
                     winCountdown.decrease();
                 }
@@ -182,5 +181,15 @@ public class Level {
 
     public ArrayList<PowerUp> getPowerUps() {
         return powerUps;
+    }
+
+    private int playersAliveCount() {
+        int alive = 0;
+        for (Player p : players) {
+            if (p.isAlive()) {
+                alive++;
+            }
+        }
+        return alive;
     }
 }

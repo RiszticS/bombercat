@@ -80,7 +80,7 @@ public class CollisionManager {
 
         for (FixedElement tile : elementsToBeChecked) {
             if (tile.getType().equals("Chest") || tile.getType().equals("Wall") ||
-                    (tile.getType().equals("Bomb") && tile.getPosition() != p.getPosition().convertToMatrixPosition(GraphicProperties.getTileSize()))) {
+                    (tile.getType().equals("Bomb") && tile.getPosition() != p.getHitbox().getCentre().convertToMatrixPosition(GraphicProperties.getTileSize()))) {
                 if (p.getHitbox().intersectsFromBelow(tile.getHitbox())) {
                     upperCollisionFound = true;
                 }
@@ -93,8 +93,14 @@ public class CollisionManager {
                 if (p.getHitbox().intersectsFromLeft(tile.getHitbox())) {
                     rightCollisionFound = true;
                 }
-            } else if (tile.getType().equals("Flare") || tile.getType().equals("Explosion")) {
+            } else if (tile.getType().equals("Flare")) {
                 if (p.getHitbox().intersects(tile.getHitbox())) {
+                    p.die();
+                }
+            } else if (tile.getType().equals("Explosion")) {
+                if (p.getHitbox().intersects(tile.getHitbox()) ||
+                    p.getHitbox().getCentre().convertToMatrixPosition(GraphicProperties.getTileSize()).equals(tile.getPosition())
+                ) {
                     p.die();
                 }
             } else if (tile.getType().equals("PowerUp")) {
