@@ -130,9 +130,9 @@ public class LevelGamePanel extends JPanel {
 
     Ádám:
 
-    Ide a startGame metódus 141-ik sorába, harmadik paraméterként beégettem, hogy alapból 3 kör legyen.
-    Kérlek ide valósíts meg egy felületet, ahol meg lehet adni, hogy hány kör legyen, és aszerint
-    legyen példányosítva a GameModel.
+    Ide a startGame metódus 141-ik sorába, harmadik paraméterként beégettem, hogy alapból a játékosknak
+    addig kell játszania, amíg valaki el nem éri a 3 pontot. Kérlek ide valósíts meg egy felületet, ahol meg lehet
+    adni, hogy hány nyerésig akarnak játszani a játékosok, és eszerint legyen példányosítva a GameModel.
 
     Köszönöm!
 

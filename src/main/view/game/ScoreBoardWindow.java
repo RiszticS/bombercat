@@ -14,15 +14,15 @@ public class ScoreBoardWindow extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
                 gameModel.resetLevel(gamePanel);
-                gameModel.nextRound();
+                //gameModel.nextRound();
                 gameLoop.startGame();
             }
         });
+        this.getContentPane().add(new ScoreBoardPanel(scores));
         this.setResizable(false);
         this.setTitle("Scores");
-        this.setSize(200, 200);
+        this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
     }

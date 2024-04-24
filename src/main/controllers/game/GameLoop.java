@@ -35,11 +35,13 @@ public class GameLoop implements Runnable {
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
 
-            if (delta >= 1 && gameRunning) {
-                // 1 UPDATE: update information such as character position.
-                gameModel.update(this, gamePanel);
-                // 2 DRAW: draw the screen with the updated information.
-                gamePanel.repaint();
+            if (delta >= 1) {
+
+                if (gameRunning) {
+                    gameModel.update(this, gamePanel);
+                    gamePanel.repaint();
+                }
+
                 delta--;
             }
         }
@@ -50,7 +52,6 @@ public class GameLoop implements Runnable {
     }
 
     public void startGame() {
-        System.out.println("Hello Hello Hello");
         this.gameRunning = true;
     }
 }

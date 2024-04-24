@@ -5,6 +5,7 @@ import main.controllers.graphics.GraphicsController;
 import main.model.fixedElements.PowerUp;
 import main.model.movingElements.Monster;
 import main.model.movingElements.Player;
+import main.view.game.EndGameWindow;
 import main.view.game.GamePanel;
 import main.view.game.ScoreBoardWindow;
 
@@ -14,15 +15,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameModel {
-    private int levelNumber, playerNumber, numberOfRounds, currentRound;
+    private int levelNumber, playerNumber, numberOfWinsNecessary;
     private Level currentLevel;
     private final ArrayList<Integer> scores;
 
-    public GameModel(int levelNumber, int playerNumber, int numberOfRounds) {
+
+    public GameModel(int levelNumber, int playerNumber, int numberOfWinsNecessary) {
         this.levelNumber = levelNumber;
         this.playerNumber = playerNumber;
-        this.numberOfRounds = numberOfRounds;
-        this.currentRound = 1;
+        this.numberOfWinsNecessary = numberOfWinsNecessary;
         scores = new ArrayList<>();
         for (int i = 0; i < playerNumber; i++) {
             scores.add(0);
@@ -35,26 +36,21 @@ public class GameModel {
     }
 
     public void update(GameLoop gameLoop, GamePanel gamePanel) {
-        if (currentRound <= numberOfRounds) {
+        if (!scores.contains(numberOfWinsNecessary)) {
             if (currentLevel.isDraw()) {
-                // stop thread and do sg
-                //currentRound++;
+                gameLoop.pauseGame();
+                new ScoreBoardWindow(scores, gameLoop, this, gamePanel);
             } else if (currentLevel.isWin()) {
-                // stop thread and do sg
                 gameLoop.pauseGame();
                 updateScores();
-                new ScoreBoardWindow(scores, gameLoop, this, gamePanel);
-                //resetLevel(gamePanel);
-                //currentRound++;
+                if (!scores.contains(numberOfWinsNecessary)) {
+                    new ScoreBoardWindow(scores, gameLoop, this, gamePanel);
+                } else if (scores.contains(numberOfWinsNecessary)) {
+                    new EndGameWindow(scores);
+                }
+
             } else {
                 currentLevel.update();
-            }
-        } else {
-            // Stop GameLoop thread
-            // Print final score table
-            System.out.println("Game ended.");
-            for (Integer i : scores) {
-                System.out.println("Player: " + i);
             }
         }
     }
@@ -72,14 +68,9 @@ public class GameModel {
     }
 
     private void updateScores() {
-        //if winner != null
         int winnerId = currentLevel.getWinner().getId() - 1;
         int newScore = scores.get(winnerId) + 1;
         scores.set(winnerId, newScore);
-    }
-
-    public void nextRound() {
-        this.currentRound++;
     }
 
     public Level getCurrentLevel() {
