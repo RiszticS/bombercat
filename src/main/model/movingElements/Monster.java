@@ -3,6 +3,10 @@ package main.model.movingElements;
 import main.controllers.configuration.GraphicProperties;
 import main.controllers.configuration.ModelProperties;
 import main.controllers.game.RenderTimer;
+import main.controllers.graphics.GraphicsController;
+import main.controllers.graphics.MovingAnimationGraphics;
+import main.controllers.graphics.StaticGraphics;
+import main.model.graphics.AnimationConfiguration;
 import main.model.positions.Direction;
 import main.model.Hitbox;
 import main.model.positions.CoordinatePosition;
@@ -13,6 +17,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Monster extends MovingElement {
@@ -34,15 +39,16 @@ public class Monster extends MovingElement {
      */
     public Monster(CoordinatePosition p) {
         super(p);
-        try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/monster.png"));
-        } catch (IOException e) {
-            System.out.println("Monster image could not be found!");
-        }
+
+        int tileSize = GraphicProperties.getTileSize();
+        ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/monster.png", 1, 1, 1, 0, 32, 32, 2));
+        MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 2.0);
+        setGraphicsManager(gm);
+
         this.currentDirection = Direction.randomDirection();
         random = new Random();
         this.speed = 2; /*random.nextInt(4) + 2;*/
-        int tileSize = GraphicProperties.getTileSize();
         this.hitbox = new Hitbox(position, tileSize / 2, tileSize / 2, tileSize / 4, tileSize / 4);
         randomDirectionChangeCountdown = new RenderTimer(random.nextInt(180, 190));
         randomDirectionChangeCountdown.start();
@@ -50,15 +56,16 @@ public class Monster extends MovingElement {
 
     public Monster(MatrixPosition p) {
         super(p);
-        try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/monster.png"));
-        } catch (IOException e) {
-            System.out.println("Monster image could not be found!");
-        }
+
+        int tileSize = GraphicProperties.getTileSize();
+        ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/monster.png", 1, 1, 1, 0, 32, 32, 2));
+        MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 2.0);
+        setGraphicsManager(gm);
+
         this.currentDirection = Direction.randomDirection();
         random = new Random();
         this.speed = 2; /*random.nextInt(4) + 2;*/
-        int tileSize = GraphicProperties.getTileSize();
         this.hitbox = new Hitbox(position, tileSize / 2, tileSize / 2, tileSize / 4, tileSize / 4);
         randomDirectionChangeCountdown = new RenderTimer(random.nextInt(180, 190));
         randomDirectionChangeCountdown.start();
@@ -104,7 +111,6 @@ public class Monster extends MovingElement {
     private void changeDirectionRandomly() {
         if (randomDirectionChangeCountdown.finished()) {
             changeDirection(Direction.randomDirection(collisionManager.getAvailableDirections()));
-            //System.out.println("Direction changed randomly!");
             randomDirectionChangeCountdown.set(random.nextInt(180, 190));
             randomDirectionChangeCountdown.start();
         }
@@ -112,15 +118,4 @@ public class Monster extends MovingElement {
             randomDirectionChangeCountdown.decrease();
         }
     }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        int tileSize = GraphicProperties.getTileSize();
-        g2.drawImage(image, position.getX(), position.getY(),tileSize, tileSize, null);
-        g2.setColor(Color.RED);
-        g2.drawRect(position.getX(), position.getY(),tileSize, tileSize);
-        hitbox.draw(g2);
-    }
-
-
 }

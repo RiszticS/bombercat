@@ -25,8 +25,6 @@ public abstract class FixedElement {
         return hitbox;
     }
 
-    public abstract void draw(Graphics2D g2);
-
     public abstract String getType();
 
     public abstract void update(FixedElement[][] board);

@@ -2,6 +2,8 @@ package main.model.fixedElements;
 
 import main.controllers.configuration.GraphicProperties;
 import main.controllers.game.RenderTimer;
+import main.controllers.graphics.GraphicsController;
+import main.controllers.graphics.StaticGraphics;
 import main.model.Hitbox;
 import main.model.positions.CoordinatePosition;
 import main.model.positions.Direction;
@@ -15,46 +17,30 @@ public class Flare extends FixedElement {
     private BufferedImage image;
     private final Direction direction;
     private final RenderTimer dissipationCountdown;
+    private final StaticGraphics sg;
 
     public Flare(MatrixPosition position, Direction direction) {
         super(position);
         this.direction = direction;
         int tileSize = GraphicProperties.getTileSize();
+        String img = "";
         if (direction == Direction.UP) {
-            try {
-                this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/flareup.png"));
-            } catch(IOException e) {
-                this.image =  null;
-                System.out.println("Explosion image could not be found!");
-            }
+            img = "up";
             this.hitbox = new Hitbox(this.position.convertToCoordinatePosition(tileSize), (tileSize * 7) / 12, tileSize, (tileSize - ((tileSize * 7) / 12)) / 2, 0);
         } else if (direction == Direction.DOWN) {
-            try {
-                this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/flaredown.png"));
-            } catch(IOException e) {
-                this.image =  null;
-                System.out.println("Explosion image could not be found!");
-            }
+            img = "down";
             this.hitbox = new Hitbox(this.position.convertToCoordinatePosition(tileSize), (tileSize * 7) / 12, tileSize, (tileSize - ((tileSize * 7) / 12)) / 2, 0);
         } else if (direction == Direction.LEFT) {
-            try {
-                this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/flareleft.png"));
-            } catch(IOException e) {
-                this.image =  null;
-                System.out.println("Explosion image could not be found!");
-            }
+            img = "left";
             this.hitbox = new Hitbox(this.position.convertToCoordinatePosition(tileSize), tileSize, (tileSize * 7) / 12, 0, (tileSize - ((tileSize * 7) / 12)) / 2);
         } else if (direction == Direction.RIGHT) {
-            try {
-                this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/flareright.png"));
-            } catch(IOException e) {
-                this.image =  null;
-                System.out.println("Explosion image could not be found!");
-            }
+            img = "right";
             this.hitbox = new Hitbox(this.position.convertToCoordinatePosition(tileSize), tileSize, (tileSize * 7) / 12, 0, (tileSize - ((tileSize * 7) / 12)) / 2);
         } else {
             this.hitbox = new Hitbox(this.position.convertToCoordinatePosition(tileSize));
         }
+        sg = new StaticGraphics("/main/assets/images/flare" + img + ".png", position.convertToCoordinatePosition(tileSize), tileSize);
+        GraphicsController.addManager(sg);
 
         dissipationCountdown = new RenderTimer(180);
         dissipationCountdown.start();
@@ -62,6 +48,7 @@ public class Flare extends FixedElement {
     }
 
     public void dissipate(FixedElement[][] board) {
+        GraphicsController.removeManager(sg);
         board[position.getX()][position.getY()] = new EmptyTile(this.position);
     }
 
@@ -72,16 +59,6 @@ public class Flare extends FixedElement {
         } else {
             dissipationCountdown.decrease();
         }
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        int tileSize = GraphicProperties.getTileSize();
-        CoordinatePosition p = position.convertToCoordinatePosition(tileSize);
-        g2.drawImage(image, p.getX(), p.getY(),tileSize, tileSize, null);
-        g2.setColor(Color.RED);
-        g2.drawRect(p.getX(), p.getY(),tileSize, tileSize);
-        hitbox.draw(g2);
     }
 
     @Override

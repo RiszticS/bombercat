@@ -5,6 +5,7 @@ import main.model.graphics.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 public class StaticAnimatedGraphics implements GraphicsManager {
     private int imageDelay;
@@ -35,5 +36,17 @@ public class StaticAnimatedGraphics implements GraphicsManager {
         }
 
         g2.drawImage(toDraw, this.position.getX(), this.position.getY(), this.width * 2, this.height * 2, null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StaticAnimatedGraphics that)) return false;
+        return imageDelay == that.imageDelay && frameSwitch == that.frameSwitch && width == that.width && height == that.height && Objects.equals(tileSheet, that.tileSheet) && Objects.equals(position, that.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(imageDelay, tileSheet, frameSwitch, width, height, position);
     }
 }

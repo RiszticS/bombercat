@@ -1,6 +1,8 @@
 package main.model.fixedElements;
 
 import main.controllers.configuration.GraphicProperties;
+import main.controllers.graphics.GraphicsController;
+import main.controllers.graphics.StaticGraphics;
 import main.model.positions.CoordinatePosition;
 import main.model.positions.MatrixPosition;
 import main.model.positions.Position;
@@ -12,30 +14,20 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Chest extends FixedElement {
-    private BufferedImage image;
+    private final StaticGraphics sg;
 
     public Chest(MatrixPosition p) {
         super(p);
-        try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/chest.png"));
-        } catch (IOException e) {
-            this.image =  null;
-            System.out.println("Chest image could not be found!");
-        }
-    }
-
-    public void explode() {
-        System.out.println("Chest exploded!");
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
         int tileSize = GraphicProperties.getTileSize();
-        CoordinatePosition p = position.convertToCoordinatePosition(tileSize);
-        g2.drawImage(image, p.getX(), p.getY(),tileSize, tileSize, null);
-        g2.setColor(Color.RED);
-        g2.drawRect(p.getX(), p.getY(),tileSize, tileSize);
-        hitbox.draw(g2);
+        sg = new StaticGraphics("/main/assets/images/chest.png",
+                position.convertToCoordinatePosition(tileSize),
+                tileSize);
+        GraphicsController.addManager(sg);
+    }
+
+    public void explode(FixedElement[][] board) {
+        GraphicsController.removeManager(sg);
+        board[position.getX()][position.getY()] = new EmptyTile(position);
     }
 
     @Override

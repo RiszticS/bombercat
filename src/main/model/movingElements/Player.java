@@ -19,7 +19,6 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Player extends MovingElement implements KeyListener {
-    private MovingAnimationGraphics graphicsManager;
     private final PlayerControls controls;
     private boolean upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, plantBombKeyPressed;
     private ArrayList<PowerUp> powerUps;
@@ -46,8 +45,9 @@ public class Player extends MovingElement implements KeyListener {
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
-        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position);
-        GraphicsController.addManager(this.graphicsManager);
+        MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 1.3);
+        setGraphicsManager(gm);
+
         controls = ControlsProperties.getPlayerControls(numberOfInstancesCreated);
 
         this.upKeyPressed = false;
@@ -72,8 +72,9 @@ public class Player extends MovingElement implements KeyListener {
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
-        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position);
-        GraphicsController.addManager(this.graphicsManager);
+        MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 1.3);
+        setGraphicsManager(gm);
+
 
         controls = ControlsProperties.getPlayerControls(numberOfInstancesCreated);
         this.upKeyPressed = false;
@@ -109,23 +110,23 @@ public class Player extends MovingElement implements KeyListener {
     @Override
     protected void move() {
         if (upKeyPressed && !collisionManager.isUpDisabled()) {
-            graphicsManager.changeDirection(Direction.UP);
+            this.gm.changeDirection(Direction.UP);
             this.position.changeY(-speed);
             this.hitbox.changeY(-speed);
         } else if (downKeyPressed && !collisionManager.isDownDisabled()) {
-            graphicsManager.changeDirection(Direction.DOWN);
+            this.gm.changeDirection(Direction.DOWN);
             this.position.changeY(speed);
             this.hitbox.changeY(speed);
         } else if (leftKeyPressed && !collisionManager.isLeftDisabled()) {
-            graphicsManager.changeDirection(Direction.LEFT);
+            this.gm.changeDirection(Direction.LEFT);
             this.position.changeX(-speed);
             this.hitbox.changeX(-speed);
         } else if (rightKeyPressed && !collisionManager.isRightDisabled()) {
-            graphicsManager.changeDirection(Direction.RIGHT);
+            this.gm.changeDirection(Direction.RIGHT);
             this.position.changeX(speed);
             this.hitbox.changeX(speed);
         } else {
-            graphicsManager.changeDirection(Direction.IDLE);
+            this.gm.changeDirection(Direction.IDLE);
         }
     }
 
@@ -155,15 +156,6 @@ public class Player extends MovingElement implements KeyListener {
      */
     public void pickUpPowerUp(PowerUp p) {
         System.out.println("Picked up power-up!");
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        int tileSize = GraphicProperties.getTileSize();
-        graphicsManager.draw(g2);
-        g2.setColor(Color.RED);
-        g2.drawRect(position.getX(), position.getY(),tileSize, tileSize);
-        hitbox.draw(g2);
     }
 
     @Override

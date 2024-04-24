@@ -32,8 +32,6 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        model.getCurrentLevel().draw(g2);
-
         GraphicsController.draw(g2);
         g2.dispose();
     }
