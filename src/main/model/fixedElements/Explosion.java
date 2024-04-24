@@ -62,8 +62,8 @@ public class Explosion extends FixedElement {
                 MatrixPosition p = new MatrixPosition(position.getX(), position.getY() + spreadLevel);
                 board[position.getX()][position.getY() + spreadLevel] = new Flare(p, Direction.RIGHT);
             }
+
         }
-        System.out.println("SpreadLevel: " + spreadLevel);
         spreadCountdown.start();
         spreadLevel++;
     }
@@ -110,6 +110,14 @@ public class Explosion extends FixedElement {
     }
 
     private void checkCurrentSpreadLevel(FixedElement[][] board) {
+        checkUpperSpreadDirection(board);
+        checkLowerSpreadDirection(board);
+        checkLeftSpreadDirection(board);
+        checkRightSpreadDirection(board);
+
+    }
+
+    private void checkUpperSpreadDirection(FixedElement[][] board) {
         if (position.getX() - spreadLevel < 0) {
             canSpreadUpwards = false;
         } else {
@@ -127,7 +135,9 @@ public class Explosion extends FixedElement {
                 canSpreadUpwards = false;
             }
         }
+    }
 
+    private void checkLowerSpreadDirection(FixedElement[][] board) {
         if (position.getX() + spreadLevel >= board.length) {
             canSpreadDownwards = false;
         } else {
@@ -145,7 +155,9 @@ public class Explosion extends FixedElement {
                 canSpreadDownwards = false;
             }
         }
+    }
 
+    private void checkLeftSpreadDirection(FixedElement[][] board) {
         if (position.getY() - spreadLevel < 0) {
             canSpreadLeft = false;
         } else {
@@ -163,7 +175,9 @@ public class Explosion extends FixedElement {
                 canSpreadLeft = false;
             }
         }
+    }
 
+    private void checkRightSpreadDirection(FixedElement[][] board) {
         if (position.getY() + spreadLevel >= board.length) {
             canSpreadRight = false;
         } else {
@@ -182,4 +196,5 @@ public class Explosion extends FixedElement {
             }
         }
     }
+
 }

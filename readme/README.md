@@ -2,8 +2,8 @@
 
 ## A játék leírása
 
-A játék egy kétdimenziós pályán játszódik, amely négyzet alakú mezőkből áll. A játékot 2 játékos játssza,
-akiknek 1-1 Bomberman figurát irányítva céljuk, hogy egyedüliként maradjanak életben.
+A játék egy kétdimenziós pályán játszódik, amely négyzet alakú mezőkből áll. A játékot három játékos játssza,
+akiknek 1-1 Bombercat figurát irányítva céljuk, hogy egyedüliként maradjanak életben.
 A játékpálya mezőin falelemek, dobozok, szörnyek és maguk a játékosok figurái helyezkednek el.
 A játékosok bombákat lehelyezve felrobbanthatják a dobozokat, szörnyeket és a játékosokat (akár saját magukat is).
 Egy játékos veszt (és ezáltal ellenfele győz), ha felrobban, vagy ha egy szörny elkapja.

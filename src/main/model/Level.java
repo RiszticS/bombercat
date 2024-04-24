@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 public class Level {
-    //private final FixedElement[][] board;
     private final FixedElement[][] board = {
             {new Wall(new MatrixPosition(0, 0)), new Wall(new MatrixPosition(0, 1)), new Wall(new MatrixPosition(0, 2)), new Wall(new MatrixPosition(0, 3)), new Wall(new MatrixPosition(0, 4)), new Wall(new MatrixPosition(0, 5)), new Wall(new MatrixPosition(0, 6)), new Wall(new MatrixPosition(0, 7)), new Wall(new MatrixPosition(0, 8)), new Wall(new MatrixPosition(0, 9)), new Wall(new MatrixPosition(0, 10)), new Wall(new MatrixPosition(0, 11)), new Wall(new MatrixPosition(0, 12)), new Wall(new MatrixPosition(0, 13)), new Wall(new MatrixPosition(0, 14))},
             {new Wall(new MatrixPosition(1, 0)), new EmptyTile(new MatrixPosition(1, 1)), new EmptyTile(new MatrixPosition(1, 2)), new EmptyTile(new MatrixPosition(1, 3)), new EmptyTile(new MatrixPosition(1, 4)), new EmptyTile(new MatrixPosition(1, 5)), new EmptyTile(new MatrixPosition(1, 6)), new EmptyTile(new MatrixPosition(1, 7)), new EmptyTile(new MatrixPosition(1, 8)), new EmptyTile(new MatrixPosition(1, 9)), new EmptyTile(new MatrixPosition(1, 10)), new EmptyTile(new MatrixPosition(1, 11)), new EmptyTile(new MatrixPosition(1, 12)), new EmptyTile(new MatrixPosition(1, 13)), new Wall(new MatrixPosition(1, 14))},
@@ -45,7 +44,6 @@ public class Level {
     private Player winner;
 
     public Level(int levelNumber, int playerNumber) throws IOException {
-        //board = new FixedElement[15][15];
         this.players = new ArrayList<>();
         this.monsters = new ArrayList<>();
         this.powerUps = new ArrayList<>();
@@ -62,12 +60,6 @@ public class Level {
         players.add(new Player(new MatrixPosition(1, 5)));
 
         monsters.add(new Monster(new MatrixPosition(5,5)));
-
-        /*try {
-            readLevelFromFile(levelNumber, board, players, monsters);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
     }
 
     private void readLevelFromFile(int levelNumber, FixedElement[][] board, ArrayList<Player> players, ArrayList<Monster> monsters) throws IOException {
@@ -104,7 +96,6 @@ public class Level {
         removeDeadMonsters();
         removeDeadPlayers();
         checkForWin();
-        //System.out.println(players.size());
     }
 
     private void updateBoard() {

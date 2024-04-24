@@ -104,26 +104,10 @@ public class CollisionManager {
             }
         }
 
-        if (upperCollisionFound) {
-            disableDirection(Direction.UP);
-        } else {
-            enableDirection(Direction.UP);
-        }
-        if (lowerCollisionFound) {
-            disableDirection(Direction.DOWN);
-        } else {
-            enableDirection(Direction.DOWN);
-        }
-        if (leftCollisionFound) {
-            disableDirection(Direction.LEFT);
-        } else {
-            enableDirection(Direction.LEFT);
-        }
-        if (rightCollisionFound) {
-            disableDirection(Direction.RIGHT);
-        } else {
-            enableDirection(Direction.RIGHT);
-        }
+        collisionAction(p, Direction.UP, upperCollisionFound);
+        collisionAction(p, Direction.DOWN, lowerCollisionFound);
+        collisionAction(p, Direction.LEFT, leftCollisionFound);
+        collisionAction(p, Direction.RIGHT, rightCollisionFound);
     }
 
     public void handleCollisions(Monster m, FixedElement[][] board) {
@@ -154,32 +138,27 @@ public class CollisionManager {
             }
         }
 
-        if (upperCollisionFound && !upDisabled) {
-            disableDirection(Direction.UP);
-            m.changeDirection(Direction.randomDirection(getAvailableDirections()));
-        } else if (!upperCollisionFound && upDisabled) {
-            enableDirection(Direction.UP);
-        }
+        collisionAction(m, Direction.UP, upperCollisionFound, this.upDisabled);
+        collisionAction(m, Direction.DOWN, lowerCollisionFound, this.downDisabled);
+        collisionAction(m, Direction.LEFT, leftCollisionFound, this.leftDisabled);
+        collisionAction(m, Direction.RIGHT, rightCollisionFound, this.rightDisabled);
 
-        if (lowerCollisionFound && !downDisabled) {
-            disableDirection(Direction.DOWN);
-            m.changeDirection(Direction.randomDirection(getAvailableDirections()));
-        } else if (!lowerCollisionFound && downDisabled) {
-            enableDirection(Direction.DOWN);
-        }
+    }
 
-        if (leftCollisionFound && !leftDisabled) {
-            disableDirection(Direction.LEFT);
-            m.changeDirection(Direction.randomDirection(getAvailableDirections()));
-        } else if (!leftCollisionFound && leftDisabled) {
-            enableDirection(Direction.LEFT);
+    private void collisionAction(Player p, Direction d, boolean collisionFound) {
+        if (collisionFound) {
+            disableDirection(d);
+        } else {
+            enableDirection(d);
         }
+    }
 
-        if (rightCollisionFound && !rightDisabled) {
-            disableDirection(Direction.RIGHT);
+    private void collisionAction(Monster m, Direction d, boolean collisionFound, boolean directionAlreadyDisabled) {
+        if (collisionFound && !directionAlreadyDisabled) {
+            disableDirection(d);
             m.changeDirection(Direction.randomDirection(getAvailableDirections()));
-        } else if (!rightCollisionFound && rightDisabled) {
-            enableDirection(Direction.RIGHT);
+        } else if (!collisionFound && directionAlreadyDisabled) {
+            enableDirection(d);
         }
     }
 

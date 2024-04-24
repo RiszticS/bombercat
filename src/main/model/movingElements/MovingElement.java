@@ -34,7 +34,6 @@ public abstract class MovingElement {
     protected abstract void move();
     public void die() {
         this.alive = false;
-        System.out.println("You died!");
     }
 
     public boolean isAlive() {

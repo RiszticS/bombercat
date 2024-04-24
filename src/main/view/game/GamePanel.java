@@ -35,7 +35,6 @@ public class GamePanel extends JPanel {
         model.getCurrentLevel().draw(g2);
 
         GraphicsController.draw(g2);
-        // Dispose of this graphic context and release any system resources that it is using.
         g2.dispose();
     }
 }
