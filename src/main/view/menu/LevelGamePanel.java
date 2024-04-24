@@ -126,9 +126,22 @@ public class LevelGamePanel extends JPanel {
         }
     }
 
+    /*
+
+    Ádám:
+
+    Ide a startGame metódus 141-ik sorába, harmadik paraméterként beégettem, hogy alapból a játékosknak
+    addig kell játszania, amíg valaki el nem éri a 3 pontot. Kérlek ide valósíts meg egy felületet, ahol meg lehet
+    adni, hogy hány nyerésig akarnak játszani a játékosok, és eszerint legyen példányosítva a GameModel.
+
+    Köszönöm!
+
+    Szabolcs
+
+     */
     private void startGame(int level) {
         timer.stop();
-        GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber());
+        GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber(), 3);
         GameWindow gw = new GameWindow(gm);
         GameLoop gc = new GameLoop(gm, gw.getGamePanel());
         gc.start();

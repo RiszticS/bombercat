@@ -4,10 +4,14 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GraphicsController {
-    private static final ArrayList<GraphicsManager> managers = new ArrayList<>();
+    private static ArrayList<GraphicsManager> managers = new ArrayList<>();
 
     public static void addManager(GraphicsManager gm) {
         GraphicsController.managers.add(gm);
+    }
+
+    public static void reset() {
+        managers = new ArrayList<>();
     }
 
     public static void draw(Graphics2D g2) {
