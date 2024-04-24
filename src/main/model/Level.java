@@ -1,7 +1,9 @@
 package main.model;
 
+import main.controllers.game.RenderTimer;
 import main.model.fixedElements.*;
 import main.model.movingElements.Monster;
+import main.model.movingElements.MovingElement;
 import main.model.movingElements.Player;
 import main.model.positions.MatrixPosition;
 
@@ -9,7 +11,9 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class Level {
     //private final FixedElement[][] board;
@@ -33,15 +37,25 @@ public class Level {
     private final ArrayList<Player> players;
     private final ArrayList<Monster> monsters;
     private final ArrayList<PowerUp> powerUps;
+    private final ArrayList<MovingElement> deadElements;
     private final int playerNumber;
     private int playersCount;
+    private RenderTimer winCountdown;
+    private boolean draw, win, winCheckingInProgress;
+    private Player winner;
 
     public Level(int levelNumber, int playerNumber) throws IOException {
         //board = new FixedElement[15][15];
-        players = new ArrayList<>();
-        monsters = new ArrayList<>();
-        powerUps = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.monsters = new ArrayList<>();
+        this.powerUps = new ArrayList<>();
+        this.deadElements = new ArrayList<>();
         this.playerNumber = playerNumber;
+        this.winCountdown = new RenderTimer(300);
+        this.draw = false;
+        this.win = false;
+        this.winCheckingInProgress = false;
+        this.winner = null;
 
         players.add(new Player(new MatrixPosition(1,1)));
         players.add(new Player(new MatrixPosition(1, 3)));
@@ -84,18 +98,62 @@ public class Level {
     }
 
     public void update() {
+        updateBoard();
+        updateMonsters();
+        updatePlayers();
+        removeDeadMonsters();
+        removeDeadPlayers();
+        checkForWin();
+        //System.out.println(players.size());
+    }
+
+    private void updateBoard() {
         for (FixedElement[] fixedBoardTiles : board) {
             for (int j = 0; j < board.length; j++) {
                 fixedBoardTiles[j].update(board);
             }
         }
+    }
+
+    private void updateMonsters() {
         for (Monster monster : monsters) {
             monster.update(board);
         }
+    }
+
+    private void updatePlayers() {
         for (Player player : players) {
             player.update(board, monsters);
         }
     }
+    private void removeDeadPlayers() {
+        Predicate<Player> dead = p -> !p.isAlive();
+        players.removeIf( dead );
+    }
+
+    private void removeDeadMonsters() {
+        Predicate<Monster> dead = p -> !p.isAlive();
+        monsters.removeIf( dead );
+    }
+
+    private void checkForWin() {
+        if (players.size() == 1) {
+            if (!winCheckingInProgress) {
+                winCountdown.start();
+                winCheckingInProgress = true;
+            } else {
+                if (winCountdown.finished() && players.size() == 1) {
+                    this.winner = players.getFirst();
+                } else {
+                    winCountdown.decrease();
+                }
+            }
+        } else if (players.isEmpty()) {
+            draw = true;
+        }
+    }
+
+
 
     public void draw(Graphics2D g2) {
         for (int i = 0; i < 15; i++) {
@@ -109,6 +167,18 @@ public class Level {
         for (Player player : players) {
             player.draw(g2);
         }
+    }
+
+    public boolean isDraw() {
+        return draw;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 
     public ArrayList<Player> getPlayers() {

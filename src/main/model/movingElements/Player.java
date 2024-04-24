@@ -72,7 +72,7 @@ public class Player extends MovingElement implements KeyListener {
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
-        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position.convertToMatrixPosition(GraphicProperties.getTileSize()));
+        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position);
         GraphicsController.addManager(this.graphicsManager);
 
         controls = ControlsProperties.getPlayerControls(numberOfInstancesCreated);

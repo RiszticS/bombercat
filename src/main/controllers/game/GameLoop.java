@@ -35,7 +35,7 @@ public class GameLoop implements Runnable {
 
             if (delta >= 1) {
                 // 1 UPDATE: update information such as character position.
-                gameModel.update();
+                gameModel.update(this);
                 // 2 DRAW: draw the screen with the updated information.
                 gamePanel.repaint();
                 delta--;
