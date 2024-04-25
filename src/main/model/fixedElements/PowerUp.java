@@ -1,6 +1,7 @@
 package main.model.fixedElements;
 
 import main.controllers.configuration.GraphicProperties;
+import main.model.movingElements.Player;
 import main.model.positions.CoordinatePosition;
 import main.model.positions.MatrixPosition;
 import main.model.positions.Position;
@@ -11,35 +12,30 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class PowerUp extends FixedElement {
-    private BufferedImage image;
+public abstract class PowerUp extends FixedElement {
+    protected BufferedImage image;
+    protected boolean pickedUp;
 
     public PowerUp(MatrixPosition p) {
         super(p);
-        try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/powerup.png"));
-        } catch (IOException e) {
-            System.out.println("PowerUp image could not be found!");
-        }
+        pickedUp = false;
+    }
+
+    public abstract void apply(Player p);
+
+    public void setPickedUp(boolean pickedUp) {
+        this.pickedUp = pickedUp;
     }
 
     @Override
-    public void draw(Graphics2D g2) {
-        int tileSize = GraphicProperties.getTileSize();
-        CoordinatePosition p = position.convertToCoordinatePosition(tileSize);
-        g2.drawImage(image, p.getX(), p.getY(),tileSize, tileSize, null);
-        g2.setColor(Color.RED);
-        g2.drawRect(p.getX(), p.getY(),tileSize, tileSize);
-        hitbox.draw(g2);
+    public void update(FixedElement[][] board) {
+        if (pickedUp) {
+            board[this.position.getX()][this.position.getY()] = new EmptyTile(this.position);
+        }
     }
 
     @Override
     public String getType() {
         return "PowerUp";
-    }
-
-    @Override
-    public void update(FixedElement[][] board) {
-
     }
 }

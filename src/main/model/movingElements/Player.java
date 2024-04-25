@@ -22,7 +22,7 @@ public class Player extends MovingElement implements KeyListener {
     private MovingAnimationGraphics graphicsManager;
     private final PlayerControls controls;
     private boolean upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, plantBombKeyPressed;
-    private ArrayList<PowerUp> powerUps;
+    private final ArrayList<PowerUp> powerUps;
     private final ArrayDeque<Bomb> bombs;
     private final RenderTimer plantBombCooldown;
     private static int numberOfInstancesCreated = 0;
@@ -57,9 +57,8 @@ public class Player extends MovingElement implements KeyListener {
         this.leftKeyPressed = false;
         this.rightKeyPressed = false;
         this.plantBombKeyPressed = false;
+        this.powerUps = new ArrayList<>();
         this.bombs = new ArrayDeque<>();
-        bombs.add(new Bomb(new MatrixPosition(0,0)));
-        bombs.add(new Bomb(new MatrixPosition(0,0)));
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
         this.id = numberOfInstancesCreated;
@@ -83,9 +82,8 @@ public class Player extends MovingElement implements KeyListener {
         this.leftKeyPressed = false;
         this.rightKeyPressed = false;
         this.plantBombKeyPressed = false;
+        this.powerUps = new ArrayList<>();
         this.bombs = new ArrayDeque<>();
-        bombs.add(new Bomb(new MatrixPosition(0,0)));
-        bombs.add(new Bomb(new MatrixPosition(0,0)));
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
         this.id = numberOfInstancesCreated;
@@ -156,7 +154,9 @@ public class Player extends MovingElement implements KeyListener {
      * @param p The PowerUp object to be picked up.
      */
     public void pickUpPowerUp(PowerUp p) {
-        System.out.println("Picked up power-up!");
+        this.powerUps.add(p);
+        p.apply(this);
+        p.setPickedUp(true);
     }
 
     @Override
@@ -209,5 +209,9 @@ public class Player extends MovingElement implements KeyListener {
 
     public int getId() {
         return id;
+    }
+
+    public ArrayDeque<Bomb> getBombs() {
+        return bombs;
     }
 }
