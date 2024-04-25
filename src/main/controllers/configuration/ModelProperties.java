@@ -10,4 +10,8 @@ public class ModelProperties {
     public static int getMovingElementDefaultSpeed() {
         return Integer.parseInt(cm.getProperty("moving_element_default_speed"));
     }
+
+    public static int getNumberOfTypesOfPowerUps() {
+        return Integer.parseInt(cm.getProperty("number_of_types_of_power_ups"));
+    }
 }

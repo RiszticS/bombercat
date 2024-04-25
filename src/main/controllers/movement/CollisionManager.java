@@ -3,6 +3,8 @@ package main.controllers.movement;
 import main.controllers.configuration.GraphicProperties;
 import main.model.fixedElements.FixedElement;
 import main.model.fixedElements.PowerUp;
+import main.model.fixedElements.PowerUpBombRange;
+import main.model.fixedElements.PowerUpPlusBomb;
 import main.model.movingElements.Monster;
 import main.model.movingElements.MovingElement;
 import main.model.movingElements.Player;
@@ -93,11 +95,7 @@ public class CollisionManager {
                 if (p.getHitbox().intersectsFromLeft(tile.getHitbox())) {
                     rightCollisionFound = true;
                 }
-            } else if (tile.getType().equals("Flare")) {
-                if (p.getHitbox().intersects(tile.getHitbox())) {
-                    p.die();
-                }
-            } else if (tile.getType().equals("Explosion")) {
+            } else if (tile.getType().equals("Explosion") || tile.getType().equals("Flare")) {
                 if (p.getHitbox().intersects(tile.getHitbox()) ||
                     p.getHitbox().getCentre().convertToMatrixPosition(GraphicProperties.getTileSize()).equals(tile.getPosition())
                 ) {
@@ -108,6 +106,7 @@ public class CollisionManager {
                     p.pickUpPowerUp((PowerUp) tile);
                 }
             }
+
         }
 
         collisionAction(p, Direction.UP, upperCollisionFound);

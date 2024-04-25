@@ -13,6 +13,7 @@ import java.io.IOException;
 
 public class Chest extends FixedElement {
     private BufferedImage image;
+    private PowerUp powerUp;
 
     public Chest(MatrixPosition p) {
         super(p);
@@ -22,10 +23,15 @@ public class Chest extends FixedElement {
             this.image =  null;
             System.out.println("Chest image could not be found!");
         }
+        this.powerUp = null;
     }
 
-    public void explode() {
-        System.out.println("Chest exploded!");
+    public void explode(FixedElement[][] board) {
+        if (this.powerUp != null) {
+            board[this.position.getX()][this.position.getY()] = this.powerUp;
+        } else {
+            board[this.position.getX()][this.position.getY()] = new EmptyTile(this.position);
+        }
     }
 
     @Override
@@ -46,5 +52,10 @@ public class Chest extends FixedElement {
     @Override
     public void update(FixedElement[][] board) {
 
+    }
+
+    public void addPowerUp(PowerUp powerUp) {
+        this.powerUp = powerUp;
+        this.powerUp.setPosition(this.position);
     }
 }

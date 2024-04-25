@@ -125,7 +125,7 @@ public class Explosion extends FixedElement {
                 canSpreadUpwards = false;
             } else if (board[position.getX() - spreadLevel][position.getY()].getType().equals("Chest")) {
                 canSpreadUpwards = false;
-                ((Chest)board[position.getX() - spreadLevel][position.getY()]).explode();
+                ((Chest)board[position.getX() - spreadLevel][position.getY()]).explode(board);
             } else if (board[position.getX() - spreadLevel][position.getY()].getType().equals("Bomb")) {
                 canSpreadUpwards = false;
                 Bomb bomb = ((Bomb)board[position.getX() - spreadLevel][position.getY()]);
@@ -145,7 +145,7 @@ public class Explosion extends FixedElement {
                 canSpreadDownwards = false;
             } else if (board[position.getX() + spreadLevel][position.getY()].getType().equals("Chest")) {
                 canSpreadDownwards = false;
-                ((Chest)board[position.getX() + spreadLevel][position.getY()]).explode();
+                ((Chest)board[position.getX() + spreadLevel][position.getY()]).explode(board);
             } else if (board[position.getX() + spreadLevel][position.getY()].getType().equals("Bomb")) {
                 canSpreadDownwards = false;
                 Bomb bomb = ((Bomb)board[position.getX() + spreadLevel][position.getY()]);
@@ -165,7 +165,7 @@ public class Explosion extends FixedElement {
                 canSpreadLeft = false;
             } else if (board[position.getX()][position.getY() - spreadLevel].getType().equals("Chest")) {
                 canSpreadLeft = false;
-                ((Chest)board[position.getX()][position.getY() - spreadLevel]).explode();
+                ((Chest)board[position.getX()][position.getY() - spreadLevel]).explode(board);
             } else if (board[position.getX()][position.getY() - spreadLevel].getType().equals("Bomb")) {
                 canSpreadLeft = false;
                 Bomb bomb = ((Bomb)board[position.getX()][position.getY() - spreadLevel]);
@@ -185,7 +185,7 @@ public class Explosion extends FixedElement {
                 canSpreadRight = false;
             } else if (board[position.getX()][position.getY() + spreadLevel].getType().equals("Chest")) {
                 canSpreadRight = false;
-                ((Chest)board[position.getX()][position.getY() + spreadLevel]).explode();
+                ((Chest)board[position.getX()][position.getY() + spreadLevel]).explode(board);
             } else if (board[position.getX()][position.getY() + spreadLevel].getType().equals("Bomb")) {
                 canSpreadRight = false;
                 Bomb bomb = ((Bomb)board[position.getX()][position.getY() + spreadLevel]);
