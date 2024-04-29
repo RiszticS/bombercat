@@ -39,6 +39,7 @@ public abstract class MovingElement {
 
     protected abstract void move();
     public void die() {
+        System.out.println("Die");
         this.alive = false;
         GraphicsController.removeManager(gm);
     }
@@ -55,10 +56,7 @@ public abstract class MovingElement {
         return hitbox;
     }
 
-    void setGraphicsManager(MovingAnimationGraphics gm) {
-        if (gm != null) {
-            GraphicsController.removeManager(gm);
-        }
+    protected void setGraphicsManager(MovingAnimationGraphics gm) {
         this.gm = gm;
         GraphicsController.addManager(gm);
     }

@@ -15,9 +15,7 @@ public class EmptyTile extends FixedElement {
     public EmptyTile(MatrixPosition p) {
         super(p);
         int tileSize = GraphicProperties.getTileSize();
-        GraphicsController.addManagerFirst(new StaticGraphics("/main/assets/images/floor.png",
-                p.convertToCoordinatePosition(tileSize),
-                tileSize));
+        GraphicsController.addManagerFirst(new StaticGraphics("/main/assets/images/floor.png", p.convertToCoordinatePosition(tileSize),tileSize));
     }
 
     @Override

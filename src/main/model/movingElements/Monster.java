@@ -21,38 +21,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Monster extends MovingElement {
-    private BufferedImage image;
     private Direction currentDirection;
     private final Random random;
     protected int speed;
     private final RenderTimer randomDirectionChangeCountdown;
-
-    /**
-     * The Monster class extends the MovingElement abstract class. These kinds of classes have to types of
-     * constructors: (1) a constructor with a CoordinatePosition parameter, and (2) a constructor with
-     * a MatrixPosition parameter. If the MatrixPosition constructor is called, the MatrixPosition is
-     * automatically converted into the appropriate CoordinatePosition, since MovingElement objects work
-     * based on CoordinatePosition type positions. The constructor with the MatrixPosition parameter is
-     * only meant to serve as an easy way to place MovingElement objects onto the board upon first
-     * instantiation.
-     * @param p A CoordinatePosition object that corresponds to the upper-left corner of the sprite.
-     */
-    public Monster(CoordinatePosition p) {
-        super(p);
-
-        int tileSize = GraphicProperties.getTileSize();
-        ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/monster.png", 1, 1, 1, 0, 32, 32, 2));
-        MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 2.0);
-        setGraphicsManager(gm);
-
-        this.currentDirection = Direction.randomDirection();
-        random = new Random();
-        this.speed = 2; /*random.nextInt(4) + 2;*/
-        this.hitbox = new Hitbox(position, tileSize / 2, tileSize / 2, tileSize / 4, tileSize / 4);
-        randomDirectionChangeCountdown = new RenderTimer(random.nextInt(180, 190));
-        randomDirectionChangeCountdown.start();
-    }
 
     public Monster(MatrixPosition p) {
         super(p);
@@ -61,6 +33,7 @@ public class Monster extends MovingElement {
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/monster.png", 1, 1, 1, 0, 32, 32, 2));
         MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 2.0);
+
         setGraphicsManager(gm);
 
         this.currentDirection = Direction.randomDirection();

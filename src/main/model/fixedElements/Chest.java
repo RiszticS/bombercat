@@ -20,35 +20,20 @@ public class Chest extends FixedElement {
 
     public Chest(MatrixPosition p) {
         super(p);
-        try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/chest.png"));
-        } catch (IOException e) {
-            this.image =  null;
-            System.out.println("Chest image could not be found!");
-        }
+        sg = new StaticGraphics("/main/assets/images/chest.png", p.convertToCoordinatePosition(GraphicProperties.getTileSize()), GraphicProperties.getTileSize());
+        GraphicsController.addManager(sg);
         this.powerUp = null;
     }
 
     public void explode(FixedElement[][] board) {
         if (this.powerUp != null) {
             board[this.position.getX()][this.position.getY()] = this.powerUp;
+            this.powerUp.startDraw();
         } else {
             board[this.position.getX()][this.position.getY()] = new EmptyTile(this.position);
         }
-    }
 
-    @Override
-    public void draw(Graphics2D g2) {
-        int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/main/assets/images/chest.png",
-                position.convertToCoordinatePosition(tileSize),
-                tileSize);
-        GraphicsController.addManager(sg);
-    }
-
-    public void explode(FixedElement[][] board) {
         GraphicsController.removeManager(sg);
-        board[position.getX()][position.getY()] = new EmptyTile(position);
     }
 
     @Override

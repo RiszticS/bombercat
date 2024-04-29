@@ -34,14 +34,12 @@ public abstract class PowerUp extends FixedElement {
         if (pickedUp) {
             board[this.position.getX()][this.position.getY()] = new EmptyTile(this.position);
         }
-        int tileSize = GraphicProperties.getTileSize();
-
-        StaticGraphics sg = new StaticGraphics("/main/assets/images/powerup.png", position.convertToCoordinatePosition(tileSize), tileSize);
-        GraphicsController.addManager(sg);
     }
 
     @Override
     public String getType() {
         return "PowerUp";
     }
+
+    public abstract void startDraw();
 }

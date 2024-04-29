@@ -177,21 +177,6 @@ public class Level {
         return powerUps;
     }
 
-
-    public void draw(Graphics2D g2) {
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                board[i][j].draw(g2);
-            }
-        }
-        for (Monster monster : monsters) {
-            monster.draw(g2);
-        }
-        for (Player player : players) {
-            player.draw(g2);
-        }
-    }
-
     public boolean isDraw() {
         return draw;
     }
