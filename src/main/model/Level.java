@@ -122,7 +122,7 @@ public class Level {
                 winCheckingInProgress = true;
             } else {
                 if (winCountdown.finished() && playersAliveCount() == 1) {
-                    this.winner = players.getFirst();
+                    this.winner = players.get(0);
                     win = true;
                 } else {
                     winCountdown.decrease();
@@ -172,6 +172,19 @@ public class Level {
                     break;
                 case 2:
                     powerUps.add(new PowerUpPlusBomb(new MatrixPosition(0, 0)));
+                    break;
+                case 3:
+                    powerUps.add(new PowerUpBombBlocker(new MatrixPosition(0, 0)));
+                    break;
+                case 4:
+                    powerUps.add(new PowerUpInstantPlacement(new MatrixPosition(0, 0)));
+                    break;
+                case 5:
+                    powerUps.add(new PowerUpRangeReducer(new MatrixPosition(0, 0)));
+                    break;
+                case 6:
+                    powerUps.add(new PowerUpSpeedReducer(new MatrixPosition(0, 0)));
+                    break;
             }
         }
         return powerUps;

@@ -49,4 +49,11 @@ public abstract class MovingElement {
     public Hitbox getHitbox() {
         return hitbox;
     }
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 }

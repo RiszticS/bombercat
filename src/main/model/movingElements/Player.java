@@ -15,6 +15,7 @@ import main.model.positions.MatrixPosition;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.nio.MappedByteBuffer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
@@ -23,8 +24,11 @@ public class Player extends MovingElement implements KeyListener {
     private final PlayerControls controls;
     private boolean upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, plantBombKeyPressed;
     private final ArrayList<PowerUp> powerUps;
+    private final RenderTimer effectTimer;
+    private static final int EFFECT_DURATION = 300;
     private final ArrayDeque<Bomb> bombs;
     private final RenderTimer plantBombCooldown;
+    private boolean canPlaceBomb;
     private static int numberOfInstancesCreated = 0;
     private final int id;
 
@@ -59,9 +63,11 @@ public class Player extends MovingElement implements KeyListener {
         this.plantBombKeyPressed = false;
         this.powerUps = new ArrayList<>();
         this.bombs = new ArrayDeque<>();
+        this.canPlaceBomb = true;
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
         this.id = numberOfInstancesCreated;
+        this.effectTimer = new RenderTimer(EFFECT_DURATION);
     }
 
     public Player(MatrixPosition p) {
@@ -87,6 +93,7 @@ public class Player extends MovingElement implements KeyListener {
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
         this.id = numberOfInstancesCreated;
+        this.effectTimer = new RenderTimer(EFFECT_DURATION);
     }
 
     /**
@@ -134,7 +141,7 @@ public class Player extends MovingElement implements KeyListener {
      * @param board The board, i.e. the FixedElement[][] object of the GameModel that the Players plants the bomb onto.
      */
     private void plantBomb(FixedElement[][] board) {
-        if (plantBombKeyPressed && plantBombCooldown.finished()) {
+        if (canPlaceBomb && plantBombKeyPressed && plantBombCooldown.finished()) {
             MatrixPosition bombPosition = hitbox.getCentre().convertToMatrixPosition(GraphicProperties.getTileSize());
             if (bombs.peekFirst().isAvailableToPlant() &&
                     board[bombPosition.getX()][bombPosition.getY()].getType().equals("EmptyTile")) {
@@ -207,11 +214,26 @@ public class Player extends MovingElement implements KeyListener {
         numberOfInstancesCreated = 0;
     }
 
+    public void setCanPlaceBomb(boolean canPlaceBomb) {
+        this.canPlaceBomb = canPlaceBomb;
+    }
+
+    public void instantBombPlant(){
+        for(Bomb bomb : this.getBombs()){
+            MatrixPosition bombPosition = hitbox.getCentre().convertToMatrixPosition(GraphicProperties.getTileSize());
+            bomb.plant(bombPosition);
+        }
+    }
+
     public int getId() {
         return id;
     }
 
     public ArrayDeque<Bomb> getBombs() {
         return bombs;
+    }
+
+    public RenderTimer getEffectTimer() {
+        return effectTimer;
     }
 }
