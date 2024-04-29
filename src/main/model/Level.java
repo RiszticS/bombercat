@@ -135,7 +135,7 @@ public class Level {
 
     private void allocatePowerUpsToRandomChests(ArrayList<Chest> chests) {
         if (!chests.isEmpty()) {
-            ArrayList<PowerUp> powerUps = generateRandomPowerUpsInRange(chests.size(), chests.size() );
+            ArrayList<PowerUp> powerUps = generateRandomPowerUpsInRange(chests.size(), chests.size());
 
             ArrayList<Integer> alreadyPickedIndices = new ArrayList<>();
             for (PowerUp p : powerUps) {
@@ -164,8 +164,9 @@ public class Level {
         int numOfPowerUps = ThreadLocalRandom.current().nextInt(min, max + 1);
         ArrayList<PowerUp> powerUps = new ArrayList<>();
         for (int i = 0; i < numOfPowerUps; i++) {
-            int typeOfPowerUp = ThreadLocalRandom.current().nextInt(1,
-                    ModelProperties.getNumberOfTypesOfPowerUps() + 1);
+            int typeOfPowerUp = 4;
+                    //ThreadLocalRandom.current().nextInt(1,
+                   // ModelProperties.getNumberOfTypesOfPowerUps() + 1);
             switch (typeOfPowerUp) {
                 case 1:
                     powerUps.add(new PowerUpBombRange(new MatrixPosition(0,0)));

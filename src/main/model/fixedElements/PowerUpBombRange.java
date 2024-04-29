@@ -14,8 +14,6 @@ import java.io.IOException;
 public class PowerUpBombRange extends PowerUp {
     private StaticGraphics sg;
 
-    private StaticGraphics sg;
-
     public PowerUpBombRange(MatrixPosition p) {
         super(p);
         GraphicsController.addManager(sg);
@@ -28,7 +26,6 @@ public class PowerUpBombRange extends PowerUp {
         }
         GraphicsController.removeManager(sg);
     }
-
     @Override
     public void startDraw(){
         int tileSize = GraphicProperties.getTileSize();

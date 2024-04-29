@@ -16,7 +16,7 @@ public class PowerUpPlusBomb extends PowerUp {
 
     public PowerUpPlusBomb(MatrixPosition p) {
         super(p);
-        sg = null;
+        GraphicsController.addManager(sg);
     }
 
     @Override

@@ -24,7 +24,8 @@ public class GraphicsController {
 
     public static void draw(Graphics2D g2) {
         for(GraphicsManager gm : managers) {
-            gm.draw(g2);
+            if(gm != null)
+                gm.draw(g2);
         }
 
         if (!removeQueue.isEmpty()) {

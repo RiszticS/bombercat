@@ -1,22 +1,22 @@
 package main.model.fixedElements;
 
 import main.controllers.configuration.GraphicProperties;
-import main.controllers.game.RenderTimer;
 import main.controllers.graphics.GraphicsController;
 import main.controllers.graphics.StaticGraphics;
 import main.model.movingElements.Player;
-import main.model.positions.CoordinatePosition;
 import main.model.positions.MatrixPosition;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PowerUpBombBlocker extends PowerUp {
     private StaticGraphics sg;
+    private Timer effectTimer;
+    private static final int EFFECT_DURATION = 10000;
+
     public PowerUpBombBlocker(MatrixPosition p) {
         super(p);
-
+        GraphicsController.addManager(sg);
     }
 
     @Override
@@ -26,19 +26,17 @@ public class PowerUpBombBlocker extends PowerUp {
         GraphicsController.addManager(sg);
     }
 
-    @Override
-    public void draw(Graphics2D g2) {
-
-    }
-
-    @Override
     public void apply(Player p) {
+        System.out.println("blocker");
+        GraphicsController.removeManager(sg);
         p.setCanPlaceBomb(false);
-        p.getEffectTimer().start();
-        if (p.getEffectTimer().finished()) {
-            p.setCanPlaceBomb(true);
-        } else {
-            p.getEffectTimer().decrease();
-        }
+        effectTimer = new Timer();
+        effectTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                p.setCanPlaceBomb(true);
+                effectTimer.cancel();
+            }
+        }, EFFECT_DURATION);
     }
 }

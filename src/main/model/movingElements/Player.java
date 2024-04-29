@@ -24,8 +24,6 @@ public class Player extends MovingElement implements KeyListener {
     private final PlayerControls controls;
     private boolean upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, plantBombKeyPressed;
     private final ArrayList<PowerUp> powerUps;
-    private final RenderTimer effectTimer;
-    private static final int EFFECT_DURATION = 300;
     private final ArrayDeque<Bomb> bombs;
     private final RenderTimer plantBombCooldown;
     private boolean canPlaceBomb;
@@ -67,7 +65,6 @@ public class Player extends MovingElement implements KeyListener {
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
         this.id = numberOfInstancesCreated;
-        this.effectTimer = new RenderTimer(EFFECT_DURATION);
     }
 
     public Player(MatrixPosition p) {
@@ -93,7 +90,6 @@ public class Player extends MovingElement implements KeyListener {
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
         this.id = numberOfInstancesCreated;
-        this.effectTimer = new RenderTimer(EFFECT_DURATION);
         this.canPlaceBomb = true;
     }
 
@@ -141,7 +137,7 @@ public class Player extends MovingElement implements KeyListener {
      * This method simulates the Player's ability to plant bombs on the board.
      * @param board The board, i.e. the FixedElement[][] object of the GameModel that the Players plants the bomb onto.
      */
-    private void plantBomb(FixedElement[][] board) {
+    public void plantBomb(FixedElement[][] board) {
         if (canPlaceBomb && plantBombKeyPressed && plantBombCooldown.finished()) {
             MatrixPosition bombPosition = hitbox.getCentre().convertToMatrixPosition(GraphicProperties.getTileSize());
             if (bombs.peekFirst().isAvailableToPlant() &&
@@ -210,11 +206,8 @@ public class Player extends MovingElement implements KeyListener {
         this.canPlaceBomb = canPlaceBomb;
     }
 
-    public void instantBombPlant(){
-        for(Bomb bomb : this.getBombs()){
-            MatrixPosition bombPosition = hitbox.getCentre().convertToMatrixPosition(GraphicProperties.getTileSize());
-            bomb.plant(bombPosition);
-        }
+    public void setPlantBombKeyPressed(boolean plantBombKeyPressed) {
+        this.plantBombKeyPressed = plantBombKeyPressed;
     }
 
     public int getId() {
@@ -223,9 +216,5 @@ public class Player extends MovingElement implements KeyListener {
 
     public ArrayDeque<Bomb> getBombs() {
         return bombs;
-    }
-
-    public RenderTimer getEffectTimer() {
-        return effectTimer;
     }
 }

@@ -23,7 +23,6 @@ public abstract class PowerUp extends FixedElement {
         pickedUp = false;
     }
 
-    public abstract void startDraw();
     public abstract void apply(Player p);
     public void setPickedUp(boolean pickedUp) {
         this.pickedUp = pickedUp;

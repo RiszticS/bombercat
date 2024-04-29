@@ -14,35 +14,31 @@ import java.io.IOException;
 
 public class PowerUpSpeedReducer extends PowerUp {
     private StaticGraphics sg;
+    private static final int EFFECT_DURATION = 10000;
 
     public PowerUpSpeedReducer(MatrixPosition p) {
         super(p);
         GraphicsController.addManager(sg);
     }
-
     @Override
     public void apply(Player p) {
+        System.out.println("sebesseg");
+        GraphicsController.removeManager(sg);
         int originalSpeed = p.getSpeed();
         int reducedSpeed = originalSpeed / 2;
         p.setSpeed(reducedSpeed);
-        p.getEffectTimer().start();
 
-        if (p.getEffectTimer().finished()) {
-            p.setSpeed(originalSpeed);
-        } else {
-            p.getEffectTimer().decrease();
-        }
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        p.setSpeed(originalSpeed);
+                    }
+                },
+                EFFECT_DURATION
+        );
     }
 
-    @Override
-    public void update(FixedElement[][] board) {
-        super.update(board);
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-
-    }
     @Override
     public void startDraw(){
         int tileSize = GraphicProperties.getTileSize();
