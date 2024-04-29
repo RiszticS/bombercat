@@ -94,6 +94,7 @@ public class Player extends MovingElement implements KeyListener {
         plantBombCooldown = new RenderTimer(11);
         this.id = numberOfInstancesCreated;
         this.effectTimer = new RenderTimer(EFFECT_DURATION);
+        this.canPlaceBomb = true;
     }
 
     /**

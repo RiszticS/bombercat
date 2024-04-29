@@ -122,7 +122,7 @@ public class Level {
                 winCheckingInProgress = true;
             } else {
                 if (winCountdown.finished() && playersAliveCount() == 1) {
-                    this.winner = players.get(0);
+                    this.winner = players.getFirst();
                     win = true;
                 } else {
                     winCountdown.decrease();
@@ -135,7 +135,7 @@ public class Level {
 
     private void allocatePowerUpsToRandomChests(ArrayList<Chest> chests) {
         if (!chests.isEmpty()) {
-            ArrayList<PowerUp> powerUps = generateRandomPowerUpsInRange(1, (int)Math.ceil((float) chests.size() / 3) );
+            ArrayList<PowerUp> powerUps = generateRandomPowerUpsInRange(chests.size(), chests.size() );
 
             ArrayList<Integer> alreadyPickedIndices = new ArrayList<>();
             for (PowerUp p : powerUps) {

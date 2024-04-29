@@ -29,6 +29,7 @@ public class Chest extends FixedElement {
     public void explode(FixedElement[][] board) {
         if (this.powerUp != null) {
             board[this.position.getX()][this.position.getY()] = this.powerUp;
+            this.powerUp.startDraw();
         } else {
             board[this.position.getX()][this.position.getY()] = new EmptyTile(this.position);
         }

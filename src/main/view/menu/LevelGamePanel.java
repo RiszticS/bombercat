@@ -186,10 +186,10 @@ public class LevelGamePanel extends JPanel {
         Graphics2D g2d = rotatedImage.createGraphics();
 
         double angle = switch (direction) {
-            case LEFT -> -90;
-            case RIGHT -> 90;
-            case UP -> 0;
-            case DOWN -> 180;
+            case Direction.LEFT -> -90;
+            case Direction.RIGHT -> 90;
+            case Direction.UP -> 0;
+            case Direction.DOWN -> 180;
             default -> 0;
         };
 
