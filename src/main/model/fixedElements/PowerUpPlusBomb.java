@@ -16,22 +16,19 @@ public class PowerUpPlusBomb extends PowerUp {
 
     public PowerUpPlusBomb(MatrixPosition p) {
         super(p);
-        GraphicsController.addManager(sg);
+        sg = null;
     }
 
     @Override
     public void apply(Player p) {
         p.getBombs().add(new Bomb(new MatrixPosition(0,0)));
+        GraphicsController.removeManager(sg);
     }
 
     @Override
-    public void draw(Graphics2D g2) {
-
-    }
-    @Override
-    public void startDraw(){
+    public void startDraw() {
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/main/assets/images/plusBomb.png", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
+        sg = new StaticGraphics("/main/assets/images/plusBomb.png", this.position.convertToCoordinatePosition(tileSize), tileSize);
         GraphicsController.addManager(sg);
     }
 }

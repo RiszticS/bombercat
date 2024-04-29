@@ -2,6 +2,8 @@ package main.model.fixedElements;
 
 import main.controllers.configuration.GraphicProperties;
 import main.controllers.game.RenderTimer;
+import main.controllers.graphics.GraphicsController;
+import main.controllers.graphics.StaticGraphics;
 import main.model.positions.CoordinatePosition;
 import main.model.positions.Direction;
 import main.model.positions.MatrixPosition;
@@ -17,10 +19,10 @@ public class Explosion extends FixedElement {
     private BufferedImage image;
     private int radius;
     private int spreadLevel;
-    private RenderTimer spreadCountdown;
-    private RenderTimer dissipationCountdown;
+    private final RenderTimer spreadCountdown;
+    private final RenderTimer dissipationCountdown;
     private boolean canSpreadUpwards, canSpreadDownwards, canSpreadLeft, canSpreadRight;
-
+    private final StaticGraphics sg;
 
     public Explosion(MatrixPosition p, Bomb bomb) {
         super(p);
@@ -28,12 +30,13 @@ public class Explosion extends FixedElement {
         this.spreadLevel = 0;
         spreadCountdown = new RenderTimer(15);
         dissipationCountdown = new RenderTimer(180);
-        try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/explosion.png"));
-        } catch(IOException e) {
-            this.image =  null;
-            System.out.println("Explosion image could not be found!");
-        }
+
+        int tileSize = GraphicProperties.getTileSize();
+        sg = new StaticGraphics("/main/assets/images/explosion.png",
+                position.convertToCoordinatePosition(tileSize),
+                tileSize);
+        GraphicsController.addManager(sg);
+
         canSpreadUpwards = true;
         canSpreadDownwards = true;
         canSpreadLeft = true;
@@ -69,6 +72,7 @@ public class Explosion extends FixedElement {
     }
 
     public void dissipate(FixedElement[][] board) {
+        GraphicsController.removeManager(sg);
         board[position.getX()][position.getY()] = new EmptyTile(position);
         canSpreadUpwards = true;
         canSpreadDownwards = true;
@@ -88,16 +92,6 @@ public class Explosion extends FixedElement {
         } else if (!dissipationCountdown.finished()) {
             dissipationCountdown.decrease();
         }
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        int tileSize = GraphicProperties.getTileSize();
-        CoordinatePosition p = position.convertToCoordinatePosition(tileSize);
-        g2.drawImage(image, p.getX(), p.getY(),tileSize, tileSize, null);
-        g2.setColor(Color.RED);
-        g2.drawRect(p.getX(), p.getY(),tileSize, tileSize);
-        hitbox.draw(g2);
     }
 
     @Override

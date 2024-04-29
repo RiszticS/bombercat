@@ -14,6 +14,8 @@ import java.io.IOException;
 public class PowerUpBombRange extends PowerUp {
     private StaticGraphics sg;
 
+    private StaticGraphics sg;
+
     public PowerUpBombRange(MatrixPosition p) {
         super(p);
         GraphicsController.addManager(sg);
@@ -24,10 +26,7 @@ public class PowerUpBombRange extends PowerUp {
         for (Bomb bomb : p.getBombs()) {
             bomb.increaseExplosionRange();
         }
-    }
-    @Override
-    public void draw(Graphics2D g2) {
-
+        GraphicsController.removeManager(sg);
     }
 
     @Override

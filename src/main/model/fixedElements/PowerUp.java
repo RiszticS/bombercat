@@ -1,6 +1,8 @@
 package main.model.fixedElements;
 
 import main.controllers.configuration.GraphicProperties;
+import main.controllers.graphics.GraphicsController;
+import main.controllers.graphics.StaticGraphics;
 import main.model.movingElements.Player;
 import main.model.positions.CoordinatePosition;
 import main.model.positions.MatrixPosition;
@@ -38,4 +40,6 @@ public abstract class PowerUp extends FixedElement {
     public String getType() {
         return "PowerUp";
     }
+
+    public abstract void startDraw();
 }
