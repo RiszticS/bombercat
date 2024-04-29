@@ -3,6 +3,8 @@ package main.controllers.movement;
 import main.controllers.configuration.GraphicProperties;
 import main.model.fixedElements.FixedElement;
 import main.model.fixedElements.PowerUp;
+import main.model.fixedElements.PowerUpBombRange;
+import main.model.fixedElements.PowerUpPlusBomb;
 import main.model.movingElements.Monster;
 import main.model.movingElements.MovingElement;
 import main.model.movingElements.Player;
@@ -80,7 +82,7 @@ public class CollisionManager {
 
         for (FixedElement tile : elementsToBeChecked) {
             if (tile.getType().equals("Chest") || tile.getType().equals("Wall") ||
-                    (tile.getType().equals("Bomb") && tile.getPosition() != p.getPosition().convertToMatrixPosition(GraphicProperties.getTileSize()))) {
+                    (tile.getType().equals("Bomb") && tile.getPosition() != p.getHitbox().getCentre().convertToMatrixPosition(GraphicProperties.getTileSize()))) {
                 if (p.getHitbox().intersectsFromBelow(tile.getHitbox())) {
                     upperCollisionFound = true;
                 }
@@ -93,8 +95,10 @@ public class CollisionManager {
                 if (p.getHitbox().intersectsFromLeft(tile.getHitbox())) {
                     rightCollisionFound = true;
                 }
-            } else if (tile.getType().equals("Flare") || tile.getType().equals("Explosion")) {
-                if (p.getHitbox().intersects(tile.getHitbox())) {
+            } else if (tile.getType().equals("Explosion") || tile.getType().equals("Flare")) {
+                if (p.getHitbox().intersects(tile.getHitbox()) ||
+                    p.getHitbox().getCentre().convertToMatrixPosition(GraphicProperties.getTileSize()).equals(tile.getPosition())
+                ) {
                     p.die();
                 }
             } else if (tile.getType().equals("PowerUp")) {
@@ -102,6 +106,7 @@ public class CollisionManager {
                     p.pickUpPowerUp((PowerUp) tile);
                 }
             }
+
         }
 
         collisionAction(p, Direction.UP, upperCollisionFound);

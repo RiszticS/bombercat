@@ -8,11 +8,13 @@ public class GameLoop implements Runnable {
     GameModel gameModel;
     GamePanel gamePanel;
     Thread gameThread;
+    private boolean gameRunning;
     private final int refreshRate = 60;
 
     public GameLoop(GameModel m, GamePanel p) {
         this.gameModel = m;
         this.gamePanel = p;
+        this.gameRunning = true;
     }
 
     public void start() {
@@ -34,13 +36,22 @@ public class GameLoop implements Runnable {
             lastTime = currentTime;
 
             if (delta >= 1) {
-                // 1 UPDATE: update information such as character position.
-                gameModel.update(this);
-                // 2 DRAW: draw the screen with the updated information.
-                gamePanel.repaint();
+
+                if (gameRunning) {
+                    gameModel.update(this, gamePanel);
+                    gamePanel.repaint();
+                }
+
                 delta--;
             }
-
         }
+    }
+
+    public void pauseGame() {
+        this.gameRunning = false;
+    }
+
+    public void startGame() {
+        this.gameRunning = true;
     }
 }

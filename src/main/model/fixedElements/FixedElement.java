@@ -28,4 +28,9 @@ public abstract class FixedElement {
     public abstract String getType();
 
     public abstract void update(FixedElement[][] board);
+
+    public void setPosition(MatrixPosition position) {
+        this.position = position;
+        this.hitbox.setPosition(position.convertToCoordinatePosition(GraphicProperties.getTileSize()));
+    }
 }

@@ -18,9 +18,7 @@ public class GamePanel extends JPanel {
         int numberOfRows = GraphicProperties.getRowNumber();;
         int panelWidth = numberOfColumns * tileSize;
         int panelHeight = numberOfRows * tileSize;
-        for (Player p : model.getCurrentLevel().getPlayers()) {
-            this.addKeyListener(p);
-        }
+        addKeyListenersForPlayers();
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
@@ -34,5 +32,17 @@ public class GamePanel extends JPanel {
 
         GraphicsController.draw(g2);
         g2.dispose();
+    }
+
+    public void addKeyListenersForPlayers() {
+        for (Player p : model.getCurrentLevel().getPlayers()) {
+            this.addKeyListener(p);
+        }
+    }
+
+    public void removeKeyListenersForPlayers() {
+        for (Player p : model.getCurrentLevel().getPlayers()) {
+            this.removeKeyListener(p);
+        }
     }
 }

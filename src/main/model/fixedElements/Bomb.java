@@ -78,4 +78,8 @@ public class Bomb extends FixedElement {
     public RenderTimer getExplosionCountdown() {
         return explosionCountdown;
     }
+
+    public void increaseExplosionRange() {
+        this.explosionStrength++;
+    }
 }

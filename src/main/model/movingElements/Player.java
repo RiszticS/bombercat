@@ -19,12 +19,14 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Player extends MovingElement implements KeyListener {
+    private MovingAnimationGraphics graphicsManager;
     private final PlayerControls controls;
     private boolean upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, plantBombKeyPressed;
-    private ArrayList<PowerUp> powerUps;
+    private final ArrayList<PowerUp> powerUps;
     private final ArrayDeque<Bomb> bombs;
     private final RenderTimer plantBombCooldown;
-    private static int numberOfInstancesCreated = 1;
+    private static int numberOfInstancesCreated = 0;
+    private final int id;
 
     /**
      * The Player class extends the MovingElement abstract class. These kinds of classes have to types of
@@ -45,9 +47,9 @@ public class Player extends MovingElement implements KeyListener {
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
-        MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 1.3);
-        setGraphicsManager(gm);
-
+        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position);
+        GraphicsController.addManager(this.graphicsManager);
+        numberOfInstancesCreated++;
         controls = ControlsProperties.getPlayerControls(numberOfInstancesCreated);
 
         this.upKeyPressed = false;
@@ -55,12 +57,11 @@ public class Player extends MovingElement implements KeyListener {
         this.leftKeyPressed = false;
         this.rightKeyPressed = false;
         this.plantBombKeyPressed = false;
+        this.powerUps = new ArrayList<>();
         this.bombs = new ArrayDeque<>();
         bombs.add(new Bomb(new MatrixPosition(0,0)));
-        bombs.add(new Bomb(new MatrixPosition(0,0)));
-        bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
-        numberOfInstancesCreated++;
+        this.id = numberOfInstancesCreated;
     }
 
     public Player(MatrixPosition p) {
@@ -72,22 +73,20 @@ public class Player extends MovingElement implements KeyListener {
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
-        MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 1.3);
-        setGraphicsManager(gm);
-
-
+        this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position);
+        GraphicsController.addManager(this.graphicsManager);
+        numberOfInstancesCreated++;
         controls = ControlsProperties.getPlayerControls(numberOfInstancesCreated);
         this.upKeyPressed = false;
         this.downKeyPressed = false;
         this.leftKeyPressed = false;
         this.rightKeyPressed = false;
         this.plantBombKeyPressed = false;
+        this.powerUps = new ArrayList<>();
         this.bombs = new ArrayDeque<>();
         bombs.add(new Bomb(new MatrixPosition(0,0)));
-        bombs.add(new Bomb(new MatrixPosition(0,0)));
-        bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
-        numberOfInstancesCreated++;
+        this.id = numberOfInstancesCreated;
     }
 
     /**
@@ -110,23 +109,23 @@ public class Player extends MovingElement implements KeyListener {
     @Override
     protected void move() {
         if (upKeyPressed && !collisionManager.isUpDisabled()) {
-            this.gm.changeDirection(Direction.UP);
+            graphicsManager.changeDirection(Direction.UP);
             this.position.changeY(-speed);
             this.hitbox.changeY(-speed);
         } else if (downKeyPressed && !collisionManager.isDownDisabled()) {
-            this.gm.changeDirection(Direction.DOWN);
+            graphicsManager.changeDirection(Direction.DOWN);
             this.position.changeY(speed);
             this.hitbox.changeY(speed);
         } else if (leftKeyPressed && !collisionManager.isLeftDisabled()) {
-            this.gm.changeDirection(Direction.LEFT);
+            graphicsManager.changeDirection(Direction.LEFT);
             this.position.changeX(-speed);
             this.hitbox.changeX(-speed);
         } else if (rightKeyPressed && !collisionManager.isRightDisabled()) {
-            this.gm.changeDirection(Direction.RIGHT);
+            graphicsManager.changeDirection(Direction.RIGHT);
             this.position.changeX(speed);
             this.hitbox.changeX(speed);
         } else {
-            this.gm.changeDirection(Direction.IDLE);
+            graphicsManager.changeDirection(Direction.IDLE);
         }
     }
 
@@ -155,7 +154,9 @@ public class Player extends MovingElement implements KeyListener {
      * @param p The PowerUp object to be picked up.
      */
     public void pickUpPowerUp(PowerUp p) {
-        System.out.println("Picked up power-up!");
+        this.powerUps.add(p);
+        p.apply(this);
+        p.setPickedUp(true);
     }
 
     @Override
@@ -191,5 +192,17 @@ public class Player extends MovingElement implements KeyListener {
         } else if (e.getKeyCode() == controls.getBomb()) {
             plantBombKeyPressed = false;
         }
+    }
+
+    public static void resetNumberOfInstancesCreated() {
+        numberOfInstancesCreated = 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public ArrayDeque<Bomb> getBombs() {
+        return bombs;
     }
 }

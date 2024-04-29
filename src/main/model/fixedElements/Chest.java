@@ -14,10 +14,31 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Chest extends FixedElement {
+    private BufferedImage image;
+    private PowerUp powerUp;
     private final StaticGraphics sg;
 
     public Chest(MatrixPosition p) {
         super(p);
+        try {
+            this.image = ImageIO.read(getClass().getResourceAsStream("/main/assets/images/chest.png"));
+        } catch (IOException e) {
+            this.image =  null;
+            System.out.println("Chest image could not be found!");
+        }
+        this.powerUp = null;
+    }
+
+    public void explode(FixedElement[][] board) {
+        if (this.powerUp != null) {
+            board[this.position.getX()][this.position.getY()] = this.powerUp;
+        } else {
+            board[this.position.getX()][this.position.getY()] = new EmptyTile(this.position);
+        }
+    }
+
+    @Override
+    public void draw(Graphics2D g2) {
         int tileSize = GraphicProperties.getTileSize();
         sg = new StaticGraphics("/main/assets/images/chest.png",
                 position.convertToCoordinatePosition(tileSize),
@@ -38,5 +59,10 @@ public class Chest extends FixedElement {
     @Override
     public void update(FixedElement[][] board) {
 
+    }
+
+    public void addPowerUp(PowerUp powerUp) {
+        this.powerUp = powerUp;
+        this.powerUp.setPosition(this.position);
     }
 }
