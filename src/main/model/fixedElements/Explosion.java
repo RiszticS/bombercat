@@ -51,18 +51,30 @@ public class Explosion extends FixedElement {
             checkCurrentSpreadLevel(board);
             if (canSpreadUpwards) {
                 MatrixPosition p = new MatrixPosition(position.getX() - spreadLevel, position.getY());
+                if (board[position.getX() - spreadLevel][position.getY()] instanceof Flare) {
+                    ((Flare) board[position.getX() - spreadLevel][position.getY()]).dissipate(board);
+                }
                 board[position.getX() - spreadLevel][position.getY()] = new Flare(p, Direction.UP);
             }
             if (canSpreadDownwards) {
                 MatrixPosition p = new MatrixPosition(position.getX() + spreadLevel, position.getY());
+                if (board[position.getX() + spreadLevel][position.getY()] instanceof Flare) {
+                    ((Flare) board[position.getX() + spreadLevel][position.getY()]).dissipate(board);
+                }
                 board[position.getX() + spreadLevel][position.getY()] = new Flare(p, Direction.DOWN);
             }
             if (canSpreadLeft) {
                 MatrixPosition p = new MatrixPosition(position.getX(), position.getY() - spreadLevel);
+                if (board[position.getX()][position.getY() - spreadLevel] instanceof Flare) {
+                    ((Flare) board[position.getX()][position.getY() - spreadLevel]).dissipate(board);
+                }
                 board[position.getX()][position.getY() - spreadLevel] = new Flare(p, Direction.LEFT);
             }
             if (canSpreadRight) {
                 MatrixPosition p = new MatrixPosition(position.getX(), position.getY() + spreadLevel);
+                if (board[position.getX()][position.getY() + spreadLevel] instanceof Flare) {
+                    ((Flare) board[position.getX()][position.getY() + spreadLevel]).dissipate(board);
+                }
                 board[position.getX()][position.getY() + spreadLevel] = new Flare(p, Direction.RIGHT);
             }
 
