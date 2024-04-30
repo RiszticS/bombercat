@@ -29,7 +29,7 @@ public class PowerUpBombRange extends PowerUp {
     @Override
     public void startDraw(){
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/main/assets/images/plusRange.jpeg", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
+        sg = new StaticGraphics("/main/assets/images/plusRange.png", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
         GraphicsController.addManager(sg);
     }
 }
