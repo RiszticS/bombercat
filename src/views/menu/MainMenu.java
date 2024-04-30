@@ -17,7 +17,7 @@ public class MainMenu extends JPanel implements ActionListener {
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setBackground(new Color(0, 0, 0, 0));
+        buttonPanel.setOpaque(false);
 
         String[] buttonLabels = {"New Game", "Map editor", "Settings", "Exit"};
         buttons = new JButton[buttonLabels.length];
@@ -28,9 +28,13 @@ public class MainMenu extends JPanel implements ActionListener {
         }
         buttonPanel.add(Box.createVerticalGlue());
 
-        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/assets/images/gui/backgrounds/mainMenuBackground.gif")));
+        ImageIcon backgroundImage=new ImageIcon(getClass().getResource("/assets/images/gui/backgrounds/mainMenuBackground.gif"));
+        backgroundImage.setImage(backgroundImage.getImage().getScaledInstance(menuWindow.getFrameSize(), menuWindow.getFrameSize(),Image.SCALE_DEFAULT));
+        JLabel background = new JLabel(backgroundImage);
+        background.setSize(menuWindow.getFrameSize(), menuWindow.getFrameSize());
         this.setLayout(new BorderLayout());
         this.add(background);
+        this.setOpaque(false);
         background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
         background.setHorizontalAlignment(JLabel.CENTER);
         background.add(Box.createVerticalGlue());
@@ -42,6 +46,7 @@ public class MainMenu extends JPanel implements ActionListener {
     }
 
     private void mapEditorButtonClick() {
+        menuWindow.changePanel("MapEditor");
     }
 
     private void settingsButtonClick() {

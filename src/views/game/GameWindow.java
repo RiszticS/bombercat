@@ -16,6 +16,7 @@ public class GameWindow extends JFrame {
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        this.setIconImage(new ImageIcon(getClass().getResource("/assets/images/gui/icon.png")).getImage());
     }
 
     public GamePanel getGamePanel() {

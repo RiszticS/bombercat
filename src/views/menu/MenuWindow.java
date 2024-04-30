@@ -6,18 +6,21 @@ import java.awt.event.ActionListener;
 
 public class MenuWindow extends JFrame {
 
-    private final int frameSize = 720;
+    private final int frameSize = 900;
     private final JPanel cards;
     private final MainMenu mainMenu;
-    private PlayerSelector playerSelector;
+    private final PlayerSelector playerSelector;
     private LevelSelector levelSelector;
+    private final MapEditor mapEditor;
 
     public MenuWindow() {
         mainMenu = new MainMenu(this);
         playerSelector = new PlayerSelector(this);
+        mapEditor = new MapEditor(this);
         cards = new JPanel(new CardLayout());
         cards.add(mainMenu, "MainMenu");
         cards.add(playerSelector, "PlayerSelector");
+        cards.add(mapEditor, "MapEditor");
         this.add(cards);
         this.setTitle("Bombercat");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -26,6 +29,7 @@ public class MenuWindow extends JFrame {
         this.setVisible(true);
         this.pack();
         this.setLocationRelativeTo(null);
+        this.setIconImage(new ImageIcon(getClass().getResource("/assets/images/gui/icon.png")).getImage());
     }
 
     public void changePanel(String panelName) {
@@ -38,8 +42,12 @@ public class MenuWindow extends JFrame {
         cards.add(levelSelector, "LevelSelector");
     }
 
-    public PlayerSelector getPlayerSelector(){
+    public PlayerSelector getPlayerSelector() {
         return playerSelector;
+    }
+
+    public int getFrameSize() {
+        return frameSize;
     }
 
     public JButton createButton(String text, ActionListener actionListener, ImageIcon icon, ImageIcon iconHover, ImageIcon iconPressed) {

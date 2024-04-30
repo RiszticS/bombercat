@@ -15,17 +15,23 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class LevelGamePanel extends JPanel {
 
     private final BufferedImage rocketImage;
-    private final Position rocketPosition = new Position(350, 200);
+    private final Position rocketPosition;
     private static final int ROCKET_SIZE = 50;
     private static final int MOVE_DISTANCE = 5;
 
-    private final BufferedImage[] levelsImages;
-    private final Position[] levelsPositions;
-    private static final int LEVELS_SIZE = 200;
+    private BufferedImage[] mainLevelsImages;
+    private Position[] mainLevelsPositions;
+    private static final int MAIN_LEVELS_SIZE = 200;
+
+    private BufferedImage[] createdLevelsImages;
+    private Position[] createdLevelsPositions;
+    private static final int CREATED_LEVELS_SIZE = 50;
+    private File[] createdLevels;
 
     private final LevelSelector levelSelector;
     private Timer timer;
@@ -40,17 +46,77 @@ public class LevelGamePanel extends JPanel {
         requestFocusInWindow();
         setOpaque(false);
 
-        int[] levelPositionX = {10, 490, 580};
-        int[] levelPositionY = {200, 480, 20};
         rocketImage = loadImage("src/assets/images/gui/levelselector/rocket.png");
-        levelsImages = new BufferedImage[3];
-        levelsPositions = new Position[3];
-        for (int i = 0; i < levelsImages.length; i++) {
-            levelsImages[i] = loadImage("src/assets/images/gui/levelselector/level" + (i + 1) + ".png");
-            levelsPositions[i] = new Position(levelPositionX[i], levelPositionY[i]);
-        }
+        rocketPosition = new Position(350, 200);
+
+        loadMainLevels();
+        loadCreatedLevels();
+
         movement();
     }
+
+    public void loadMainLevels() {
+        int[] mainLevelPositionX = {10, 490, 650};
+        int[] mainLevelPositionY = {200, 600, 20};
+        mainLevelsImages = new BufferedImage[3];
+        mainLevelsPositions = new Position[3];
+        for (int i = 0; i < mainLevelsImages.length; i++) {
+            mainLevelsImages[i] = loadImage("src/assets/images/gui/levelselector/level" + (i + 1) + ".png");
+            mainLevelsPositions[i] = new Position(mainLevelPositionX[i], mainLevelPositionY[i]);
+        }
+    }
+
+    public void loadCreatedLevels() {
+        File folder = new File("src/assets/levels/createdlevels");
+        createdLevels = folder.listFiles();
+
+        int length = createdLevels.length;
+
+        int[] createdLevelPositionX = new int[length];
+        int[] createdLevelPositionY = new int[length];
+        fillWithRandomNumbers(createdLevelPositionX, createdLevelPositionY);
+
+        createdLevelsImages = new BufferedImage[length];
+        createdLevelsPositions = new Position[length];
+        for (int i = 0; i < createdLevels.length; i++) {
+            createdLevelsImages[i] = loadImage("src/assets/images/gui/levelselector/meteor.png");
+            createdLevelsPositions[i] = new Position(createdLevelPositionX[i], createdLevelPositionY[i]);
+        }
+    }
+
+    public void fillWithRandomNumbers(int[] arrayX, int[] arrayY) {
+        Random rand = new Random();
+        int minDistance = 50;
+        for (int i = 0; i < arrayX.length; i++) {
+            boolean valid = false;
+            int centerX = 0;
+            int centerY = 0;
+            while (!valid) {
+                centerX = rand.nextInt(levelSelector.menuWindow.getFrameSize() - 200) + 100;
+                centerY = rand.nextInt(levelSelector.menuWindow.getFrameSize() - 200) + 100;
+                int radius = CREATED_LEVELS_SIZE;
+
+                valid = true;
+                for (int j = 0; j < mainLevelsPositions.length; j++) {
+                    int mainX = mainLevelsPositions[j].getX();
+                    int mainY = mainLevelsPositions[j].getY();
+                    int mainRadius = MAIN_LEVELS_SIZE;
+                    double distance = Math.sqrt(Math.pow(centerX - mainX, 2) + Math.pow(centerY - mainY, 2));
+                    if (distance <= radius + mainRadius + minDistance) {
+                        valid = false;
+                        break;
+                    }
+                }
+                int distanceSquared = (centerX - rocketPosition.getX()) * (centerX - rocketPosition.getX()) + (centerY - rocketPosition.getY()) * (centerY - rocketPosition.getY());
+                if (distanceSquared < 100 * 100) {
+                    valid = false;
+                }
+            }
+            arrayX[i] = centerX;
+            arrayY[i] = centerY;
+        }
+    }
+
 
     private void movement() {
         addKeyListener(new KeyAdapter() {
@@ -140,12 +206,25 @@ public class LevelGamePanel extends JPanel {
 
     private void checkCollisions() {
         Rectangle rocket = new Rectangle(rocketPosition.getX() + 12, rocketPosition.getY(), ROCKET_SIZE - (ROCKET_SIZE / 2), ROCKET_SIZE);
-        for (int i = 0; i < levelsPositions.length; i++) {
+        for (int i = 0; i < mainLevelsPositions.length; i++) {
             Ellipse2D.Double levelCircle = new Ellipse2D.Double(
-                    levelsPositions[i].getX(),
-                    levelsPositions[i].getY(),
-                    LEVELS_SIZE,
-                    LEVELS_SIZE
+                    mainLevelsPositions[i].getX(),
+                    mainLevelsPositions[i].getY(),
+                    MAIN_LEVELS_SIZE,
+                    MAIN_LEVELS_SIZE
+            );
+            if (levelCircle.intersects(rocket) && !gameStarted) {
+                gameStarted = true;
+                startGame(i + 1);
+                break;
+            }
+        }
+        for (int i = 0; i < createdLevelsPositions.length; i++) {
+            Ellipse2D.Double levelCircle = new Ellipse2D.Double(
+                    createdLevelsPositions[i].getX(),
+                    createdLevelsPositions[i].getY(),
+                    CREATED_LEVELS_SIZE,
+                    CREATED_LEVELS_SIZE
             );
             if (levelCircle.intersects(rocket) && !gameStarted) {
                 gameStarted = true;
@@ -191,8 +270,11 @@ public class LevelGamePanel extends JPanel {
         super.paintComponent(g);
         BufferedImage rotatedRocketImage = rotateImage(rocketImage, currentDirection);
         g.drawImage(rotatedRocketImage, rocketPosition.getX(), rocketPosition.getY(), ROCKET_SIZE, ROCKET_SIZE, this);
-        for (int i = 0; i < levelsPositions.length; i++) {
-            g.drawImage(levelsImages[i], levelsPositions[i].getX(), levelsPositions[i].getY(), LEVELS_SIZE, LEVELS_SIZE, this);
+        for (int i = 0; i < mainLevelsPositions.length; i++) {
+            g.drawImage(mainLevelsImages[i], mainLevelsPositions[i].getX(), mainLevelsPositions[i].getY(), MAIN_LEVELS_SIZE, MAIN_LEVELS_SIZE, this);
+        }
+        for (int i = 0; i < createdLevels.length; i++) {
+            g.drawImage(createdLevelsImages[i], createdLevelsPositions[i].getX(), createdLevelsPositions[i].getY(), CREATED_LEVELS_SIZE, CREATED_LEVELS_SIZE, this);
         }
     }
 }

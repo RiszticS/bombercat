@@ -38,7 +38,7 @@ public class LevelSelector extends JPanel implements ActionListener {
         buttonPanel.add(Box.createVerticalGlue());
         levelGamePanel.add(BorderLayout.SOUTH, buttonPanel);
 
-        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/assets/images/gui/backgrounds/background.png")));
+        JLabel background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/assets/images/gui/backgrounds/background.png")).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
         this.setLayout(new BorderLayout());
         this.add(background);
         this.setOpaque(false);
