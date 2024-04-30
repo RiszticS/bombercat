@@ -34,7 +34,7 @@ public abstract class MovingElement {
         this.hitbox = new Hitbox(this.position, tileSize / 2, tileSize / 2, tileSize / 4, tileSize / 2);
         this.collisionManager = new CollisionManager(this);
         this.alive = true;
-        this.gm = null;
+        //this.gm = null;
     }
 
     protected abstract void move();
@@ -59,5 +59,12 @@ public abstract class MovingElement {
     protected void setGraphicsManager(MovingAnimationGraphics gm) {
         this.gm = gm;
         GraphicsController.addManager(gm);
+    }
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

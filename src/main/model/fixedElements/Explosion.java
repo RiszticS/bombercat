@@ -85,7 +85,7 @@ public class Explosion extends FixedElement {
 
     public void dissipate(FixedElement[][] board) {
         GraphicsController.removeManager(sg);
-        board[position.getX()][position.getY()] = new EmptyTile(position);
+        board[position.getX()][position.getY()] = new EmptyTile(position, false);
         canSpreadUpwards = true;
         canSpreadDownwards = true;
         canSpreadLeft = true;
@@ -116,10 +116,18 @@ public class Explosion extends FixedElement {
     }
 
     private void checkCurrentSpreadLevel(FixedElement[][] board) {
-        checkUpperSpreadDirection(board);
-        checkLowerSpreadDirection(board);
-        checkLeftSpreadDirection(board);
-        checkRightSpreadDirection(board);
+        if (canSpreadUpwards) {
+            checkUpperSpreadDirection(board);
+        }
+        if (canSpreadDownwards) {
+            checkLowerSpreadDirection(board);
+        }
+        if (canSpreadLeft) {
+            checkLeftSpreadDirection(board);
+        }
+        if (canSpreadRight) {
+            checkRightSpreadDirection(board);
+        }
 
     }
 

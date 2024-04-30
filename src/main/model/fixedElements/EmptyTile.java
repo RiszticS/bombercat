@@ -12,10 +12,14 @@ import java.awt.*;
 import java.io.IOException;
 
 public class EmptyTile extends FixedElement {
-    public EmptyTile(MatrixPosition p) {
+    private StaticGraphics sg;
+    public EmptyTile(MatrixPosition p, boolean addRender) {
         super(p);
-        int tileSize = GraphicProperties.getTileSize();
-        GraphicsController.addManagerFirst(new StaticGraphics("/main/assets/images/floor.png", p.convertToCoordinatePosition(tileSize),tileSize));
+        if (addRender) {
+            int tileSize = GraphicProperties.getTileSize();
+            sg = new StaticGraphics("/main/assets/images/floor.png", p.convertToCoordinatePosition(tileSize),tileSize);
+            GraphicsController.addManagerFirst(sg);
+        }
     }
 
     @Override

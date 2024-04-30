@@ -12,11 +12,11 @@ import java.awt.*;
 import java.io.IOException;
 
 public class PowerUpBombRange extends PowerUp {
-
     private StaticGraphics sg;
 
     public PowerUpBombRange(MatrixPosition p) {
         super(p);
+        GraphicsController.addManager(sg);
     }
 
     @Override
@@ -26,11 +26,10 @@ public class PowerUpBombRange extends PowerUp {
         }
         GraphicsController.removeManager(sg);
     }
-
     @Override
-    public void startDraw() {
+    public void startDraw(){
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/main/assets/images/plusRange.png", this.position.convertToCoordinatePosition(tileSize), tileSize);
+        sg = new StaticGraphics("/main/assets/images/plusRange.png", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
         GraphicsController.addManager(sg);
     }
 }

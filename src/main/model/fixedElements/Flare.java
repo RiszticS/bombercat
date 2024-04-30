@@ -49,7 +49,7 @@ public class Flare extends FixedElement {
 
     public void dissipate(FixedElement[][] board) {
         GraphicsController.removeManager(sg);
-        board[position.getX()][position.getY()] = new EmptyTile(this.position);
+        board[position.getX()][position.getY()] = new EmptyTile(this.position, false);
     }
 
     @Override

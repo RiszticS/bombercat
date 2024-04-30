@@ -16,7 +16,7 @@ public class PowerUpPlusBomb extends PowerUp {
 
     public PowerUpPlusBomb(MatrixPosition p) {
         super(p);
-        sg = null;
+        GraphicsController.addManager(sg);
     }
 
     @Override
@@ -31,5 +31,4 @@ public class PowerUpPlusBomb extends PowerUp {
         sg = new StaticGraphics("/main/assets/images/plusBomb.png", this.position.convertToCoordinatePosition(tileSize), tileSize);
         GraphicsController.addManager(sg);
     }
-
 }

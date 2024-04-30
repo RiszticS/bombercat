@@ -56,15 +56,15 @@ public class Level {
 
                 if (currentCharacter == 'p') {
                     if (numberOfPlayerPositionsInTheFile < playerNumberProvidedInTheMenu) {
-                        players.add(new Player(new MatrixPosition(rowIndex, colIndex)));
+                        players.add(new Player(new MatrixPosition(rowIndex, colIndex),board));
                     }
-                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex));
+                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                     numberOfPlayerPositionsInTheFile++;
                 } else if (currentCharacter == 'm') {
                     monsters.add(new Monster(new MatrixPosition(rowIndex, colIndex)));
-                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex));
+                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                 } else if (currentCharacter == 'f') {
-                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex));
+                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                 } else if (currentCharacter == 'w') {
                     board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex));
                 } else if (currentCharacter == 'c') {
@@ -135,7 +135,7 @@ public class Level {
 
     private void allocatePowerUpsToRandomChests(ArrayList<Chest> chests) {
         if (!chests.isEmpty()) {
-            ArrayList<PowerUp> powerUps = generateRandomPowerUpsInRange(1, (int)Math.ceil((float) chests.size() / 3) );
+            ArrayList<PowerUp> powerUps = generateRandomPowerUpsInRange(chests.size(), chests.size());
 
             ArrayList<Integer> alreadyPickedIndices = new ArrayList<>();
             for (PowerUp p : powerUps) {
@@ -172,6 +172,19 @@ public class Level {
                     break;
                 case 2:
                     powerUps.add(new PowerUpPlusBomb(new MatrixPosition(0, 0)));
+                    break;
+                case 3:
+                    powerUps.add(new PowerUpBombBlocker(new MatrixPosition(0, 0)));
+                    break;
+                case 4:
+                    powerUps.add(new PowerUpRangeReducer(new MatrixPosition(0, 0)));
+                    break;
+                case 5:
+                    powerUps.add(new PowerUpSpeedReducer(new MatrixPosition(0, 0)));
+                    break;
+                case 6:
+                    powerUps.add(new PowerUpInstantPlacement(new MatrixPosition(0, 0)));
+                    break;
             }
         }
         return powerUps;

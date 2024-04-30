@@ -24,7 +24,6 @@ public abstract class PowerUp extends FixedElement {
     }
 
     public abstract void apply(Player p);
-
     public void setPickedUp(boolean pickedUp) {
         this.pickedUp = pickedUp;
     }
@@ -32,7 +31,7 @@ public abstract class PowerUp extends FixedElement {
     @Override
     public void update(FixedElement[][] board) {
         if (pickedUp) {
-            board[this.position.getX()][this.position.getY()] = new EmptyTile(this.position);
+            board[this.position.getX()][this.position.getY()] = new EmptyTile(this.position, true);
         }
     }
 
