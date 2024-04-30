@@ -47,7 +47,7 @@ public class PowerUpRangeReducer extends PowerUp {
     @Override
     public void startDraw(){
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/main/assets/images/minusPowerUp.png", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
+        sg = new StaticGraphics("/main/assets/images/minusPowerUp.jpeg", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
         GraphicsController.addManager(sg);
     }
 }
