@@ -28,8 +28,8 @@ public class PowerUpBombBlocker extends PowerUp {
 
     public void apply(Player p) {
         System.out.println("blocker");
-        GraphicsController.removeManager(sg);
         p.setCanPlaceBomb(false);
+        GraphicsController.removeManager(sg);
         effectTimer = new Timer();
         effectTimer.schedule(new TimerTask() {
             @Override

@@ -23,10 +23,10 @@ public class PowerUpSpeedReducer extends PowerUp {
     @Override
     public void apply(Player p) {
         System.out.println("sebesseg");
-        GraphicsController.removeManager(sg);
         int originalSpeed = p.getSpeed();
         int reducedSpeed = originalSpeed / 2;
         p.setSpeed(reducedSpeed);
+        GraphicsController.removeManager(sg);
 
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {

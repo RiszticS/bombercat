@@ -56,15 +56,15 @@ public class Level {
 
                 if (currentCharacter == 'p') {
                     if (numberOfPlayerPositionsInTheFile < playerNumberProvidedInTheMenu) {
-                        players.add(new Player(new MatrixPosition(rowIndex, colIndex)));
+                        players.add(new Player(new MatrixPosition(rowIndex, colIndex),board));
                     }
-                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex));
+                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                     numberOfPlayerPositionsInTheFile++;
                 } else if (currentCharacter == 'm') {
                     monsters.add(new Monster(new MatrixPosition(rowIndex, colIndex)));
-                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex));
+                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                 } else if (currentCharacter == 'f') {
-                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex));
+                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                 } else if (currentCharacter == 'w') {
                     board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex));
                 } else if (currentCharacter == 'c') {
@@ -164,9 +164,8 @@ public class Level {
         int numOfPowerUps = ThreadLocalRandom.current().nextInt(min, max + 1);
         ArrayList<PowerUp> powerUps = new ArrayList<>();
         for (int i = 0; i < numOfPowerUps; i++) {
-            int typeOfPowerUp = 4;
-                    //ThreadLocalRandom.current().nextInt(1,
-                   // ModelProperties.getNumberOfTypesOfPowerUps() + 1);
+            int typeOfPowerUp = ThreadLocalRandom.current().nextInt(1,
+                    ModelProperties.getNumberOfTypesOfPowerUps() + 1);
             switch (typeOfPowerUp) {
                 case 1:
                     powerUps.add(new PowerUpBombRange(new MatrixPosition(0,0)));
@@ -178,13 +177,13 @@ public class Level {
                     powerUps.add(new PowerUpBombBlocker(new MatrixPosition(0, 0)));
                     break;
                 case 4:
-                    powerUps.add(new PowerUpInstantPlacement(new MatrixPosition(0, 0)));
-                    break;
-                case 5:
                     powerUps.add(new PowerUpRangeReducer(new MatrixPosition(0, 0)));
                     break;
-                case 6:
+                case 5:
                     powerUps.add(new PowerUpSpeedReducer(new MatrixPosition(0, 0)));
+                    break;
+                case 6:
+                    powerUps.add(new PowerUpInstantPlacement(new MatrixPosition(0, 0)));
                     break;
             }
         }

@@ -20,12 +20,14 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Player extends MovingElement implements KeyListener {
+    private FixedElement[][] board;
     private MovingAnimationGraphics graphicsManager;
     private final PlayerControls controls;
     private boolean upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, plantBombKeyPressed;
     private final ArrayList<PowerUp> powerUps;
     private final ArrayDeque<Bomb> bombs;
     private final RenderTimer plantBombCooldown;
+    private RenderTimer effectTimer;
     private boolean canPlaceBomb;
     private static int numberOfInstancesCreated = 0;
     private final int id;
@@ -40,7 +42,7 @@ public class Player extends MovingElement implements KeyListener {
      * instantiation.
      * @param p A CoordinatePosition object that corresponds to the upper-left corner of the sprite.
      */
-    public Player(CoordinatePosition p) {
+    public Player(CoordinatePosition p, FixedElement[][] board) {
         super(p);
 
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
@@ -54,12 +56,14 @@ public class Player extends MovingElement implements KeyListener {
         numberOfInstancesCreated++;
         controls = ControlsProperties.getPlayerControls(numberOfInstancesCreated);
 
+        this.board = board;
         this.upKeyPressed = false;
         this.downKeyPressed = false;
         this.leftKeyPressed = false;
         this.rightKeyPressed = false;
         this.plantBombKeyPressed = false;
         this.powerUps = new ArrayList<>();
+        this.effectTimer = new RenderTimer(600);
         this.bombs = new ArrayDeque<>();
         this.canPlaceBomb = true;
         bombs.add(new Bomb(new MatrixPosition(0,0)));
@@ -67,7 +71,7 @@ public class Player extends MovingElement implements KeyListener {
         this.id = numberOfInstancesCreated;
     }
 
-    public Player(MatrixPosition p) {
+    public Player(MatrixPosition p, FixedElement[][] board) {
         super(p);
 
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
@@ -78,14 +82,18 @@ public class Player extends MovingElement implements KeyListener {
         animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
         this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position, 1.3);
         GraphicsController.addManager(this.graphicsManager);
+
         numberOfInstancesCreated++;
         controls = ControlsProperties.getPlayerControls(numberOfInstancesCreated);
+
+        this.board = board;
         this.upKeyPressed = false;
         this.downKeyPressed = false;
         this.leftKeyPressed = false;
         this.rightKeyPressed = false;
         this.plantBombKeyPressed = false;
         this.powerUps = new ArrayList<>();
+        this.effectTimer = new RenderTimer(600);
         this.bombs = new ArrayDeque<>();
         bombs.add(new Bomb(new MatrixPosition(0,0)));
         plantBombCooldown = new RenderTimer(11);
@@ -104,6 +112,11 @@ public class Player extends MovingElement implements KeyListener {
         collisionManager.handleCollisions(this, board, monsters);
         move();
         plantBomb(board);
+        if(!effectTimer.finished()) {
+            effectTimer.decrease();
+        } else {
+            setPlantBombKeyPressed(false);
+        }
     }
 
     /**
@@ -216,5 +229,13 @@ public class Player extends MovingElement implements KeyListener {
 
     public ArrayDeque<Bomb> getBombs() {
         return bombs;
+    }
+
+    public FixedElement[][] getBoard() {
+        return board;
+    }
+
+    public RenderTimer getEffectTimer() {
+        return effectTimer;
     }
 }

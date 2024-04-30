@@ -41,7 +41,8 @@ public class PowerUpRangeReducer extends PowerUp {
                     effectTimer.cancel();
                 }
             }, EFFECT_DURATION);
-        }}
+        }
+    }
 
     @Override
     public void startDraw(){
