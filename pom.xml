@@ -46,7 +46,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.ctrlaltdefeat.Main</mainClass>
+                            <mainClass>org.ctrlaltdefeat</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
