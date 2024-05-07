@@ -14,20 +14,20 @@ build:
   script:
     - mvn compile
 
-compile:
-  stage: deploy
-  script:
-    - mvn install
-    - cp target/*.jar /jars
-  artifacts:
-    paths:
-      - public
-    expire_in: 30 days
-
 test:
   stage: test
   script:
     - mvn test
+
+compile:
+  stage: deploy
+  script:
+    - mvn install
+    - cp target/*.jar jars
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
 
 # Documentation
 pages:
