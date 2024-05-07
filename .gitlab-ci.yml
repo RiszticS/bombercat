@@ -13,9 +13,15 @@ build:
   stage: build
   script:
     - mvn compile
+
+compile:
+  stage: deploy
+  script:
+    - mvn install
+    - cp /target/ctrlaltdefeat-1.0-SNAPSHOT.jar /public
   artifacts:
     paths:
-      - target/ctrlaltdefeat.jar
+      - public
     expire_in: 30 days
 
 test:
