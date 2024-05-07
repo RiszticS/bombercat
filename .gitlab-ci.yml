@@ -29,8 +29,7 @@ pages:
     paths:
       - public
     expire_in: 1 day
-  only:
-    - master
+
 image: maven:latest
 
 variables:
@@ -62,5 +61,3 @@ pages:
     paths:
       - public
     expire_in: 1 day
-  only:
-    - master
