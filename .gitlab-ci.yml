@@ -23,7 +23,7 @@ compile:
   stage: deploy
   script:
     - mvn install
-    - cp target/*.jar jars
+    - cp target/*.jar jars/
   artifacts:
     paths:
       - jars
