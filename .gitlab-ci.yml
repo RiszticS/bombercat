@@ -19,16 +19,6 @@ test:
   script:
     - mvn test
 
-compile:
-  stage: deploy
-  script:
-    - mvn install
-    - cp target/*.jar jars/
-  artifacts:
-    paths:
-      - jars
-    expire_in: 30 days
-
 # Documentation
 pages:
   stage: deploy
@@ -39,3 +29,13 @@ pages:
     paths:
       - public
     expire_in: 1 day
+
+compile:
+  stage: deploy
+  script:
+    - mvn install
+    - cp target/*.jar public/
+  artifacts:
+    paths:
+      - jars
+    expire_in: 30 days
