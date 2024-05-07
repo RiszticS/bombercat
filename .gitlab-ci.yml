@@ -52,6 +52,6 @@ upload:
   script:
     - echo $VERSION
     - ls
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ../target/ctrlaltdefeat-1.0-SNAPSHOT.jar "${CI_API_V4_URL}/builds/szofttech-c-2024/group-12/ctrlaltdefeat/.m2/repository/org/example/ctrlaltdefeat/1.0-SNAPSHOT/ctrlaltdefeat-1.0-SNAPSHOT.jar"'
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file target/ctrlaltdefeat-1.0-SNAPSHOT.jar "${CI_API_V4_URL}/builds/szofttech-c-2024/group-12/ctrlaltdefeat/.m2/repository/org/example/ctrlaltdefeat/1.0-SNAPSHOT/ctrlaltdefeat-1.0-SNAPSHOT.jar"'
   dependencies:
     - deploy
