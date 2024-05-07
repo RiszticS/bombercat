@@ -30,6 +30,8 @@ pages:
   stage: deploy
   script:
     - mvn javadoc:javadoc
+    - ls
+    - ls target
     - cp -r target/site/apidocs/. public/
   artifacts:
     paths:
@@ -51,7 +53,7 @@ upload:
     - export VERSION=$(grep -m1 '<version>' pom.xml | grep -oP  '(?<=>).*(?=<)')
   script:
     - echo $VERSION
-    - ls ../
+    - ls target
     - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ../target/ctrlaltdefeat-1.0-SNAPSHOT.jar "${CI_API_V4_URL}/builds/szofttech-c-2024/group-12/ctrlaltdefeat/.m2/repository/org/example/ctrlaltdefeat/1.0-SNAPSHOT/ctrlaltdefeat-1.0-SNAPSHOT.jar"'
   dependencies:
     - compile
