@@ -37,5 +37,5 @@ compile:
     - cp target/*.jar public/
   artifacts:
     paths:
-      - jars
+      - public
     expire_in: 30 days
