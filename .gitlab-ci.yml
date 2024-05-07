@@ -18,8 +18,7 @@ compile:
   stage: deploy
   script:
     - mvn install
-    - ls /target
-    - cp /target/*.jar /public/jars
+    - cp target/*.jar /jars
   artifacts:
     paths:
       - public
