@@ -18,7 +18,7 @@ compile:
   stage: deploy
   script:
     - mvn install
-    - cp /target/ctrlaltdefeat-1.0-SNAPSHOT.jar /public
+    - cp /target/*.jar /public/jars
   artifacts:
     paths:
       - public
