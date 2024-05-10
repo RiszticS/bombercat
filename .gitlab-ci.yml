@@ -30,8 +30,6 @@ pages:
   stage: deploy
   script:
     - mvn javadoc:javadoc
-    - ls
-    - ls target
     - cp -r target/site/apidocs/. public/
   artifacts:
     paths:
