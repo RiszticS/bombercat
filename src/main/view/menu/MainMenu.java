@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 
 
 public class MainMenu extends JPanel implements ActionListener {
-    private MenuWindow menuWindow;
-    private JButton[] buttons;
+    private final MenuWindow menuWindow;
+    private final JButton[]  buttons;
     private JPanel buttonPanel;
 
     public MainMenu(MenuWindow menuWindow) {
@@ -22,13 +22,14 @@ public class MainMenu extends JPanel implements ActionListener {
         String[] buttonLabels = {"New Game", "Map editor", "Settings", "Exit"};
         buttons = new JButton[buttonLabels.length];
         for (int i = 0; i < buttonLabels.length; i++) {
-            buttons[i] = menuWindow.createButton(buttonLabels[i], this, new ImageIcon(getClass().getResource("/assets/images/gui/buttons/button.png")), new ImageIcon(getClass().getResource("/assets/images/gui/buttons/buttonHover.png")), new ImageIcon(getClass().getResource("/assets/images/gui/buttons/buttonPressed.png")));
+            buttons[i] = menuWindow.createButton(buttonLabels[i], this, new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/button.png")), new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonHover.png")), new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonPressed.png")));
             buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
             buttonPanel.add(buttons[i]);
         }
         buttonPanel.add(Box.createVerticalGlue());
 
-        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/assets/images/gui/backgrounds/mainMenuBackground.gif")));
+        JLabel background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/main/assets/images/gui/backgrounds/mainMenuBackground.gif")).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_DEFAULT)));
+
         this.setLayout(new BorderLayout());
         this.add(background);
         this.setOpaque(false);

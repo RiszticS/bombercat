@@ -16,20 +16,22 @@ import java.util.HashMap;
 
 public class GameModel {
     private int levelNumber, playerNumber, numberOfWinsNecessary;
+    private boolean createdLevel;
     private Level currentLevel;
     private final ArrayList<Integer> scores;
 
 
-    public GameModel(int levelNumber, int playerNumber, int numberOfWinsNecessary) {
+    public GameModel(int levelNumber, int playerNumber, int numberOfWinsNecessary,boolean createdLevel) {
         this.levelNumber = levelNumber;
         this.playerNumber = playerNumber;
         this.numberOfWinsNecessary = numberOfWinsNecessary;
+        this.createdLevel=createdLevel;
         scores = new ArrayList<>();
         for (int i = 0; i < playerNumber; i++) {
             scores.add(0);
         }
         try {
-            this.currentLevel = new Level(levelNumber, playerNumber);
+            this.currentLevel = new Level(levelNumber, playerNumber,createdLevel);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -60,7 +62,7 @@ public class GameModel {
             gamePanel.removeKeyListenersForPlayers();
             Player.resetNumberOfInstancesCreated();
             GraphicsController.reset();
-            this.currentLevel = new Level(this.levelNumber, this.playerNumber);
+            this.currentLevel = new Level(this.levelNumber, this.playerNumber,this.createdLevel);
             gamePanel.addKeyListenersForPlayers();
         } catch (IOException e) {
             System.out.println("The level could not be reset!");

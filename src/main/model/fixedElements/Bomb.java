@@ -1,20 +1,12 @@
 package main.model.fixedElements;
 
 import main.controllers.configuration.GraphicProperties;
-import main.controllers.configuration.ModelProperties;
 import main.controllers.game.RenderTimer;
 import main.controllers.graphics.GraphicsController;
 import main.controllers.graphics.StaticGraphics;
-import main.model.positions.CoordinatePosition;
 import main.model.positions.MatrixPosition;
-import main.model.positions.Position;
-import main.model.Hitbox;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class Bomb extends FixedElement {
@@ -33,7 +25,7 @@ public class Bomb extends FixedElement {
     public void plant(MatrixPosition position) {
         this.position = position;
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/main/assets/images/bomb.png", position.convertToCoordinatePosition(tileSize), tileSize);
+        sg = new StaticGraphics("/images/bomb.png", position.convertToCoordinatePosition(tileSize), tileSize);
         GraphicsController.addManager(sg);
         hitbox.setPosition(this.position.convertToCoordinatePosition(GraphicProperties.getTileSize()));
         explosionCountdown.start();

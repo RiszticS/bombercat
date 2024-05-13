@@ -4,7 +4,6 @@ import main.controllers.game.GameLoop;
 import main.model.positions.Direction;
 import main.model.GameModel;
 import main.model.positions.CoordinatePosition;
-import main.model.positions.Position;
 import main.view.game.GameWindow;
 
 import javax.swing.*;
@@ -21,16 +20,16 @@ import java.util.Random;
 public class LevelGamePanel extends JPanel {
 
     private final BufferedImage rocketImage;
-    private final Position rocketPosition;
+    private final CoordinatePosition rocketPosition;
     private static final int ROCKET_SIZE = 50;
     private static final int MOVE_DISTANCE = 5;
 
     private BufferedImage[] mainLevelsImages;
-    private Position[] mainLevelsPositions;
+    private CoordinatePosition[] mainLevelsPositions;
     private static final int MAIN_LEVELS_SIZE = 200;
 
     private BufferedImage[] createdLevelsImages;
-    private Position[] createdLevelsPositions;
+    private CoordinatePosition[] createdLevelsPositions;
     private static final int CREATED_LEVELS_SIZE = 50;
     private File[] createdLevels;
 
@@ -47,8 +46,8 @@ public class LevelGamePanel extends JPanel {
         requestFocusInWindow();
         setOpaque(false);
 
-        rocketImage = loadImage("src/assets/images/gui/levelselector/rocket.png");
-        rocketPosition = new Position(350, 200);
+        rocketImage = loadImage("src/main/assets/images/gui/levelselector/rocket.png");
+        rocketPosition = new CoordinatePosition(350, 200);
 
         loadMainLevels();
         loadCreatedLevels();
@@ -60,15 +59,15 @@ public class LevelGamePanel extends JPanel {
         int[] mainLevelPositionX = {10, 490, 650};
         int[] mainLevelPositionY = {200, 600, 20};
         mainLevelsImages = new BufferedImage[3];
-        mainLevelsPositions = new Position[3];
+        mainLevelsPositions = new CoordinatePosition[3];
         for (int i = 0; i < mainLevelsImages.length; i++) {
-            mainLevelsImages[i] = loadImage("src/assets/images/gui/levelselector/level" + (i + 1) + ".png");
-            mainLevelsPositions[i] = new Position(mainLevelPositionX[i], mainLevelPositionY[i]);
+            mainLevelsImages[i] = loadImage("src/main/assets/images/gui/levelselector/level" + (i + 1) + ".png");
+            mainLevelsPositions[i] = new CoordinatePosition(mainLevelPositionX[i], mainLevelPositionY[i]);
         }
     }
 
     public void loadCreatedLevels() {
-        File folder = new File("src/assets/levels/createdlevels");
+        File folder = new File("src/main/assets/levels/createdlevels");
         createdLevels = folder.listFiles();
 
         int length = createdLevels.length;
@@ -78,10 +77,10 @@ public class LevelGamePanel extends JPanel {
         fillWithRandomNumbers(createdLevelPositionX, createdLevelPositionY);
 
         createdLevelsImages = new BufferedImage[length];
-        createdLevelsPositions = new Position[length];
+        createdLevelsPositions = new CoordinatePosition[length];
         for (int i = 0; i < createdLevels.length; i++) {
-            createdLevelsImages[i] = loadImage("src/assets/images/gui/levelselector/meteor.png");
-            createdLevelsPositions[i] = new Position(createdLevelPositionX[i], createdLevelPositionY[i]);
+            createdLevelsImages[i] = loadImage("src/main/assets/images/gui/levelselector/meteor.png");
+            createdLevelsPositions[i] = new CoordinatePosition(createdLevelPositionX[i], createdLevelPositionY[i]);
         }
     }
 
@@ -205,9 +204,9 @@ public class LevelGamePanel extends JPanel {
     Szabolcs
 
      */
-    private void startGame(int level) {
+    private void startGame(int level,boolean createdLevel) {
         timer.stop();
-        GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber(), 3);
+        GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber(), levelSelector.menuWindow.getRoundSelector().getRoundNumber(),createdLevel);
         GameWindow gw = new GameWindow(gm);
         GameLoop gc = new GameLoop(gm, gw.getGamePanel());
         gc.start();
@@ -229,7 +228,7 @@ public class LevelGamePanel extends JPanel {
             );
             if (levelCircle.intersects(rocket) && !gameStarted) {
                 gameStarted = true;
-                startGame(i + 1);
+                startGame(i ,false);
                 break;
             }
         }
@@ -242,7 +241,7 @@ public class LevelGamePanel extends JPanel {
             );
             if (levelCircle.intersects(rocket) && !gameStarted) {
                 gameStarted = true;
-                startGame(i + 1);
+                startGame(i,true);
                 break;
             }
         }
