@@ -233,32 +233,34 @@ public class MapEditor extends JPanel implements ActionListener {
 
     private void loadLevel() {
         File folder = new File("src/main/assets/levels/createdlevels");
-        if (loadIndex < folder.listFiles().length - 1) loadIndex++;
-        else loadIndex = 0;
-        try {
-            File file = new File("src/main/assets/levels/createdlevels/level" + loadIndex + ".txt");
-            Scanner scanner = new Scanner(file);
-            for (int i = 0; i < boardButtons.length; i++) {
-                if (!scanner.hasNextLine()) {
-                    break;
-                }
-                String line = scanner.nextLine();
-                String[] iconNames = line.split(";");
-                for (int j = 0; j < boardButtons[i].length; j++) {
-                    String iconName = iconNames[j];
-                    for (JButton button : editButtons) {
-                        if (Objects.equals(findIconName(button.getIcon()), iconName)) {
-                            boardButtons[i][j].setIcon(button.getIcon());
-                            break;
+        if (folder.listFiles().length > 0) {
+            if (loadIndex < folder.listFiles().length - 1) loadIndex++;
+            else loadIndex = 0;
+            try {
+                File file = new File("src/main/assets/levels/createdlevels/level" + loadIndex + ".txt");
+                Scanner scanner = new Scanner(file);
+                for (int i = 0; i < boardButtons.length; i++) {
+                    if (!scanner.hasNextLine()) {
+                        break;
+                    }
+                    String line = scanner.nextLine();
+                    String[] iconNames = line.split(";");
+                    for (int j = 0; j < boardButtons[i].length; j++) {
+                        String iconName = iconNames[j];
+                        for (JButton button : editButtons) {
+                            if (Objects.equals(findIconName(button.getIcon()), iconName)) {
+                                boardButtons[i][j].setIcon(button.getIcon());
+                                break;
+                            }
                         }
                     }
                 }
+                scanner.close();
+            } catch (IOException e) {
+                System.err.println("Error loading level: " + e.getMessage());
             }
-            scanner.close();
-        } catch (IOException e) {
-            System.err.println("Error loading level: " + e.getMessage());
+            validateMap(boardButtons);
         }
-        validateMap(boardButtons);
     }
 
     private String findIconName(Icon icon) {
