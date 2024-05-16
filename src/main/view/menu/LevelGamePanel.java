@@ -143,7 +143,7 @@ public class LevelGamePanel extends JPanel {
         timer.stop();
         GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber(), 3);
         GameWindow gw = new GameWindow(gm);
-        GameLoop gc = new GameLoop(gm, gw.getGamePanel());
+        GameLoop gc = new GameLoop(gm, gw);
         gc.start();
         levelSelector.menuWindow.dispose();
     }
