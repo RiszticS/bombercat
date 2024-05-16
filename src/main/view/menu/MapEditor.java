@@ -24,6 +24,7 @@ public class MapEditor extends JPanel implements ActionListener {
     private JLabel selectedTile;
     private JPanel comboBoxPanel;
     private int loadIndex;
+    private final File createdLevelFolder;
 
     public MapEditor(MenuWindow menuWindow) {
         this.menuWindow = menuWindow;
@@ -130,6 +131,9 @@ public class MapEditor extends JPanel implements ActionListener {
         background.setHorizontalAlignment(JLabel.CENTER);
         background.add(Box.createVerticalGlue());
         background.add(mapEditorPanel);
+
+        createdLevelFolder = new File("src/main/assets/levels/createdlevels");
+        buttons[3].setVisible(createdLevelFolder.listFiles().length > 0);
     }
 
     private void backButtonClick() {
@@ -229,12 +233,12 @@ public class MapEditor extends JPanel implements ActionListener {
         } catch (IOException e) {
             System.err.println("Error saving level: " + e.getMessage());
         }
+        buttons[3].setVisible(createdLevelFolder.listFiles().length > 0);
     }
 
     private void loadLevel() {
-        File folder = new File("src/main/assets/levels/createdlevels");
-        if (folder.listFiles().length > 0) {
-            if (loadIndex < folder.listFiles().length - 1) loadIndex++;
+        if (createdLevelFolder.listFiles().length > 0) {
+            if (loadIndex < createdLevelFolder.listFiles().length - 1) loadIndex++;
             else loadIndex = 0;
             try {
                 File file = new File("src/main/assets/levels/createdlevels/level" + loadIndex + ".txt");
