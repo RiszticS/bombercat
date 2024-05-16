@@ -12,10 +12,8 @@ import main.model.positions.Direction;
 import main.model.positions.CoordinatePosition;
 import main.model.positions.MatrixPosition;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.nio.MappedByteBuffer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
@@ -46,11 +44,11 @@ public class Player extends MovingElement implements KeyListener {
         super(p);
 
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 2));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkright.png", 6, 1, 6, 0, 32, 48, 3));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/images/players/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 2));
+        animationConfiguration.add(new AnimationConfiguration("/images/players/astronautwalkright.png", 6, 1, 6, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/images/players/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
+        animationConfiguration.add(new AnimationConfiguration("/images/players/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/images/players/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
         this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position, 1.3);
         GraphicsController.addManager(this.graphicsManager);
         numberOfInstancesCreated++;
@@ -71,15 +69,15 @@ public class Player extends MovingElement implements KeyListener {
         this.id = numberOfInstancesCreated;
     }
 
-    public Player(MatrixPosition p, FixedElement[][] board) {
+    public Player(MatrixPosition p, FixedElement[][] board,int playerIndex) {
         super(p);
 
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkback.png", 9, 1, 9, 0, 32, 48, 2));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkright.png", 6, 1, 6, 0, 32, 48, 3));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkfront.png", 9, 1, 9, 0, 32, 48, 2));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautwalkleft.png", 6, 1, 6, 0, 32, 48, 3));
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/astronautidle.png", 13, 1, 13, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/players/astronaut"+playerIndex+"walkback.png", 9, 1, 9, 0, 32, 48, 2));
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/players/astronaut"+playerIndex+"walkright.png", 6, 1, 6, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/players/astronaut"+playerIndex+"walkfront.png", 9, 1, 9, 0, 32, 48, 2));
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/players/astronaut"+playerIndex+"walkleft.png", 6, 1, 6, 0, 32, 48, 3));
+        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/players/astronaut"+playerIndex+"idle.png", 13, 1, 13, 0, 32, 48, 3));
         this.graphicsManager = new MovingAnimationGraphics(animationConfiguration, position, 1.3);
         GraphicsController.addManager(this.graphicsManager);
 

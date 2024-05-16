@@ -4,16 +4,10 @@ import main.controllers.configuration.GraphicProperties;
 import main.controllers.game.RenderTimer;
 import main.controllers.graphics.GraphicsController;
 import main.controllers.graphics.StaticGraphics;
-import main.model.positions.CoordinatePosition;
 import main.model.positions.Direction;
 import main.model.positions.MatrixPosition;
-import main.model.positions.Position;
-import main.model.Hitbox;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Explosion extends FixedElement {
     private BufferedImage image;
@@ -32,7 +26,7 @@ public class Explosion extends FixedElement {
         dissipationCountdown = new RenderTimer(180);
 
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/main/assets/images/explosion.png",
+        sg = new StaticGraphics("/images/explosion.png",
                 position.convertToCoordinatePosition(tileSize),
                 tileSize);
         GraphicsController.addManager(sg);

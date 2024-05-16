@@ -5,7 +5,7 @@ import main.controllers.graphics.GraphicsController;
 import main.controllers.graphics.StaticGraphics;
 import main.model.movingElements.Player;
 import main.model.positions.MatrixPosition;
-import java.awt.*;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,7 +22,7 @@ public class PowerUpBombBlocker extends PowerUp {
     @Override
     public void startDraw(){
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/main/assets/images/minusPowerUp.jpeg", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
+        sg = new StaticGraphics("/images/minusPowerUp.jpeg", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
         GraphicsController.addManager(sg);
     }
 
