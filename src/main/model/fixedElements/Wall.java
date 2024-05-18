@@ -3,21 +3,13 @@ package main.model.fixedElements;
 import main.controllers.configuration.GraphicProperties;
 import main.controllers.graphics.GraphicsController;
 import main.controllers.graphics.StaticGraphics;
-import main.model.Hitbox;
-import main.model.positions.CoordinatePosition;
 import main.model.positions.MatrixPosition;
-import main.model.positions.Position;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Wall extends FixedElement {
-    public Wall(MatrixPosition p) {
+    public Wall(MatrixPosition p,String type) {
         super(p);
         int tileSize = GraphicProperties.getTileSize();
-        GraphicsController.addManager(new StaticGraphics("/main/assets/images/wall.png",
+        GraphicsController.addManager(new StaticGraphics("/images/tiles/spacestation/"+type+".png",
                 this.position.convertToCoordinatePosition(tileSize),
                 tileSize));
     }

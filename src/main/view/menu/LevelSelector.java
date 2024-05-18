@@ -32,16 +32,13 @@ public class LevelSelector extends JPanel implements ActionListener {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
-        backButton = menuWindow.createButton("Back", this,
-                new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/button.png")),
-                new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonHover.png")),
-                new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonPressed.png")));
+        backButton = menuWindow.createButton("Back", this, new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/button.png")), new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonHover.png")), new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonPressed.png")));
         buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
         buttonPanel.add(backButton);
         buttonPanel.add(Box.createVerticalGlue());
         levelGamePanel.add(BorderLayout.SOUTH, buttonPanel);
 
-        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/main/assets/images/gui/backgrounds/background.png")));
+        JLabel background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/main/assets/images/gui/backgrounds/background.png")).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
         this.setLayout(new BorderLayout());
         this.add(background);
         this.setOpaque(false);
@@ -52,7 +49,7 @@ public class LevelSelector extends JPanel implements ActionListener {
     }
 
     private void backButtonClick() {
-        menuWindow.changePanel("PlayerSelector");
+        menuWindow.changePanel("RoundSelector");
     }
 
     @Override

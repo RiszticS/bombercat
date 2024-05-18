@@ -1,22 +1,14 @@
 package main.model.movingElements;
 
 import main.controllers.configuration.GraphicProperties;
-import main.controllers.configuration.ModelProperties;
 import main.controllers.game.RenderTimer;
-import main.controllers.graphics.GraphicsController;
 import main.controllers.graphics.MovingAnimationGraphics;
-import main.controllers.graphics.StaticGraphics;
 import main.model.graphics.AnimationConfiguration;
 import main.model.positions.Direction;
 import main.model.Hitbox;
-import main.model.positions.CoordinatePosition;
 import main.model.positions.MatrixPosition;
 import main.model.fixedElements.FixedElement;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,7 +23,7 @@ public class Monster extends MovingElement {
 
         int tileSize = GraphicProperties.getTileSize();
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
-        animationConfiguration.add(new AnimationConfiguration("/main/assets/images/monster.png", 1, 1, 1, 0, 32, 32, 2));
+        animationConfiguration.add(new AnimationConfiguration("/images/tiles/spacestation/monster.png", 1, 1, 1, 0, 32, 32, 2));
         MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 2.0);
 
         setGraphicsManager(gm);
