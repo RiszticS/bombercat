@@ -219,11 +219,10 @@ public class MapEditor extends JPanel implements ActionListener {
     }
 
     private void saveLevel() {
-        File folder = new File(getClass().getResource("/levels/createdlevels").getPath());
+        File folder = new File(getClass().getResource("/levels/createdLevels").getPath());
         int index = Objects.requireNonNull(folder.listFiles()).length;
         try {
-            File file = new File(getClass().getResource("levels/createdlevels/level" + index + ".txt").getPath());
-            FileWriter writer = new FileWriter(file);
+            FileWriter writer = new FileWriter(getClass().getResource("/levels/createdLevels/").getPath() + "level" + index + ".txt");
             for (int i = 0; i < boardButtons.length; i++) {
                 for (int j = 0; j < boardButtons[i].length; j++) {
                     Icon icon = boardButtons[i][j].getIcon();
@@ -244,7 +243,7 @@ public class MapEditor extends JPanel implements ActionListener {
             if (loadIndex < createdLevelFolder.listFiles().length - 1) loadIndex++;
             else loadIndex = 0;
             try {
-                File file = new File(getClass().getResource("/levels/createdlevels/level" + loadIndex + ".txt").getPath());
+                File file = new File(getClass().getResource("/levels/createdLevels/level" + loadIndex + ".txt").getPath());
                 Scanner scanner = new Scanner(file);
                 for (int i = 0; i < boardButtons.length; i++) {
                     if (!scanner.hasNextLine()) {
@@ -307,7 +306,7 @@ public class MapEditor extends JPanel implements ActionListener {
             rightSidePanel.add(comboBoxPanel);
             for (int i = 0; i < tiles.length; i++) {
                 if (tiles[i].isFile()) {
-                    ImageIcon imageIcon = new ImageIcon(folderPath + selectedTheme + tiles[i].getName());
+                    ImageIcon imageIcon = new ImageIcon(tiles[i].getPath());
                     JButton button = menuWindow.createButton("", this, imageIcon, null, null);
                     editButtons[i] = button;
                     rightSidePanel.add(button);
