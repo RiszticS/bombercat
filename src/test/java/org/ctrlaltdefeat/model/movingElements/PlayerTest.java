@@ -1,6 +1,7 @@
 package org.ctrlaltdefeat.model.movingElements;
 
 import org.ctrlaltdefeat.model.fixedElements.Bomb;
+import org.ctrlaltdefeat.model.fixedElements.FixedElement;
 import org.ctrlaltdefeat.model.positions.CoordinatePosition;
 import org.ctrlaltdefeat.model.positions.MatrixPosition;
 import org.junit.jupiter.api.DisplayName;
@@ -15,9 +16,10 @@ class PlayerTest {
     @Test
     @DisplayName("Get ID of player")
     void getId() {
-        CoordinatePosition p = new CoordinatePosition(10, 20);
+        MatrixPosition m = new MatrixPosition(10, 20);
+        FixedElement[][] board = new FixedElement[15][15];
 
-        Player player = new Player(p);
+        Player player = new Player(m, board, 0);
         int playerId = player.getId();
 
         assertEquals(1, playerId, "Player ID should match");
@@ -26,18 +28,19 @@ class PlayerTest {
     @Test
     @DisplayName("Test getBombs() method")
     void getBombs() {
-        CoordinatePosition position = new CoordinatePosition(0, 0);
-        Player player = new Player(position);
+        MatrixPosition m = new MatrixPosition(0, 0);
+        FixedElement[][] board = new FixedElement[15][15];
+        Player player = new Player(m, board, 0);
 
         ArrayDeque<Bomb> bombs = player.getBombs();
 
         assertNotNull(bombs, "Bombs deque should not be null");
-        assertTrue(bombs.isEmpty(), "Bombs deque should be empty initially");
+        assertFalse(bombs.isEmpty(), "Bombs deque shouldn't be empty initially");
 
         bombs.add(new Bomb(new MatrixPosition(1, 1)));
 
         ArrayDeque<Bomb> updatedBombs = player.getBombs();
         int count = updatedBombs.size();
-        assertEquals(1, count, "Bombs deque should contain one bomb after addition");
+        assertEquals(2, count, "Bombs deque should contain two bomb after addition");
     }
 }
