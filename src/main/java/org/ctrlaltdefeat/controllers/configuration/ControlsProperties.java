@@ -20,4 +20,8 @@ public class ControlsProperties {
                 bomb
         );
     }
+
+    public static void reload(){
+        cm.reload();
+    }
 }

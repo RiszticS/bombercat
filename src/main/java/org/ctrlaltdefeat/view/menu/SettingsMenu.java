@@ -216,6 +216,6 @@ public class SettingsMenu extends JPanel implements ActionListener {
 
     private void backButtonClick() {
         menuWindow.changePanel("MainMenu");
-        System.out.println("Back button clicked");
+        ControlsProperties.reload();
     }
 }

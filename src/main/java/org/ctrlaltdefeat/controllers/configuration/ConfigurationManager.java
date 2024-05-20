@@ -19,6 +19,14 @@ public class ConfigurationManager {
         }
     }
 
+    public void reload(){
+        try (FileInputStream input = new FileInputStream(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "/configurations/" + this.config)){
+            prop.load(input);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load configuration file: " + config, e);
+        }
+    }
+
     public String getProperty(String property) {
         return prop.getProperty(property);
     }
