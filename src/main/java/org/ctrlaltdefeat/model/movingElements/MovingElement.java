@@ -36,7 +36,6 @@ public abstract class MovingElement {
 
     protected abstract void move();
     public void die() {
-        System.out.println("Die");
         this.alive = false;
         GraphicsController.removeManager(gm);
     }
