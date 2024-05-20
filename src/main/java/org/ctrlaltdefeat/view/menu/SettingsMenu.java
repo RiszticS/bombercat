@@ -103,7 +103,7 @@ public class SettingsMenu extends JPanel implements ActionListener {
         JPanel playerPanel = new JPanel(new GridBagLayout());
         TitledBorder border = BorderFactory.createTitledBorder("Player " + (playerIndex + 1));
         border.setTitleColor(Color.WHITE);
-        border.setTitleFont(new Font("Press Start 2P", Font.BOLD, 13));
+        border.setTitleFont(new Font("Press Start 2P", Font.BOLD, 15));
         playerPanel.setBorder(border);
         playerPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
