@@ -39,8 +39,8 @@ compile:
   stage: deploy
   script:
     - mvn clean install
-    - cp .m2/repository/org/example/ctrlaltdefeat/*/*.jar jarFile/
+    - cp .m2/repository/org/example/ctrlaltdefeat/*/*.jar public/
   artifacts:
     paths:
-      - jarFile
+      - public
     expire_in: 30 days
