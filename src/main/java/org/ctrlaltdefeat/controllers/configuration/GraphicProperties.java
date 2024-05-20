@@ -1,5 +1,7 @@
 package org.ctrlaltdefeat.controllers.configuration;
 
+import java.util.Objects;
+
 public class GraphicProperties {
     private static final ConfigurationManager cm = new ConfigurationManager("graphics.properties");
 

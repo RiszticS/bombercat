@@ -45,18 +45,30 @@ public class Explosion extends FixedElement {
             checkCurrentSpreadLevel(board);
             if (canSpreadUpwards) {
                 MatrixPosition p = new MatrixPosition(position.getX() - spreadLevel, position.getY());
+                if (board[position.getX() - spreadLevel][position.getY()] instanceof Flare) {
+                    ((Flare) board[position.getX() - spreadLevel][position.getY()]).dissipate(board);
+                }
                 board[position.getX() - spreadLevel][position.getY()] = new Flare(p, Direction.UP);
             }
             if (canSpreadDownwards) {
                 MatrixPosition p = new MatrixPosition(position.getX() + spreadLevel, position.getY());
+                if (board[position.getX() + spreadLevel][position.getY()] instanceof Flare) {
+                    ((Flare) board[position.getX() + spreadLevel][position.getY()]).dissipate(board);
+                }
                 board[position.getX() + spreadLevel][position.getY()] = new Flare(p, Direction.DOWN);
             }
             if (canSpreadLeft) {
                 MatrixPosition p = new MatrixPosition(position.getX(), position.getY() - spreadLevel);
+                if (board[position.getX()][position.getY() - spreadLevel] instanceof Flare) {
+                    ((Flare) board[position.getX()][position.getY() - spreadLevel]).dissipate(board);
+                }
                 board[position.getX()][position.getY() - spreadLevel] = new Flare(p, Direction.LEFT);
             }
             if (canSpreadRight) {
                 MatrixPosition p = new MatrixPosition(position.getX(), position.getY() + spreadLevel);
+                if (board[position.getX()][position.getY() + spreadLevel] instanceof Flare) {
+                    ((Flare) board[position.getX()][position.getY() + spreadLevel]).dissipate(board);
+                }
                 board[position.getX()][position.getY() + spreadLevel] = new Flare(p, Direction.RIGHT);
             }
 
@@ -67,7 +79,7 @@ public class Explosion extends FixedElement {
 
     public void dissipate(FixedElement[][] board) {
         GraphicsController.removeManager(sg);
-        board[position.getX()][position.getY()] = new EmptyTile(position);
+        board[position.getX()][position.getY()] = new EmptyTile(position, false);
         canSpreadUpwards = true;
         canSpreadDownwards = true;
         canSpreadLeft = true;
@@ -98,10 +110,18 @@ public class Explosion extends FixedElement {
     }
 
     private void checkCurrentSpreadLevel(FixedElement[][] board) {
-        checkUpperSpreadDirection(board);
-        checkLowerSpreadDirection(board);
-        checkLeftSpreadDirection(board);
-        checkRightSpreadDirection(board);
+        if (canSpreadUpwards) {
+            checkUpperSpreadDirection(board);
+        }
+        if (canSpreadDownwards) {
+            checkLowerSpreadDirection(board);
+        }
+        if (canSpreadLeft) {
+            checkLeftSpreadDirection(board);
+        }
+        if (canSpreadRight) {
+            checkRightSpreadDirection(board);
+        }
 
     }
 

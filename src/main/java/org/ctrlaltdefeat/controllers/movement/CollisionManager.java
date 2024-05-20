@@ -104,7 +104,6 @@ public class CollisionManager {
                     p.pickUpPowerUp((PowerUp) tile);
                 }
             }
-
         }
 
         collisionAction(p, Direction.UP, upperCollisionFound);

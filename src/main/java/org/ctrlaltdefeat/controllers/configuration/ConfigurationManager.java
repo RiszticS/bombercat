@@ -26,7 +26,7 @@ public class ConfigurationManager {
 
     public void changeProperty(String property, String newValue) {
         prop.setProperty(property, newValue);
-        try (FileWriter output = new FileWriter(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "/assets/configurations/" + config)){
+        try (FileWriter output = new FileWriter(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "main/assets/configurations/" + config)){
             prop.store(output, null);
         } catch (Exception e) {
             throw new RuntimeException();

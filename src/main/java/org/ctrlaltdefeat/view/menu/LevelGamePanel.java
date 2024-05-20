@@ -16,17 +16,23 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class LevelGamePanel extends JPanel {
 
     private final BufferedImage rocketImage;
-    private final CoordinatePosition rocketPosition = new CoordinatePosition(350, 200);
+    private final CoordinatePosition rocketPosition;
     private static final int ROCKET_SIZE = 50;
     private static final int MOVE_DISTANCE = 5;
 
-    private final BufferedImage[] levelsImages;
-    private final Position[] levelsPositions;
-    private static final int LEVELS_SIZE = 200;
+    private BufferedImage[] mainLevelsImages;
+    private CoordinatePosition[] mainLevelsPositions;
+    private static final int MAIN_LEVELS_SIZE = 200;
+
+    private BufferedImage[] createdLevelsImages;
+    private CoordinatePosition[] createdLevelsPositions;
+    private static final int CREATED_LEVELS_SIZE = 50;
+    private File[] createdLevels;
 
     private final LevelSelector levelSelector;
     private Timer timer;
@@ -41,17 +47,77 @@ public class LevelGamePanel extends JPanel {
         requestFocusInWindow();
         setOpaque(false);
 
-        int[] levelPositionX = {10, 490, 580};
-        int[] levelPositionY = {200, 480, 20};
-        rocketImage = loadImage("src/main/resources/images/gui/levelselector/rocket.png");
-        levelsImages = new BufferedImage[3];
-        levelsPositions = new Position[3];
-        for (int i = 0; i < levelsImages.length; i++) {
-            levelsImages[i] = loadImage("src/main/resources/images/gui/levelselector/level" + (i + 1) + ".png");
-            levelsPositions[i] = new CoordinatePosition(levelPositionX[i], levelPositionY[i]);
-        }
+        rocketImage = loadImage("/images/gui/levelselector/rocket.png");
+        rocketPosition = new CoordinatePosition(350, 200);
+
+        loadMainLevels();
+        loadCreatedLevels();
+
         movement();
     }
+
+    public void loadMainLevels() {
+        int[] mainLevelPositionX = {10, 490, 650};
+        int[] mainLevelPositionY = {200, 600, 20};
+        mainLevelsImages = new BufferedImage[3];
+        mainLevelsPositions = new CoordinatePosition[3];
+        for (int i = 0; i < mainLevelsImages.length; i++) {
+            mainLevelsImages[i] = loadImage("/images/gui/levelselector/level" + (i + 1) + ".png");
+            mainLevelsPositions[i] = new CoordinatePosition(mainLevelPositionX[i], mainLevelPositionY[i]);
+        }
+    }
+
+    public void loadCreatedLevels() {
+        File folder = new File(getClass().getResource("/levels/createdLevels").getPath());
+        createdLevels = folder.listFiles();
+
+        int length = createdLevels.length;
+
+        int[] createdLevelPositionX = new int[length];
+        int[] createdLevelPositionY = new int[length];
+        fillWithRandomNumbers(createdLevelPositionX, createdLevelPositionY);
+
+        createdLevelsImages = new BufferedImage[length];
+        createdLevelsPositions = new CoordinatePosition[length];
+        for (int i = 0; i < createdLevels.length; i++) {
+            createdLevelsImages[i] = loadImage("/images/gui/levelselector/meteor.png");
+            createdLevelsPositions[i] = new CoordinatePosition(createdLevelPositionX[i], createdLevelPositionY[i]);
+        }
+    }
+
+    public void fillWithRandomNumbers(int[] arrayX, int[] arrayY) {
+        Random rand = new Random();
+        int minDistance = 50;
+        for (int i = 0; i < arrayX.length; i++) {
+            boolean valid = false;
+            int centerX = 0;
+            int centerY = 0;
+            while (!valid) {
+                centerX = rand.nextInt(levelSelector.menuWindow.getFrameSize() - 200) + 100;
+                centerY = rand.nextInt(levelSelector.menuWindow.getFrameSize() - 200) + 100;
+                int radius = CREATED_LEVELS_SIZE;
+
+                valid = true;
+                for (int j = 0; j < mainLevelsPositions.length; j++) {
+                    int mainX = mainLevelsPositions[j].getX();
+                    int mainY = mainLevelsPositions[j].getY();
+                    int mainRadius = MAIN_LEVELS_SIZE;
+                    double distance = Math.sqrt(Math.pow(centerX - mainX, 2) + Math.pow(centerY - mainY, 2));
+                    if (distance <= radius + mainRadius + minDistance) {
+                        valid = false;
+                        break;
+                    }
+                }
+                int distanceSquared = (centerX - rocketPosition.getX()) * (centerX - rocketPosition.getX()) + (centerY - rocketPosition.getY()) * (centerY - rocketPosition.getY());
+                if (distanceSquared < 100 * 100) {
+                    valid = false;
+                }
+            }
+            arrayX[i] = centerX;
+            arrayY[i] = centerY;
+        }
+    }
+
 
     private void movement() {
         addKeyListener(new KeyAdapter() {
@@ -126,22 +192,9 @@ public class LevelGamePanel extends JPanel {
         }
     }
 
-    /*
-
-    Ádám:
-
-    Ide a startGame metódus 141-ik sorába, harmadik paraméterként beégettem, hogy alapból a játékosknak
-    addig kell játszania, amíg valaki el nem éri a 3 pontot. Kérlek ide valósíts meg egy felületet, ahol meg lehet
-    adni, hogy hány nyerésig akarnak játszani a játékosok, és eszerint legyen példányosítva a GameModel.
-
-    Köszönöm!
-
-    Szabolcs
-
-     */
-    private void startGame(int level) {
+    private void startGame(int level,boolean createdLevel) {
         timer.stop();
-        GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber(), 3);
+        GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber(), levelSelector.menuWindow.getRoundSelector().getRoundNumber(),createdLevel);
         GameWindow gw = new GameWindow(gm);
         GameLoop gc = new GameLoop(gm, gw.getGamePanel());
         gc.start();
@@ -154,16 +207,29 @@ public class LevelGamePanel extends JPanel {
 
     private void checkCollisions() {
         Rectangle rocket = new Rectangle(rocketPosition.getX() + 12, rocketPosition.getY(), ROCKET_SIZE - (ROCKET_SIZE / 2), ROCKET_SIZE);
-        for (int i = 0; i < levelsPositions.length; i++) {
+        for (int i = 0; i < mainLevelsPositions.length; i++) {
             Ellipse2D.Double levelCircle = new Ellipse2D.Double(
-                    levelsPositions[i].getX(),
-                    levelsPositions[i].getY(),
-                    LEVELS_SIZE,
-                    LEVELS_SIZE
+                    mainLevelsPositions[i].getX(),
+                    mainLevelsPositions[i].getY(),
+                    MAIN_LEVELS_SIZE,
+                    MAIN_LEVELS_SIZE
             );
             if (levelCircle.intersects(rocket) && !gameStarted) {
                 gameStarted = true;
-                startGame(i + 1);
+                startGame(i ,false);
+                break;
+            }
+        }
+        for (int i = 0; i < createdLevelsPositions.length; i++) {
+            Ellipse2D.Double levelCircle = new Ellipse2D.Double(
+                    createdLevelsPositions[i].getX(),
+                    createdLevelsPositions[i].getY(),
+                    CREATED_LEVELS_SIZE,
+                    CREATED_LEVELS_SIZE
+            );
+            if (levelCircle.intersects(rocket) && !gameStarted) {
+                gameStarted = true;
+                startGame(i,true);
                 break;
             }
         }
@@ -171,7 +237,7 @@ public class LevelGamePanel extends JPanel {
 
     private BufferedImage loadImage(String filePath) {
         try {
-            return ImageIO.read(new File(filePath));
+            return ImageIO.read(new File(getClass().getResource(filePath).getPath()));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -205,8 +271,11 @@ public class LevelGamePanel extends JPanel {
         super.paintComponent(g);
         BufferedImage rotatedRocketImage = rotateImage(rocketImage, currentDirection);
         g.drawImage(rotatedRocketImage, rocketPosition.getX(), rocketPosition.getY(), ROCKET_SIZE, ROCKET_SIZE, this);
-        for (int i = 0; i < levelsPositions.length; i++) {
-            g.drawImage(levelsImages[i], levelsPositions[i].getX(), levelsPositions[i].getY(), LEVELS_SIZE, LEVELS_SIZE, this);
+        for (int i = 0; i < mainLevelsPositions.length; i++) {
+            g.drawImage(mainLevelsImages[i], mainLevelsPositions[i].getX(), mainLevelsPositions[i].getY(), MAIN_LEVELS_SIZE, MAIN_LEVELS_SIZE, this);
+        }
+        for (int i = 0; i < createdLevels.length; i++) {
+            g.drawImage(createdLevelsImages[i], createdLevelsPositions[i].getX(), createdLevelsPositions[i].getY(), CREATED_LEVELS_SIZE, CREATED_LEVELS_SIZE, this);
         }
     }
 }
