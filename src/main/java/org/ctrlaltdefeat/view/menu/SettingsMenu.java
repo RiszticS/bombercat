@@ -118,7 +118,6 @@ public class SettingsMenu extends JPanel implements ActionListener {
             controlButtons[playerIndex][j] = new JButton(KeyEvent.getKeyText(keyCodes[j]));
             setupControlButton(controlButtons[playerIndex][j], playerIndex, j);
             label.setForeground(Color.WHITE);
-            label.setFont(new Font("Press Start 2P", Font.BOLD, 13));
 
             gbc.gridx = j;
             gbc.gridy = 0;
