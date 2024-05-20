@@ -6,10 +6,14 @@ import org.ctrlaltdefeat.controllers.graphics.StaticGraphics;
 import org.ctrlaltdefeat.model.positions.MatrixPosition;
 
 public class EmptyTile extends FixedElement {
-    public EmptyTile(MatrixPosition p) {
+    private StaticGraphics sg;
+    public EmptyTile(MatrixPosition p, boolean addRender) {
         super(p);
-        int tileSize = GraphicProperties.getTileSize();
-        GraphicsController.addManagerFirst(new StaticGraphics("/images/floor.png", p.convertToCoordinatePosition(tileSize),tileSize));
+        if (addRender) {
+            int tileSize = GraphicProperties.getTileSize();
+            sg = new StaticGraphics("/images/tiles/spacestation/floor.png", p.convertToCoordinatePosition(tileSize),tileSize);
+            GraphicsController.addManagerFirst(sg);
+        }
     }
 
     @Override
@@ -22,3 +26,4 @@ public class EmptyTile extends FixedElement {
 
     }
 }
+

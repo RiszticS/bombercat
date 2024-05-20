@@ -23,7 +23,7 @@ public class Monster extends MovingElement {
 
         int tileSize = GraphicProperties.getTileSize();
         ArrayList<AnimationConfiguration> animationConfiguration = new ArrayList<>();
-        animationConfiguration.add(new AnimationConfiguration("/images/monster.png", 1, 1, 1, 0, 32, 32, 2));
+        animationConfiguration.add(new AnimationConfiguration("/images/tiles/spacestation/monster.png", 1, 1, 1, 0, 32, 32, 2));
         MovingAnimationGraphics gm = new MovingAnimationGraphics(animationConfiguration, position, 2.0);
 
         setGraphicsManager(gm);

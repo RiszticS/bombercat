@@ -29,7 +29,7 @@ public class PlayerSelector extends JPanel implements ActionListener {
         playerButtons = new JButton[3];
         for (int i = 0; i < playerButtons.length; i++) {
             playerButtons[i] = menuWindow.createButton("", null,
-                    new ImageIcon(getClass().getResource("/images/gui/playerselector/+.png")), null, null);
+                    new ImageIcon(getClass().getResource("/images/gui/buttons/+.png")), null, null);
         }
         playerButtons[0].addActionListener(this);
 
@@ -60,7 +60,7 @@ public class PlayerSelector extends JPanel implements ActionListener {
         buttonPanel.add(Box.createVerticalGlue());
         playerSelectorPanel.add(BorderLayout.SOUTH, buttonPanel);
 
-        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/images/gui/backgrounds/background.png")));
+        JLabel background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/images/gui/backgrounds/background.png")).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
         this.setLayout(new BorderLayout());
         this.add(background);
         this.setOpaque(false);
@@ -79,12 +79,12 @@ public class PlayerSelector extends JPanel implements ActionListener {
                 playerNumber = 1;
                 playerButtons[index].removeActionListener(this);
                 playerButtons[index + 1].addActionListener(this);
-                navigationButtons[1].setVisible(true);
                 break;
             case 1:
                 playerNumber = 2;
                 playerButtons[index].removeActionListener(this);
                 playerButtons[index + 1].addActionListener(this);
+                navigationButtons[1].setVisible(true);
                 break;
             case 2:
                 playerNumber = 3;
@@ -99,7 +99,7 @@ public class PlayerSelector extends JPanel implements ActionListener {
 
     private void nextButtonClick() {
         menuWindow.initLevelSelector();
-        menuWindow.changePanel("LevelSelector");
+        menuWindow.changePanel("RoundSelector");
     }
 
     private void backButtonClick() {
@@ -108,7 +108,7 @@ public class PlayerSelector extends JPanel implements ActionListener {
     }
 
     private void resetButtons() {
-        ImageIcon icon = new ImageIcon(getClass().getResource("/images/gui/playerselector/+.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/images/gui/buttons/+.png"));
         for (JButton playerButton : playerButtons) {
             playerButton.removeActionListener(this);
             playerButton.setIcon(icon);

@@ -24,7 +24,7 @@ public class Level {
     private boolean draw, win, winCheckingInProgress;
     private Player winner;
 
-    public Level(int levelNumber, int playerNumberProvidedInTheMenu) throws IOException {
+    public Level(int levelNumber, int playerNumberProvidedInTheMenu, boolean createdLevel) throws IOException {
         this.board = new FixedElement[15][15];
         this.players = new ArrayList<>();
         this.monsters = new ArrayList<>();
@@ -37,43 +37,91 @@ public class Level {
         this.winner = null;
 
         ArrayList<Chest> chests = new ArrayList<>();
-        readLevelFromFile(levelNumber, board, players, monsters, chests);
+        readLevelFromFile(levelNumber, board, players, monsters, chests,createdLevel);
         allocatePowerUpsToRandomChests(chests);
     }
 
     private void readLevelFromFile(int levelNumber, FixedElement[][] board, ArrayList<Player> players,
-                                   ArrayList<Monster> monsters, ArrayList<Chest> chests) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/levels/level" + levelNumber + ".txt"));
+                                   ArrayList<Monster> monsters, ArrayList<Chest> chests, boolean createdLevel) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(getClass().getResource("/levels/" + (createdLevel ? "createdLevels/level" + levelNumber : "level" + levelNumber) + ".txt").getPath()));
 
         String currentLine;
 
         int rowIndex = 0;
         while ((currentLine = reader.readLine()) != null) {
-            for (int colIndex = 0; colIndex < 15; colIndex++) {
-                char currentCharacter = currentLine.charAt(colIndex);
+            String[] elements = currentLine.split(";");
+            for (int colIndex = 0; colIndex < elements.length; colIndex++) {
+                String currentElement = elements[colIndex].trim();
 
-                if (currentCharacter == 'p') {
-                    if (numberOfPlayerPositionsInTheFile < playerNumberProvidedInTheMenu) {
-                        players.add(new Player(new MatrixPosition(rowIndex, colIndex)));
-                    }
-                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex));
-                    numberOfPlayerPositionsInTheFile++;
-                } else if (currentCharacter == 'm') {
-                    monsters.add(new Monster(new MatrixPosition(rowIndex, colIndex)));
-                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex));
-                } else if (currentCharacter == 'f') {
-                    board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex));
-                } else if (currentCharacter == 'w') {
-                    board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex));
-                } else if (currentCharacter == 'c') {
-                    Chest c = new Chest(new MatrixPosition(rowIndex, colIndex));
-                    board[rowIndex][colIndex] = c;
-                    chests.add(c);
+                switch (currentElement) {
+                    case "floor":
+                        board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
+                        break;
+                    case "wall":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallDoubleLeft":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallDoubleRight":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallLeft":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallRight":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallWindowLeft":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallWindowRight":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallWindow":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallTop":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallRightCornerBottom":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallRightCornerTop":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallLeftCornerBottom":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "wallLeftCornerTop":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "obstacle":
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        break;
+                    case "player":
+                        if (numberOfPlayerPositionsInTheFile < playerNumberProvidedInTheMenu) {
+                            players.add(new Player(new MatrixPosition(rowIndex, colIndex), board,numberOfPlayerPositionsInTheFile));
+                        }
+                        board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
+                        numberOfPlayerPositionsInTheFile++;
+                        break;
+                    case "monster":
+                        monsters.add(new Monster(new MatrixPosition(rowIndex, colIndex)));
+                        board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
+                        break;
+                    case "chest":
+                        Chest c = new Chest(new MatrixPosition(rowIndex, colIndex));
+                        board[rowIndex][colIndex] = c;
+                        chests.add(c);
+                        break;
                 }
             }
             rowIndex++;
         }
     }
+
+
 
     public void update() {
         updateBoard();

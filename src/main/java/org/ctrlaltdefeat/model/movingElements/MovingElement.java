@@ -36,7 +36,6 @@ public abstract class MovingElement {
 
     protected abstract void move();
     public void die() {
-        System.out.println("Die");
         this.alive = false;
         GraphicsController.removeManager(gm);
     }
@@ -56,5 +55,12 @@ public abstract class MovingElement {
     protected void setGraphicsManager(MovingAnimationGraphics gm) {
         this.gm = gm;
         GraphicsController.addManager(gm);
+    }
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

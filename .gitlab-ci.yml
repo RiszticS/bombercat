@@ -7,7 +7,6 @@ stages:
   - build
   - test
   - deploy
-  - upload
 
 # Cache and keep downloaded dependencies between CI pipelines
 cache:
@@ -30,8 +29,6 @@ pages:
   stage: deploy
   script:
     - mvn javadoc:javadoc
-    - ls
-    - ls target
     - cp -r target/site/apidocs/. public/
   artifacts:
     paths:
@@ -42,18 +39,9 @@ compile:
   stage: deploy
   script:
     - mvn clean install
+    - mkdir public
+    - cp .m2/repository/org/example/ctrlaltdefeat/*/*.jar public/
   artifacts:
     paths:
-      - target/ctrlaltdefeat-1.0-SNAPSHOT.jar
+      - public
     expire_in: 30 days
-
-upload:
-  stage: upload
-  before_script:
-    - export VERSION=$(grep -m1 '<version>' pom.xml | grep -oP  '(?<=>).*(?=<)')
-  script:
-    - echo $VERSION
-    - ls target
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file target/ctrlaltdefeat-1.0-SNAPSHOT.jar "${CI_API_V4_URL}/builds/szofttech-c-2024/group-12/ctrlaltdefeat/.m2/repository/org/example/ctrlaltdefeat/1.0-SNAPSHOT/ctrlaltdefeat-1.0-SNAPSHOT.jar"'
-  dependencies:
-    - compile
