@@ -48,6 +48,7 @@ public class MainMenu extends JPanel implements ActionListener {
     }
 
     private void settingsButtonClick() {
+        menuWindow.changePanel("SettingsMenu");
     }
 
     private void exitButtonClick() {

@@ -13,10 +13,12 @@ public class MenuWindow extends JFrame {
     private final RoundSelector roundSelector;
     private LevelSelector levelSelector;
     private final MapEditor mapEditor;
+    private SettingsMenu settingsMenu;
 
     public MenuWindow() {
         mainMenu = new MainMenu(this);
         playerSelector = new PlayerSelector(this);
+        settingsMenu = new SettingsMenu(this);
         roundSelector = new RoundSelector(this);
         mapEditor = new MapEditor(this);
         cards = new JPanel(new CardLayout());
@@ -24,6 +26,7 @@ public class MenuWindow extends JFrame {
         cards.add(playerSelector, "PlayerSelector");
         cards.add(roundSelector, "RoundSelector");
         cards.add(mapEditor, "MapEditor");
+        cards.add(settingsMenu, "SettingsMenu");
         this.add(cards);
         this.setTitle("Bombercat");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
