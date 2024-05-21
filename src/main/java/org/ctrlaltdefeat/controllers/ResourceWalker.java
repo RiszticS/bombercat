@@ -28,7 +28,6 @@ public class ResourceWalker {
             try (Stream<Path> walk = Files.walk(myPath, 1)) {
                 for (Iterator<Path> it = walk.iterator(); it.hasNext();){
                     result.add(it.next().toString());
-                    System.out.println(result.getLast());
                 }
             }
 

@@ -16,7 +16,6 @@ public class ScoreBoardWindow extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 gameModel.resetLevel(gamePanel);
-                //gameModel.nextRound();
                 gameLoop.startGame();
             }
         });

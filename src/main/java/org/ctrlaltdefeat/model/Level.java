@@ -6,13 +6,10 @@ import org.ctrlaltdefeat.model.fixedElements.*;
 import org.ctrlaltdefeat.model.movingElements.Monster;
 import org.ctrlaltdefeat.model.movingElements.Player;
 import org.ctrlaltdefeat.model.positions.MatrixPosition;
-import org.ctrlaltdefeat.view.menu.LevelSelector;
 
-import javax.imageio.ImageIO;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
@@ -115,6 +112,7 @@ public class Level {
                         break;
                     case "chest":
                         Chest c = new Chest(new MatrixPosition(rowIndex, colIndex));
+                        EmptyTile e = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                         board[rowIndex][colIndex] = c;
                         chests.add(c);
                         break;

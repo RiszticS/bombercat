@@ -10,7 +10,6 @@ public class ScoreBoardPanel extends JPanel {
         this.setBackground(Color.WHITE);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
-        //this.setLayout(new GridLayout(scores.size(),1));
         for (int i = 0; i < scores.size(); i++) {
             JLabel player = new JLabel("Player" + (i+1) + ": " + scores.get(i) + " points");
             player.setFont(new Font("Serif", Font.PLAIN, 18));

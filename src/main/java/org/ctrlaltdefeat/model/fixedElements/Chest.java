@@ -5,8 +5,6 @@ import org.ctrlaltdefeat.controllers.graphics.GraphicsController;
 import org.ctrlaltdefeat.controllers.graphics.StaticGraphics;
 import org.ctrlaltdefeat.model.positions.MatrixPosition;
 
-import java.awt.image.BufferedImage;
-
 public class Chest extends FixedElement {
     private PowerUp powerUp;
     private final StaticGraphics sg;

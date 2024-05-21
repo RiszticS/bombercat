@@ -5,7 +5,6 @@ import org.ctrlaltdefeat.controllers.configuration.ModelProperties;
 import org.ctrlaltdefeat.model.positions.CoordinatePosition;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Hitbox {
     private CoordinatePosition position;

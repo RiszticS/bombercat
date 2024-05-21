@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -273,6 +272,7 @@ public class MapEditor extends JPanel implements ActionListener {
     }
 
     private void loadLevel() {
+        createdLevelAssetNumber = new File(System.getenv("game_path") + "/levels/createdLevels").listFiles().length;
         if (createdLevelAssetNumber > 0) {
             if (loadIndex < createdLevelAssetNumber - 1) loadIndex++;
             else loadIndex = 0;

@@ -1,7 +1,6 @@
 package org.ctrlaltdefeat.view.game;
 
 import org.ctrlaltdefeat.model.GameModel;
-import org.ctrlaltdefeat.view.menu.MainMenu;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

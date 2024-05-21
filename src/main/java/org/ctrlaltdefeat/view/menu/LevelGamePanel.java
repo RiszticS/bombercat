@@ -5,7 +5,6 @@ import org.ctrlaltdefeat.controllers.game.GameLoop;
 import org.ctrlaltdefeat.model.GameModel;
 import org.ctrlaltdefeat.model.positions.CoordinatePosition;
 import org.ctrlaltdefeat.model.positions.Direction;
-import org.ctrlaltdefeat.model.positions.Position;
 import org.ctrlaltdefeat.view.game.GameWindow;
 
 import javax.swing.*;
@@ -15,15 +14,10 @@ import java.awt.event.KeyEvent;
 import javax.imageio.ImageIO;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 public class LevelGamePanel extends JPanel {
 
@@ -82,7 +76,6 @@ public class LevelGamePanel extends JPanel {
         }
 
         int length = createdLevels.size() - 1;
-        System.out.println(length);
 
         int[] createdLevelPositionX = new int[length];
         int[] createdLevelPositionY = new int[length];
