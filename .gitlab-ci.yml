@@ -1,0 +1,54 @@
+image: maven:latest
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+
+stages:
+  - build
+  - test
+  - deploy
+
+# Cache and keep downloaded dependencies between CI pipelines
+cache:
+  key: maven-build
+  paths:
+    - .m2/repository
+
+build:
+  stage: build
+  script:
+    - mvn compile
+
+test:
+  stage: test
+  script:
+    - export game_path=/builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes
+    - mvn test
+
+# Documentation
+pages:
+  stage: deploy
+  script:
+    - mvn javadoc:javadoc
+    - cp -r target/site/apidocs/. public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 day
+
+compile:
+  stage: deploy
+  script:
+    - export game_path=/builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes
+    - mvn clean install
+    - mkdir public
+    - cp .m2/repository/org/example/ctrlaltdefeat/*/*.jar public/
+    #Copy assets to the artifact
+    - mkdir public/assets
+    - cp -r /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes/images public/assets
+    - cp -r /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes/levels public/assets
+    - cp -r /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes/configurations public/assets
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
