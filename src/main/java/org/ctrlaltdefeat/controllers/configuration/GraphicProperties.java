@@ -16,12 +16,4 @@ public class GraphicProperties {
     public static int getRowNumber() {
         return Integer.parseInt(cm.getProperty("row_number"));
     }
-
-    public static void changeTileSize(int newSize) {
-        cm.changeProperty("tile_size", "" + newSize);
-    }
-
-    public static int getFPS() {
-        return Integer.parseInt(cm.getProperty("FPS"));
-    }
 }
