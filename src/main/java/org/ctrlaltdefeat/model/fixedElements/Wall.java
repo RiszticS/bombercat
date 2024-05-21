@@ -9,7 +9,7 @@ public class Wall extends FixedElement {
     public Wall(MatrixPosition p,String type) {
         super(p);
         int tileSize = GraphicProperties.getTileSize();
-        GraphicsController.addManager(new StaticGraphics("/images/tiles/spacestation/"+type+".png",
+        GraphicsController.addManagerFirst(new StaticGraphics("/images/tiles/spacestation/"+type+".png",
                 this.position.convertToCoordinatePosition(tileSize),
                 tileSize));
     }

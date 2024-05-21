@@ -14,7 +14,7 @@ public class Chest extends FixedElement {
     public Chest(MatrixPosition p) {
         super(p);
         sg = new StaticGraphics("/images/chest.png", p.convertToCoordinatePosition(GraphicProperties.getTileSize()), GraphicProperties.getTileSize());
-        GraphicsController.addManager(sg);
+        GraphicsController.addManagerFirst(sg);
         this.powerUp = null;
     }
 
