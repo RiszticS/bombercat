@@ -1,8 +1,10 @@
 package org.ctrlaltdefeat.view.menu;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class MenuWindow extends JFrame {
 
@@ -35,7 +37,11 @@ public class MenuWindow extends JFrame {
         this.setVisible(true);
         this.pack();
         this.setLocationRelativeTo(null);
-        this.setIconImage(new ImageIcon(getClass().getResource("/images/gui/icon.png")).getImage());
+        try {
+            this.setIconImage(new ImageIcon(ImageIO.read(MenuWindow.class.getResourceAsStream("/images/gui/icon.png"))).getImage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changePanel(String panelName) {

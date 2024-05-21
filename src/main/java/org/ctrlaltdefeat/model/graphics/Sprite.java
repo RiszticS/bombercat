@@ -18,7 +18,7 @@ public class Sprite {
         this.width = width;
         this.height = height;
         try {
-            this.image = ImageIO.read(getClass().getResourceAsStream(path));
+            this.image = ImageIO.read(Sprite.class.getResourceAsStream(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

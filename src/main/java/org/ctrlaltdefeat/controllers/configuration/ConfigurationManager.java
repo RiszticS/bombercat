@@ -1,8 +1,6 @@
 package org.ctrlaltdefeat.controllers.configuration;
 
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 public class ConfigurationManager {
@@ -11,17 +9,17 @@ public class ConfigurationManager {
 
     public ConfigurationManager(String config) {
         this.config = config;
-        try (FileInputStream input = new FileInputStream(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "/configurations/" + this.config)){
+        try {
             prop = new Properties();
-            prop.load(input);
+            prop.load(new BufferedReader(new FileReader(System.getenv("game_path") + "/configurations/" + config)));
         } catch (Exception e) {
             throw new RuntimeException("Failed to load configuration file: " + config, e);
         }
     }
 
     public void reload(){
-        try (FileInputStream input = new FileInputStream(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "/configurations/" + this.config)){
-            prop.load(input);
+        try {
+            prop.load(new BufferedReader(new FileReader(System.getenv("game_path") + "/configurations/" + config)));
         } catch (Exception e) {
             throw new RuntimeException("Failed to load configuration file: " + config, e);
         }
@@ -33,7 +31,7 @@ public class ConfigurationManager {
 
     public void changeProperty(String property, String newValue) {
         prop.setProperty(property, newValue);
-        try (FileWriter output = new FileWriter(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "/configurations/" + config)){
+        try (FileWriter output = new FileWriter(System.getenv("game_path") + "/configurations/" + config)){
             prop.store(output, null);
         } catch (Exception e) {
             throw new RuntimeException("Failed to write to configuration file: " + config, e);

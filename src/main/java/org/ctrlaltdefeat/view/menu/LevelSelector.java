@@ -1,14 +1,16 @@
 package org.ctrlaltdefeat.view.menu;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class LevelSelector extends JPanel implements ActionListener {
 
     public final MenuWindow menuWindow;
-    private final JButton backButton;
+    private JButton backButton;
     private final LevelGamePanel levelGamePanel;
 
     public LevelSelector(MenuWindow menuWindow) {
@@ -32,13 +34,26 @@ public class LevelSelector extends JPanel implements ActionListener {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
-        backButton = menuWindow.createButton("Back", this, new ImageIcon(getClass().getResource("/images/gui/buttons/button.png")), new ImageIcon(getClass().getResource("/images/gui/buttons/buttonHover.png")), new ImageIcon(getClass().getResource("/images/gui/buttons/buttonPressed.png")));
+        backButton = null;
+        try {
+            backButton = menuWindow.createButton("Back", this,
+                    new ImageIcon(ImageIO.read(LevelSelector.class.getResourceAsStream("/images/gui/buttons/button.png"))),
+                    new ImageIcon(ImageIO.read(LevelSelector.class.getResourceAsStream("/images/gui/buttons/buttonHover.png"))),
+                    new ImageIcon(ImageIO.read(LevelSelector.class.getResourceAsStream("/images/gui/buttons/buttonPressed.png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
         buttonPanel.add(backButton);
         buttonPanel.add(Box.createVerticalGlue());
         levelGamePanel.add(BorderLayout.SOUTH, buttonPanel);
 
-        JLabel background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/images/gui/backgrounds/background.png")).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
+        JLabel background = null;
+        try {
+            background = new JLabel(new ImageIcon(new ImageIcon(ImageIO.read(LevelSelector.class.getResourceAsStream("/images/gui/backgrounds/background.png"))).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.setLayout(new BorderLayout());
         this.add(background);
         this.setOpaque(false);

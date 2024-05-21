@@ -1,9 +1,11 @@
 package org.ctrlaltdefeat.view.menu;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 public class MainMenu extends JPanel implements ActionListener {
@@ -22,13 +24,25 @@ public class MainMenu extends JPanel implements ActionListener {
         String[] buttonLabels = {"New Game", "Map editor", "Settings", "Exit"};
         buttons = new JButton[buttonLabels.length];
         for (int i = 0; i < buttonLabels.length; i++) {
-            buttons[i] = menuWindow.createButton(buttonLabels[i], this, new ImageIcon(getClass().getResource("/images/gui/buttons/button.png")), new ImageIcon(getClass().getResource("/images/gui/buttons/buttonHover.png")), new ImageIcon(getClass().getResource("/images/gui/buttons/buttonPressed.png")));
+            try {
+                buttons[i] = menuWindow.createButton(buttonLabels[i], this,
+                        new ImageIcon(ImageIO.read(MainMenu.class.getResourceAsStream("/images/gui/buttons/button.png"))),
+                        new ImageIcon(ImageIO.read(MainMenu.class.getResourceAsStream("/images/gui/buttons/buttonHover.png"))),
+                        new ImageIcon(ImageIO.read(MainMenu.class.getResourceAsStream("/images/gui/buttons/buttonPressed.png"))));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
             buttonPanel.add(buttons[i]);
         }
         buttonPanel.add(Box.createVerticalGlue());
 
-        JLabel background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/images/gui/backgrounds/mainMenuBackground.gif")).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_DEFAULT)));
+        JLabel background = null;
+        try {
+            background = new JLabel(new ImageIcon(new ImageIcon(ImageIO.read(MainMenu.class.getResourceAsStream("/images/gui/backgrounds/mainMenuBackground.gif"))).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_DEFAULT)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         this.setLayout(new BorderLayout());
         this.add(background);

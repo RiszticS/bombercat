@@ -1,5 +1,6 @@
 package org.ctrlaltdefeat.view.menu;
 
+import org.ctrlaltdefeat.controllers.ResourceWalker;
 import org.ctrlaltdefeat.controllers.game.GameLoop;
 import org.ctrlaltdefeat.model.GameModel;
 import org.ctrlaltdefeat.model.positions.CoordinatePosition;
@@ -16,7 +17,13 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.security.CodeSource;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class LevelGamePanel extends JPanel {
 
@@ -32,7 +39,7 @@ public class LevelGamePanel extends JPanel {
     private BufferedImage[] createdLevelsImages;
     private CoordinatePosition[] createdLevelsPositions;
     private static final int CREATED_LEVELS_SIZE = 50;
-    private File[] createdLevels;
+    private ArrayList<String> createdLevels;
 
     private final LevelSelector levelSelector;
     private Timer timer;
@@ -68,10 +75,14 @@ public class LevelGamePanel extends JPanel {
     }
 
     public void loadCreatedLevels() {
-        File folder = new File(getClass().getResource("/levels/createdLevels").getPath());
-        createdLevels = folder.listFiles();
+        try {
+            createdLevels = ResourceWalker.walk("/levels");
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
 
-        int length = createdLevels.length;
+        int length = createdLevels.size() - 1;
+        System.out.println(length);
 
         int[] createdLevelPositionX = new int[length];
         int[] createdLevelPositionY = new int[length];
@@ -79,7 +90,7 @@ public class LevelGamePanel extends JPanel {
 
         createdLevelsImages = new BufferedImage[length];
         createdLevelsPositions = new CoordinatePosition[length];
-        for (int i = 0; i < createdLevels.length; i++) {
+        for (int i = 0; i < createdLevels.size() - 1; i++) {
             createdLevelsImages[i] = loadImage("/images/gui/levelselector/meteor.png");
             createdLevelsPositions[i] = new CoordinatePosition(createdLevelPositionX[i], createdLevelPositionY[i]);
         }
@@ -237,7 +248,7 @@ public class LevelGamePanel extends JPanel {
 
     private BufferedImage loadImage(String filePath) {
         try {
-            return ImageIO.read(new File(getClass().getResource(filePath).getPath()));
+            return ImageIO.read(LevelGamePanel.class.getResourceAsStream(filePath));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -274,7 +285,7 @@ public class LevelGamePanel extends JPanel {
         for (int i = 0; i < mainLevelsPositions.length; i++) {
             g.drawImage(mainLevelsImages[i], mainLevelsPositions[i].getX(), mainLevelsPositions[i].getY(), MAIN_LEVELS_SIZE, MAIN_LEVELS_SIZE, this);
         }
-        for (int i = 0; i < createdLevels.length; i++) {
+        for (int i = 0; i < createdLevels.size() - 1; i++) {
             g.drawImage(createdLevelsImages[i], createdLevelsPositions[i].getX(), createdLevelsPositions[i].getY(), CREATED_LEVELS_SIZE, CREATED_LEVELS_SIZE, this);
         }
     }

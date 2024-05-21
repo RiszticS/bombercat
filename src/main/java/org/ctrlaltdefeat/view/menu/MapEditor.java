@@ -1,5 +1,8 @@
 package org.ctrlaltdefeat.view.menu;
 
+import org.ctrlaltdefeat.controllers.ResourceWalker;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Scanner;
@@ -25,7 +29,7 @@ public class MapEditor extends JPanel implements ActionListener {
     private JLabel selectedTile;
     private JPanel comboBoxPanel;
     private int loadIndex;
-    private final File createdLevelFolder;
+    private int createdLevelAssetNumber;
 
     public MapEditor(MenuWindow menuWindow) {
         this.menuWindow = menuWindow;
@@ -65,7 +69,11 @@ public class MapEditor extends JPanel implements ActionListener {
         boardButtons = new JButton[15][15];
         for (int i = 0; i < boardButtons.length; i++) {
             for (int j = 0; j < boardButtons[i].length; j++) {
-                boardButtons[i][j] = menuWindow.createButton("", this, new ImageIcon(new ImageIcon(getClass().getResource("/images/gui/buttons/+.png")).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)), null, null);
+                try {
+                    boardButtons[i][j] = menuWindow.createButton("", this, new ImageIcon(new ImageIcon(ImageIO.read(MapEditor.class.getResourceAsStream("/images/gui/buttons/+.png"))).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)), null, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 centerPanel.add(boardButtons[i][j], gbc);
             }
             gbc.gridy++;
@@ -89,7 +97,14 @@ public class MapEditor extends JPanel implements ActionListener {
         navigationPanel.setOpaque(false);
         String[] buttonLabels = {"Back", "Set All", "Clear", "Load", "Save"};
         buttons = new JButton[buttonLabels.length];
-        buttons[0] = menuWindow.createButton(buttonLabels[0], this, new ImageIcon(getClass().getResource("/images/gui/buttons/button.png")), new ImageIcon(getClass().getResource("/images/gui/buttons/buttonHover.png")), new ImageIcon(getClass().getResource("/images/gui/buttons/buttonPressed.png")));
+        try {
+            buttons[0] = menuWindow.createButton(buttonLabels[0], this,
+                    new ImageIcon(ImageIO.read(MapEditor.class.getResourceAsStream("/images/gui/buttons/button.png"))),
+                    new ImageIcon(ImageIO.read(MapEditor.class.getResourceAsStream("/images/gui/buttons/buttonHover.png"))),
+                    new ImageIcon(ImageIO.read(MapEditor.class.getResourceAsStream("/images/gui/buttons/buttonPressed.png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         navigationPanel.add(Box.createRigidArea(new Dimension(0, margin)));
         navigationPanel.add(buttons[0]);
 
@@ -107,7 +122,14 @@ public class MapEditor extends JPanel implements ActionListener {
         leftSidePanel.add(currentTilePanel);
 
         for (int i = 1; i < buttonLabels.length; i++) {
-            buttons[i] = menuWindow.createButton(buttonLabels[i], this, new ImageIcon(getClass().getResource("/images/gui/buttons/buttonSmall.png")), new ImageIcon(getClass().getResource("/images/gui/buttons/buttonSmallHover.png")), new ImageIcon(getClass().getResource("/images/gui/buttons/buttonSmallPressed.png")));
+            try {
+                buttons[i] = menuWindow.createButton(buttonLabels[i], this,
+                        new ImageIcon(ImageIO.read(MapEditor.class.getResourceAsStream("/images/gui/buttons/buttonSmall.png"))),
+                        new ImageIcon(ImageIO.read(MapEditor.class.getResourceAsStream("/images/gui/buttons/buttonSmallHover.png"))),
+                        new ImageIcon(ImageIO.read(MapEditor.class.getResourceAsStream("/images/gui/buttons/buttonSmallPressed.png"))));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             leftSidePanel.add(Box.createRigidArea(new Dimension(200, margin * 2)));
             leftSidePanel.add(buttons[i]);
         }
@@ -124,7 +146,12 @@ public class MapEditor extends JPanel implements ActionListener {
 
         mapEditorPanel.add(BorderLayout.SOUTH, navigationPanel);
 
-        JLabel background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/images/gui/backgrounds/background.png")).getImage().getScaledInstance(menuWindow.getFrameSize(), menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
+        JLabel background = null;
+        try {
+            background = new JLabel(new ImageIcon(new ImageIcon(ImageIO.read(MapEditor.class.getResourceAsStream("/images/gui/backgrounds/background.png"))).getImage().getScaledInstance(menuWindow.getFrameSize(), menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.setLayout(new BorderLayout());
         this.add(background);
         this.setOpaque(false);
@@ -133,10 +160,13 @@ public class MapEditor extends JPanel implements ActionListener {
         background.add(Box.createVerticalGlue());
         background.add(mapEditorPanel);
 
-        URL url = getClass().getResource("/levels/createdLevels");
-        String path = url.getPath();
-        createdLevelFolder = new File(path);
-        buttons[3].setVisible(createdLevelFolder.listFiles().length > 0);
+        createdLevelAssetNumber = 0;
+        try {
+            createdLevelAssetNumber = ResourceWalker.walk("/levels/createdLevels").size();
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
+        buttons[3].setVisible(createdLevelAssetNumber > 0);
     }
 
     private void backButtonClick() {
@@ -212,17 +242,21 @@ public class MapEditor extends JPanel implements ActionListener {
     private void clearBoardButtons() {
         for (JButton[] button : boardButtons) {
             for (JButton mapButton : button) {
-                mapButton.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/images/gui/buttons/+.png")).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                try {
+                    mapButton.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(MapEditor.class.getResourceAsStream("/images/gui/buttons/+.png"))).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         validateMap(boardButtons);
     }
 
     private void saveLevel() {
-        File folder = new File(getClass().getResource("/levels/createdLevels").getPath());
+        File folder = new File(System.getenv("game_path") + "/levels/createdLevels");
         int index = Objects.requireNonNull(folder.listFiles()).length;
         try {
-            FileWriter writer = new FileWriter(getClass().getResource("/levels/createdLevels/").getPath() + "level" + index + ".txt");
+            FileWriter writer = new FileWriter(System.getenv("game_path") + "/levels/createdLevels/" + "level" + index + ".txt");
             for (int i = 0; i < boardButtons.length; i++) {
                 for (int j = 0; j < boardButtons[i].length; j++) {
                     Icon icon = boardButtons[i][j].getIcon();
@@ -235,15 +269,15 @@ public class MapEditor extends JPanel implements ActionListener {
         } catch (IOException e) {
             System.err.println("Error saving level: " + e.getMessage());
         }
-        buttons[3].setVisible(createdLevelFolder.listFiles().length > 0);
+        buttons[3].setVisible(createdLevelAssetNumber > 0);
     }
 
     private void loadLevel() {
-        if (createdLevelFolder.listFiles().length > 0) {
-            if (loadIndex < createdLevelFolder.listFiles().length - 1) loadIndex++;
+        if (createdLevelAssetNumber > 0) {
+            if (loadIndex < createdLevelAssetNumber - 1) loadIndex++;
             else loadIndex = 0;
             try {
-                File file = new File(getClass().getResource("/levels/createdLevels/level" + loadIndex + ".txt").getPath());
+                File file = new File(System.getenv("game_path") + "/levels/createdLevels/level" + loadIndex + ".txt");
                 Scanner scanner = new Scanner(file);
                 for (int i = 0; i < boardButtons.length; i++) {
                     if (!scanner.hasNextLine()) {
@@ -279,7 +313,7 @@ public class MapEditor extends JPanel implements ActionListener {
     }
 
     private void setThemeDropdown() {
-        File folder = new File(getClass().getResource(folderPath).getPath());
+        File folder = new File(System.getenv("game_path") + folderPath);
         File[] themes = folder.listFiles();
         themeDropdown.removeAllItems();
 
@@ -295,7 +329,7 @@ public class MapEditor extends JPanel implements ActionListener {
 
 
     private void loadTileImages(String selectedTheme) {
-        File folder = new File(getClass().getResource(folderPath + selectedTheme).getPath());
+        File folder = new File(System.getenv("game_path") + folderPath + selectedTheme);
         tiles = folder.listFiles();
 
         if (tiles != null) {

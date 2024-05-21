@@ -22,6 +22,7 @@ build:
 test:
   stage: test
   script:
+    - export game_path=/builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes
     - mvn test
 
 # Documentation
@@ -38,9 +39,15 @@ pages:
 compile:
   stage: deploy
   script:
+    - export game_path=/builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes
     - mvn clean install
     - mkdir public
     - cp .m2/repository/org/example/ctrlaltdefeat/*/*.jar public/
+    #Copy assets to the artifact
+    - mkdir public/assets
+    - cp -r /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes/images public/assets
+    - cp -r /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes/levels public/assets
+    - cp -r /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes/configurations public/assets
   artifacts:
     paths:
       - public

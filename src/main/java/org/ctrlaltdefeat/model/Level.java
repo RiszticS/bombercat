@@ -6,10 +6,13 @@ import org.ctrlaltdefeat.model.fixedElements.*;
 import org.ctrlaltdefeat.model.movingElements.Monster;
 import org.ctrlaltdefeat.model.movingElements.Player;
 import org.ctrlaltdefeat.model.positions.MatrixPosition;
+import org.ctrlaltdefeat.view.menu.LevelSelector;
 
+import javax.imageio.ImageIO;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
@@ -43,7 +46,7 @@ public class Level {
 
     private void readLevelFromFile(int levelNumber, FixedElement[][] board, ArrayList<Player> players,
                                    ArrayList<Monster> monsters, ArrayList<Chest> chests, boolean createdLevel) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(getClass().getResource("/levels/" + (createdLevel ? "createdLevels/level" + levelNumber : "level" + levelNumber) + ".txt").getPath()));
+        BufferedReader reader = new BufferedReader(new FileReader(System.getenv("game_path") + "/levels/" + (createdLevel ? "createdLevels/level" + levelNumber : "level" + levelNumber) + ".txt"));
 
         String currentLine;
 
