@@ -32,7 +32,7 @@ public class MenuWindow extends JFrame {
         this.setVisible(true);
         this.pack();
         this.setLocationRelativeTo(null);
-        this.setIconImage(new ImageIcon(getClass().getResource("/main/assets/images/gui/icon.png")).getImage());
+        this.setIconImage(new ImageIcon(getClass().getResource("/images/gui/icons/icon.png")).getImage());
     }
 
     public void changePanel(String panelName) {

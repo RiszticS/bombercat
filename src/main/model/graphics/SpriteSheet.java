@@ -80,4 +80,8 @@ public class SpriteSheet {
     public BufferedImage current() {
         return images.get(iterator);
     }
+
+    public boolean isLastFrame() {
+        return iterator == imageCount - 1;
+    }
 }

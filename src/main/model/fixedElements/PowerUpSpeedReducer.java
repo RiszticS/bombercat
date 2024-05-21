@@ -12,8 +12,9 @@ public class PowerUpSpeedReducer extends PowerUp {
 
     public PowerUpSpeedReducer(MatrixPosition p) {
         super(p);
-        GraphicsController.addManager(sg);
+        startDraw();
     }
+
     @Override
     public void apply(Player p) {
         System.out.println("sebesseg");
@@ -27,6 +28,7 @@ public class PowerUpSpeedReducer extends PowerUp {
                     @Override
                     public void run() {
                         p.setSpeed(originalSpeed);
+                        setUsed(true);
                     }
                 },
                 EFFECT_DURATION
@@ -34,9 +36,9 @@ public class PowerUpSpeedReducer extends PowerUp {
     }
 
     @Override
-    public void startDraw(){
+    public void startDraw() {
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/images/minusPowerUp.jpeg", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
+        sg = new StaticGraphics("/images/minusPowerUp.png", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
         GraphicsController.addManager(sg);
     }
 }

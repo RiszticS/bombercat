@@ -1,5 +1,7 @@
 package main.view.game;
 
+import main.controllers.graphics.GraphicsController;
+import main.model.movingElements.Player;
 import main.view.menu.MenuWindow;
 
 import javax.swing.*;
@@ -36,7 +38,7 @@ public class PausePanel extends JPanel implements ActionListener {
         String[] buttonLabels = {"Main menu", "Settings", "Exit"};
         buttons = new JButton[buttonLabels.length];
         for (int i = 0; i < buttonLabels.length; i++) {
-            buttons[i] = createButton(buttonLabels[i], this,
+            buttons[i] = gameWindow.createButton(buttonLabels[i], this,
                     new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/button.png")),
                     new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonHover.png")),
                     new ImageIcon(getClass().getResource("/main/assets/images/gui/buttons/buttonPressed.png")));
@@ -51,6 +53,7 @@ public class PausePanel extends JPanel implements ActionListener {
     }
 
     private void backToMainMenu() {
+        gameWindow.getGameModel().resetGame(gameWindow.getGamePanel());
         gameWindow.dispose();
         SwingUtilities.invokeLater(() -> new MenuWindow());
     }
@@ -62,23 +65,7 @@ public class PausePanel extends JPanel implements ActionListener {
         System.exit(0);
     }
 
-    public JButton createButton(String text, ActionListener actionListener, ImageIcon icon, ImageIcon iconHover, ImageIcon iconPressed) {
-        JButton button = new JButton(text);
-        button.setForeground(Color.WHITE);
-        button.setIcon(icon);
-        button.setHorizontalTextPosition(JButton.CENTER);
-        button.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
-        button.setFont(new Font("Press Start 2P", Font.BOLD, 15));
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setBorderPainted(false);
-        button.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        button.setFocusable(false);
-        button.setContentAreaFilled(false);
-        if (actionListener != null) button.addActionListener(actionListener);
-        if (iconHover != null) button.setRolloverIcon(iconHover);
-        if (iconPressed != null) button.setPressedIcon(iconPressed);
-        return button;
-    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

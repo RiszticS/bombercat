@@ -2,36 +2,34 @@ package main.model;
 
 import main.controllers.game.GameLoop;
 import main.controllers.graphics.GraphicsController;
-import main.model.fixedElements.PowerUp;
-import main.model.movingElements.Monster;
 import main.model.movingElements.Player;
-import main.view.game.EndGameWindow;
+import main.view.game.EndGamePanel;
 import main.view.game.GamePanel;
-import main.view.game.ScoreBoardWindow;
+import main.view.game.ScoreBoardPanel;
 
+import javax.swing.*;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameModel {
     private int levelNumber, playerNumber, numberOfWinsNecessary;
     private boolean createdLevel;
     private Level currentLevel;
     private final ArrayList<Integer> scores;
+    private ScoreBoardPanel scoreBoardPanel;
+    private EndGamePanel endGamePanel;
 
-
-    public GameModel(int levelNumber, int playerNumber, int numberOfWinsNecessary,boolean createdLevel) {
+    public GameModel(int levelNumber, int playerNumber, int numberOfWinsNecessary, boolean createdLevel) {
         this.levelNumber = levelNumber;
         this.playerNumber = playerNumber;
         this.numberOfWinsNecessary = numberOfWinsNecessary;
-        this.createdLevel=createdLevel;
+        this.createdLevel = createdLevel;
         scores = new ArrayList<>();
         for (int i = 0; i < playerNumber; i++) {
             scores.add(0);
         }
         try {
-            this.currentLevel = new Level(levelNumber, playerNumber,createdLevel);
+            currentLevel = new Level(levelNumber, playerNumber, createdLevel);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,20 +39,32 @@ public class GameModel {
         if (!scores.contains(numberOfWinsNecessary)) {
             if (currentLevel.isDraw()) {
                 gameLoop.pauseGame();
-                new ScoreBoardWindow(scores, gameLoop, this, gamePanel);
+                addScoreBoardPanel(gameLoop, gamePanel);
             } else if (currentLevel.isWin()) {
                 gameLoop.pauseGame();
                 updateScores();
                 if (!scores.contains(numberOfWinsNecessary)) {
-                    new ScoreBoardWindow(scores, gameLoop, this, gamePanel);
+                    addScoreBoardPanel(gameLoop, gamePanel);
                 } else if (scores.contains(numberOfWinsNecessary)) {
-                    new EndGameWindow(scores);
+                    addEndGamePanel(gamePanel, gameLoop);
                 }
-
             } else {
                 currentLevel.update();
+                gamePanel.getGameWindow().getGuiPanel().setPlayers(currentLevel.getPlayers());
             }
         }
+    }
+
+    public void addScoreBoardPanel(GameLoop gameLoop, GamePanel gamePanel) {
+        scoreBoardPanel = new ScoreBoardPanel(scores, gameLoop, this, gamePanel);
+        scoreBoardPanel.setVisible(true);
+        gamePanel.getGameWindow().addPanel(scoreBoardPanel, Integer.valueOf(1));
+    }
+
+    public void addEndGamePanel(GamePanel gamePanel, GameLoop gameLoop) {
+        endGamePanel = new EndGamePanel(scores, gamePanel, gameLoop);
+        endGamePanel.setVisible(true);
+        gamePanel.getGameWindow().addPanel(endGamePanel, Integer.valueOf(1));
     }
 
     public void resetLevel(GamePanel gamePanel) {
@@ -62,7 +72,7 @@ public class GameModel {
             gamePanel.removeKeyListenersForPlayers();
             Player.resetNumberOfInstancesCreated();
             GraphicsController.reset();
-            this.currentLevel = new Level(this.levelNumber, this.playerNumber,this.createdLevel);
+            this.currentLevel = new Level(this.levelNumber, this.playerNumber, this.createdLevel);
             gamePanel.addKeyListenersForPlayers();
         } catch (IOException e) {
             System.out.println("The level could not be reset!");
@@ -77,5 +87,16 @@ public class GameModel {
 
     public Level getCurrentLevel() {
         return currentLevel;
+    }
+
+    public ArrayList<Integer> getScores() {
+        return scores;
+    }
+
+    public void resetGame(GamePanel gamePanel) {
+        for (int i = 0; i < playerNumber; i++) {
+            scores.set(i, 0);
+        }
+        resetLevel(gamePanel);
     }
 }

@@ -11,7 +11,7 @@ public class PowerUpBombRange extends PowerUp {
 
     public PowerUpBombRange(MatrixPosition p) {
         super(p);
-        GraphicsController.addManager(sg);
+        startDraw();
     }
 
     @Override
@@ -20,11 +20,13 @@ public class PowerUpBombRange extends PowerUp {
             bomb.increaseExplosionRange();
         }
         GraphicsController.removeManager(sg);
+        setUsed(true);
     }
+
     @Override
-    public void startDraw(){
+    public void startDraw() {
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/images/plusRange.png", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
+        sg = new StaticGraphics("/images/extendedExplosion.png", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
         GraphicsController.addManager(sg);
     }
 }

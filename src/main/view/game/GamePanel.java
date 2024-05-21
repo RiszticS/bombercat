@@ -10,11 +10,13 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
     private final GameModel gameModel;
+    private final GameWindow gameWindow;
 
-    public GamePanel(GameModel gameModel) {
+    public GamePanel(GameModel gameModel,GameWindow gameWindow) {
         this.gameModel = gameModel;
+        this.gameWindow=gameWindow;
         addKeyListenersForPlayers();
-        this.setPreferredSize(getWindowSize());
+        this.setPreferredSize(getGameSize());
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
@@ -42,12 +44,20 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public Dimension getWindowSize(){
+    public Dimension getGameSize(){
         int tileSize = GraphicProperties.getTileSize();
         int numberOfColumns = GraphicProperties.getColNumber();
         int numberOfRows = GraphicProperties.getRowNumber();
         int panelWidth = numberOfColumns * tileSize;
         int panelHeight = numberOfRows * tileSize;
         return new Dimension(panelWidth,panelHeight);
+    }
+
+    public GameWindow getGameWindow(){
+        return gameWindow;
+    }
+
+    public GameModel getGameModel(){
+        return gameModel;
     }
 }

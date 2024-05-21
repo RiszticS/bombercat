@@ -9,11 +9,12 @@ public class PlayerSelector extends JPanel implements ActionListener {
     private final MenuWindow menuWindow;
     private final JButton[] playerButtons;
     private final JButton[] navigationButtons;
-    private int playerNumber = 0;
+    private int playerNumber;
 
     public PlayerSelector(MenuWindow menuWindow) {
         this.menuWindow = menuWindow;
         int margin = 15;
+        playerNumber=0;
 
         JPanel playerSelectorPanel = new JPanel();
         playerSelectorPanel.setLayout(new BorderLayout());

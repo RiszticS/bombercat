@@ -16,16 +16,14 @@ public class PowerUpInstantPlacement extends PowerUp {
 
     public PowerUpInstantPlacement(MatrixPosition p) {
         super(p);
-        GraphicsController.addManager(sg);
+        startDraw();
     }
-
 
     @Override
     public void apply(Player p) {
         System.out.println("instant");
-        if(!p.getBombs().isEmpty()){
+        if (!p.getBombs().isEmpty()) {
             p.setPlantBombKeyPressed(true);
-            //p.plantBomb(p.getBoard());
         }
 
         GraphicsController.removeManager(sg);
@@ -33,16 +31,17 @@ public class PowerUpInstantPlacement extends PowerUp {
         effectTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                effectTimer.cancel();
                 p.setPlantBombKeyPressed(false);
+                effectTimer.cancel();
+                setUsed(true);
             }
-        },3000, EFFECT_DURATION);
+        }, 3000, EFFECT_DURATION);
     }
 
     @Override
-    public void startDraw(){
+    public void startDraw() {
         int tileSize = GraphicProperties.getTileSize();
-        sg = new StaticGraphics("/images/minusPowerUp.jpeg", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
+        sg = new StaticGraphics("/images/minusPowerUp.png", this.position.convertToCoordinatePosition(tileSize), tileSize, tileSize);
         GraphicsController.addManager(sg);
     }
 }

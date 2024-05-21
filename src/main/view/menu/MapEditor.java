@@ -294,7 +294,7 @@ public class MapEditor extends JPanel implements ActionListener {
 
     private void loadTileImages(String selectedTheme) {
         File folder = new File(folderPath + selectedTheme);
-        tiles = folder.listFiles();
+            tiles = folder.listFiles();
 
         if (tiles != null) {
             setCurrentTileIcon(new ImageIcon(String.valueOf(tiles[0])));
