@@ -22,6 +22,7 @@ build:
 test:
   stage: test
   script:
+    - eport game_path=/builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes
     - mvn test
 
 # Documentation
