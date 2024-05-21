@@ -55,7 +55,7 @@ public class GuiPanel extends JPanel {
         for (Player player : players) {
             int playerId = player.getId() - 1;
             if (playerId >= 0 && playerId < playerLabels.length) {
-                JLabel label = createLabelWithIcon(playerLabels[playerId] + " cat: ", iconPaths[playerId]);
+                JLabel label = createLabelWithIcon(playerLabels[playerId] + " cat", iconPaths[playerId]);
                 label.setName("playerLabel" + playerId);
                 label.setFont(new Font("Press Start 2P", Font.BOLD, 10));
                 label.setForeground(Color.WHITE);
@@ -83,12 +83,9 @@ public class GuiPanel extends JPanel {
 
         for (Player player : players) {
             int playerId = player.getId() - 1;
-            StringBuilder labelText = new StringBuilder(playerLabels[playerId] + " cat: ");
+            StringBuilder labelText = new StringBuilder(playerLabels[playerId] + " cat");
 
-            for (PowerUp powerUp : player.getPowerUp()) {
-                String powerUpName = powerUp.getClass().getSimpleName().replace("PowerUp", "");
-                labelText.append(powerUpName).append(" ");
-            }
+
 
             JLabel playerLabel = playerLabelsMap.get(playerId);
             if (playerLabel == null) {

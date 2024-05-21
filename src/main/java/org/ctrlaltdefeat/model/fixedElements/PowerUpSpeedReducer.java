@@ -12,7 +12,7 @@ public class PowerUpSpeedReducer extends PowerUp {
 
     public PowerUpSpeedReducer(MatrixPosition p) {
         super(p);
-        startDraw();
+        GraphicsController.addManager(sg);
     }
 
     @Override
@@ -42,3 +42,4 @@ public class PowerUpSpeedReducer extends PowerUp {
         GraphicsController.addManager(sg);
     }
 }
+

@@ -64,14 +64,6 @@ public class Player extends MovingElement implements KeyListener {
         this.canPlaceBomb = true;
     }
 
-    /**
-     * The update method of the Player class provides an interface for the GameModel to update the given Player
-     * object. This is the method that should be called inside the GameModel object if the Player is to be
-     * updated.
-     *
-     * @param board    The board, i.e. the FixedElement[][] object of the GameModel that the Player is a part of.
-     * @param monsters An ArrayList type collection containing the Monster objects of the GameBoard.
-     */
     public void update(FixedElement[][] board, ArrayList<Monster> monsters) {
         collisionManager.handleCollisions(this, board, monsters);
         move();
@@ -92,10 +84,6 @@ public class Player extends MovingElement implements KeyListener {
                 iterator.remove();
             }
         }
-    }
-
-    public void removePowerUp(PowerUp powerUp) {
-        powerUps.remove(powerUp);
     }
 
     protected void move() {
@@ -120,11 +108,6 @@ public class Player extends MovingElement implements KeyListener {
         }
     }
 
-    /**
-     * This method simulates the Player's ability to plant bombs on the board.
-     *
-     * @param board The board, i.e. the FixedElement[][] object of the GameModel that the Players plants the bomb onto.
-     */
     public void plantBomb(FixedElement[][] board) {
         if (canPlaceBomb && plantBombKeyPressed && plantBombCooldown.finished()) {
             MatrixPosition bombPosition = hitbox.getCentre().convertToMatrixPosition(GraphicProperties.getTileSize());
@@ -141,11 +124,6 @@ public class Player extends MovingElement implements KeyListener {
         }
     }
 
-    /**
-     * The method simulates the Player's ability to pick up power-ups from the board.
-     *
-     * @param p The PowerUp object to be picked up.
-     */
     public void pickUpPowerUp(PowerUp p) {
         this.powerUps.add(p);
         p.apply(this);
@@ -154,7 +132,6 @@ public class Player extends MovingElement implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -223,3 +200,4 @@ public class Player extends MovingElement implements KeyListener {
         return graphicsManager;
     }
 }
+

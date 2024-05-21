@@ -28,3 +28,4 @@ public class PowerUpPlusBomb extends PowerUp {
         GraphicsController.addManager(sg);
     }
 }
+

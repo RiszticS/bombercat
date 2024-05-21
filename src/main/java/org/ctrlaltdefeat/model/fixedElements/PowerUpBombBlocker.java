@@ -15,7 +15,7 @@ public class PowerUpBombBlocker extends PowerUp {
 
     public PowerUpBombBlocker(MatrixPosition p) {
         super(p);
-        startDraw();
+        GraphicsController.addManager(sg);
     }
 
     @Override
@@ -28,8 +28,7 @@ public class PowerUpBombBlocker extends PowerUp {
             @Override
             public void run() {
                 p.setCanPlaceBomb(true);
-                setUsed(true); // Jelöljük, hogy a powerup felhasználásra került
-                p.removePowerUp(PowerUpBombBlocker.this); // Töröljük a power-upot a játékos listájából
+                setUsed(true);
             }
         }, EFFECT_DURATION);
     }
@@ -41,3 +40,4 @@ public class PowerUpBombBlocker extends PowerUp {
         GraphicsController.addManager(sg);
     }
 }
+

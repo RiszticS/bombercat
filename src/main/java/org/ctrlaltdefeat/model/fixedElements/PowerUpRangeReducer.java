@@ -16,7 +16,7 @@ public class PowerUpRangeReducer extends PowerUp {
 
     public PowerUpRangeReducer(MatrixPosition p) {
         super(p);
-        startDraw();
+        GraphicsController.addManager(sg);
     }
 
     @Override

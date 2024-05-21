@@ -11,7 +11,7 @@ public class PowerUpBombRange extends PowerUp {
 
     public PowerUpBombRange(MatrixPosition p) {
         super(p);
-        startDraw();
+        GraphicsController.addManager(sg);
     }
 
     @Override
@@ -20,8 +20,7 @@ public class PowerUpBombRange extends PowerUp {
             bomb.increaseExplosionRange();
         }
         GraphicsController.removeManager(sg);
-        setUsed(true); // Jelöljük, hogy a powerup felhasználásra került
-        p.removePowerUp(PowerUpBombRange.this); // Töröljük a power-upot a játékos listájából
+        setUsed(true);
     }
 
     @Override

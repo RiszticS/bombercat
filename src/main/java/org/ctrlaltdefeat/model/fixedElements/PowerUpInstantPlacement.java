@@ -16,7 +16,7 @@ public class PowerUpInstantPlacement extends PowerUp {
 
     public PowerUpInstantPlacement(MatrixPosition p) {
         super(p);
-        startDraw();
+        GraphicsController.addManager(sg);
     }
 
     @Override
@@ -33,8 +33,7 @@ public class PowerUpInstantPlacement extends PowerUp {
             public void run() {
                 p.setPlantBombKeyPressed(false);
                 effectTimer.cancel();
-                setUsed(true); // Jelöljük, hogy a powerup felhasználásra került
-                p.removePowerUp(PowerUpInstantPlacement.this); // Töröljük a power-upot a játékos listájából
+                setUsed(true);
             }
         }, 3000, EFFECT_DURATION);
     }
