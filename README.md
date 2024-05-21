@@ -38,14 +38,16 @@ helyezzenek bombákat, vagy mikor és hogyan használják fel a bónuszokat a le
 
 ### Main menu
 
-<img alt="Alt text" height="600" src="main_menu.png" width="600"/>
+<img alt="Alt text" height="600" src="readme/main_menu.png" width="600"/>
 
 ### Gameplay
 -**Jelenleg:**
 
-<img alt="Alt text" height="600" src="gameplay_1.png" width="600"/>
+<img alt="Alt text" height="600" src="readme/gameplay_1.png" width="600"/>
 
 -**Terv:**
 
-<img alt="Alt text" height="600" src="gameplay_2.png" width="600"/>
+<img alt="Alt text" height="600" src="readme/gameplay_2.png" width="600"/>
 
+## Játék futtatás
+A játék futtatásához Java SE 21-es verzióra van szükségünk. Ezen felül még egy környezeti változóra, amit "game_path"-nek hívnak. Ennek a környezeti változónak a zip fájlból kitömörített assets mappára kell mutatnia. 
