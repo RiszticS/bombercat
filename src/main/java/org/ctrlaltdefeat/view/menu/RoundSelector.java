@@ -1,14 +1,16 @@
 package org.ctrlaltdefeat.view.menu;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class RoundSelector extends JPanel implements ActionListener {
     private final MenuWindow menuWindow;
     private final JButton[] roundButtons;
-    private final JButton navigationButton;
+    private JButton navigationButton;
     private int roundNumber = 0;
 
     public RoundSelector(MenuWindow menuWindow) {
@@ -28,10 +30,14 @@ public class RoundSelector extends JPanel implements ActionListener {
 
         roundButtons = new JButton[3];
         for (int i = 0; i < roundButtons.length; i++) {
-            roundButtons[i] = menuWindow.createButton("" + (3 + i) + "", this,
-                    new ImageIcon(getClass().getResource("/images/gui/buttons/buttonbig.png")),
-                    new ImageIcon(getClass().getResource("/images/gui/buttons/buttonbigHover.png")),
-                    new ImageIcon(getClass().getResource("/images/gui/buttons/buttonbigPressed.png")));
+            try {
+                roundButtons[i] = menuWindow.createButton("" + (3 + i) + "", this,
+                        new ImageIcon(ImageIO.read(RoundSelector.class.getResourceAsStream("/images/gui/buttons/buttonbig.png"))),
+                        new ImageIcon(ImageIO.read(RoundSelector.class.getResourceAsStream("/images/gui/buttons/buttonbigHover.png"))),
+                        new ImageIcon(ImageIO.read(RoundSelector.class.getResourceAsStream("/images/gui/buttons/buttonbigPressed.png"))));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         roundButtons[0].addActionListener(this);
 
@@ -48,17 +54,27 @@ public class RoundSelector extends JPanel implements ActionListener {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
-        navigationButton = menuWindow.createButton("Back", this,
-                new ImageIcon(getClass().getResource("/images/gui/buttons/button.png")),
-                new ImageIcon(getClass().getResource("/images/gui/buttons/buttonHover.png")),
-                new ImageIcon(getClass().getResource("/images/gui/buttons/buttonPressed.png")));
+        navigationButton = null;
+        try {
+            navigationButton = menuWindow.createButton("Back", this,
+                    new ImageIcon(ImageIO.read(RoundSelector.class.getResourceAsStream("/images/gui/buttons/button.png"))),
+                    new ImageIcon(ImageIO.read(RoundSelector.class.getResourceAsStream("/images/gui/buttons/buttonHover.png"))),
+                    new ImageIcon(ImageIO.read(RoundSelector.class.getResourceAsStream("/images/gui/buttons/buttonPressed.png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         buttonPanel.add(Box.createRigidArea(new Dimension(0, margin)));
         buttonPanel.add(navigationButton);
 
         buttonPanel.add(Box.createVerticalGlue());
         roundSelectorPanel.add(BorderLayout.SOUTH, buttonPanel);
 
-        JLabel background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/images/gui/backgrounds/background.png")).getImage().getScaledInstance(menuWindow.getFrameSize(), menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
+        JLabel background = null;
+        try {
+            background = new JLabel(new ImageIcon(new ImageIcon(ImageIO.read(RoundSelector.class.getResourceAsStream("/images/gui/backgrounds/background.png"))).getImage().getScaledInstance(menuWindow.getFrameSize(), menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.setLayout(new BorderLayout());
         this.add(background);
         this.setOpaque(false);

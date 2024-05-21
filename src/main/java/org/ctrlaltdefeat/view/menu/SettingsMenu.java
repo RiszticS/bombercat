@@ -4,6 +4,7 @@ import org.ctrlaltdefeat.controllers.configuration.ConfigurationManager;
 import org.ctrlaltdefeat.controllers.configuration.ControlsProperties;
 import org.ctrlaltdefeat.controllers.movement.PlayerControls;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 public class SettingsMenu extends JPanel implements ActionListener {
     private final MenuWindow menuWindow;
@@ -44,7 +46,12 @@ public class SettingsMenu extends JPanel implements ActionListener {
     private void setupLayout() {
         setLayout(new BorderLayout());
 
-        JLabel background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/images/gui/backgrounds/background.png")).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
+        JLabel background = null;
+        try {
+            background = new JLabel(new ImageIcon(new ImageIcon(ImageIO.read(SettingsMenu.class.getResourceAsStream("/images/gui/backgrounds/background.png"))).getImage().getScaledInstance(menuWindow.getFrameSize(),menuWindow.getFrameSize(), Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         background.setLayout(new BorderLayout());
         background.setPreferredSize(new Dimension(menuWindow.getFrameSize(), menuWindow.getFrameSize()));
         this.setLayout(new BorderLayout());
@@ -139,9 +146,13 @@ public class SettingsMenu extends JPanel implements ActionListener {
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         button.setVerticalTextPosition(SwingConstants.CENTER);
         button.addActionListener(e -> setActiveControl(playerIndex, controlIndex));
-        button.setIcon(new ImageIcon(getClass().getResource("/images/gui/buttons/button.png")));
-        button.setRolloverIcon(new ImageIcon(getClass().getResource("/images/gui/buttons/buttonHover.png")));
-        button.setPressedIcon(new ImageIcon(getClass().getResource("/images/gui/buttons/buttonPressed.png")));
+        try {
+            button.setIcon(new ImageIcon(ImageIO.read(SettingsMenu.class.getResourceAsStream("/images/gui/buttons/button.png"))));
+            button.setRolloverIcon(new ImageIcon(ImageIO.read(SettingsMenu.class.getResourceAsStream("/images/gui/buttons/buttonHover.png"))));
+            button.setPressedIcon(new ImageIcon(ImageIO.read(SettingsMenu.class.getResourceAsStream("/images/gui/buttons/buttonPressed.png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         button.addKeyListener(new KeyAdapter() {
             @Override
@@ -158,10 +169,14 @@ public class SettingsMenu extends JPanel implements ActionListener {
         buttonPanel.setOpaque(false);
         buttonPanel.setLayout(new BorderLayout());
 
+        try {
         navigationButtons[0] = menuWindow.createButton("Back", this,
-                new ImageIcon(getClass().getResource("/images/gui/buttons/button.png")),
-                new ImageIcon(getClass().getResource("/images/gui/buttons/buttonHover.png")),
-                new ImageIcon(getClass().getResource("/images/gui/buttons/buttonPressed.png")));
+                new ImageIcon(ImageIO.read(SettingsMenu.class.getResourceAsStream("/images/gui/buttons/button.png"))),
+                new ImageIcon(ImageIO.read(SettingsMenu.class.getResourceAsStream("/images/gui/buttons/buttonHover.png"))),
+                new ImageIcon(ImageIO.read(SettingsMenu.class.getResourceAsStream("/images/gui/buttons/buttonPressed.png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         centerPanel.setOpaque(false);

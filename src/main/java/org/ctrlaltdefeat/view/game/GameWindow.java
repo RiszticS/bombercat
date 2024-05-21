@@ -1,8 +1,11 @@
 package org.ctrlaltdefeat.view.game;
 
 import org.ctrlaltdefeat.model.GameModel;
+import org.ctrlaltdefeat.view.menu.MainMenu;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.io.IOException;
 
 public class GameWindow extends JFrame {
 
@@ -16,7 +19,11 @@ public class GameWindow extends JFrame {
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        this.setIconImage(new ImageIcon(getClass().getResource("/images/gui/icon.png")).getImage());
+        try {
+            this.setIconImage(new ImageIcon(ImageIO.read(GameWindow.class.getResourceAsStream("/images/gui/icon.png"))).getImage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public GamePanel getGamePanel() {
