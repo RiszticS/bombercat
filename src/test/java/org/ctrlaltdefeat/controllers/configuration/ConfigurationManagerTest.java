@@ -17,28 +17,28 @@ public class ConfigurationManagerTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        configurationManager = new ConfigurationManager("test.properties");
+        configurationManager = new ConfigurationManager("graphics.properties");
     }
 
     @Test
     @Order(1)
     public void getProperty() {
-        String value = configurationManager.getProperty("test_key");
-        assertEquals("68", value);
+        String value = configurationManager.getProperty("tile_size");
+        assertEquals("48", value);
     }
 
     @Test
     @Order(2)
     public void changeProperty() throws IOException {
-        configurationManager.changeProperty("test_key", "1");
+        configurationManager.changeProperty("tile_size", "1");
 
-        String newValue = configurationManager.getProperty("test_key");
+        String newValue = configurationManager.getProperty("tile_size");
         assertEquals("1", newValue);
     }
 
     @AfterEach
     public void restore() {
-        configurationManager.changeProperty("test_key", "68");
+        configurationManager.changeProperty("tile_size", "48");
     }
 
 }
