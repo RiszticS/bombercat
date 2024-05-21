@@ -40,7 +40,7 @@ compile:
   script:
     - mvn clean install
     - mkdir public
-    - ls .m2/repository/org/example/ctrlaltdefeat/
+    - ls .m2/repository/org/example/ctrlaltdefeat/*/
     - cp .m2/repository/org/example/ctrlaltdefeat/*/*.jar public/
   artifacts:
     paths:
