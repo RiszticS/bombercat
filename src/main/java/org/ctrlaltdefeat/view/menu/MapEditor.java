@@ -272,6 +272,7 @@ public class MapEditor extends JPanel implements ActionListener {
     }
 
     private void loadLevel() {
+        createdLevelAssetNumber = new File(System.getenv("game_path") + "/levels/createdLevels").listFiles().length;
         if (createdLevelAssetNumber > 0) {
             if (loadIndex < createdLevelAssetNumber - 1) loadIndex++;
             else loadIndex = 0;
