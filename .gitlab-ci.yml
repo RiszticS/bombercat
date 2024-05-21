@@ -40,8 +40,12 @@ compile:
   script:
     - mvn clean install
     - mkdir public
-    - ls /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes
     - cp .m2/repository/org/example/ctrlaltdefeat/*/*.jar public/
+    #Copy assets to the artifact
+    - mkdir public/assets
+    - cp /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes/images public/assets
+    - cp /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes/levels public/assets
+    - cp /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/classes/configurations public/assets
   artifacts:
     paths:
       - public
