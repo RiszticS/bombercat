@@ -40,7 +40,7 @@ compile:
   script:
     - mvn clean install
     - mkdir public
-    - ls .m2/repository/org/example/ctrlaltdefeat/*/
+    - ls /builds/szofttech-c-2024/group-12/ctrlaltdefeat/target/
     - cp .m2/repository/org/example/ctrlaltdefeat/*/*.jar public/
   artifacts:
     paths:
