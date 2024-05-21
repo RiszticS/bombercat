@@ -38,7 +38,7 @@ public class MenuWindow extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         try {
-            this.setIconImage(new ImageIcon(ImageIO.read(MenuWindow.class.getResourceAsStream("/images/gui/icon.png"))).getImage());
+            this.setIconImage(new ImageIcon(ImageIO.read(MenuWindow.class.getResourceAsStream("/images/gui/icons/icon.png"))).getImage());
         } catch (IOException e) {
             e.printStackTrace();
         }

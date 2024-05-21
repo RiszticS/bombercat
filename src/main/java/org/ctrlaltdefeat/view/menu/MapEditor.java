@@ -1,5 +1,4 @@
 package org.ctrlaltdefeat.view.menu;
-
 import org.ctrlaltdefeat.controllers.ResourceWalker;
 
 import javax.imageio.ImageIO;

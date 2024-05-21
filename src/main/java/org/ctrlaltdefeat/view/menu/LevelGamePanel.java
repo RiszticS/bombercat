@@ -206,10 +206,12 @@ public class LevelGamePanel extends JPanel {
     private void startGame(int level,boolean createdLevel) {
         timer.stop();
         GameModel gm = new GameModel(level, levelSelector.menuWindow.getPlayerSelector().getPlayerNumber(), levelSelector.menuWindow.getRoundSelector().getRoundNumber(),createdLevel);
-        GameWindow gw = new GameWindow(gm);
-        GameLoop gc = new GameLoop(gm, gw.getGamePanel());
-        gc.start();
         levelSelector.menuWindow.dispose();
+        GameWindow gw = new GameWindow(gm);
+        gm.resetGame(gw.getGamePanel());
+        GameLoop gc = new GameLoop(gm, gw);
+        gc.start();
+
     }
 
     private boolean isValidMove(int x, int y) {

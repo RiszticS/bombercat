@@ -3,31 +3,33 @@ package org.ctrlaltdefeat.model;
 import org.ctrlaltdefeat.controllers.game.GameLoop;
 import org.ctrlaltdefeat.controllers.graphics.GraphicsController;
 import org.ctrlaltdefeat.model.movingElements.Player;
-import org.ctrlaltdefeat.view.game.EndGameWindow;
+import org.ctrlaltdefeat.view.game.EndGamePanel;
 import org.ctrlaltdefeat.view.game.GamePanel;
-import org.ctrlaltdefeat.view.game.ScoreBoardWindow;
+import org.ctrlaltdefeat.view.game.ScoreBoardPanel;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameModel {
     private int levelNumber, playerNumber, numberOfWinsNecessary;
+    private boolean createdLevel;
     private Level currentLevel;
     private final ArrayList<Integer> scores;
-    private boolean createdLevel;
-
+    private ScoreBoardPanel scoreBoardPanel;
+    private EndGamePanel endGamePanel;
 
     public GameModel(int levelNumber, int playerNumber, int numberOfWinsNecessary, boolean createdLevel) {
         this.levelNumber = levelNumber;
         this.playerNumber = playerNumber;
         this.numberOfWinsNecessary = numberOfWinsNecessary;
-        this.createdLevel=createdLevel;
+        this.createdLevel = createdLevel;
         scores = new ArrayList<>();
         for (int i = 0; i < playerNumber; i++) {
             scores.add(0);
         }
         try {
-            this.currentLevel = new Level(levelNumber, playerNumber, createdLevel);
+            currentLevel = new Level(levelNumber, playerNumber, createdLevel);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,20 +39,32 @@ public class GameModel {
         if (!scores.contains(numberOfWinsNecessary)) {
             if (currentLevel.isDraw()) {
                 gameLoop.pauseGame();
-                new ScoreBoardWindow(scores, gameLoop, this, gamePanel);
+                addScoreBoardPanel(gameLoop, gamePanel);
             } else if (currentLevel.isWin()) {
                 gameLoop.pauseGame();
                 updateScores();
                 if (!scores.contains(numberOfWinsNecessary)) {
-                    new ScoreBoardWindow(scores, gameLoop, this, gamePanel);
+                    addScoreBoardPanel(gameLoop, gamePanel);
                 } else if (scores.contains(numberOfWinsNecessary)) {
-                    new EndGameWindow(scores);
+                    addEndGamePanel(gamePanel, gameLoop);
                 }
-
             } else {
                 currentLevel.update();
+                gamePanel.getGameWindow().getGuiPanel().setPlayers(currentLevel.getPlayers());
             }
         }
+    }
+
+    public void addScoreBoardPanel(GameLoop gameLoop, GamePanel gamePanel) {
+        scoreBoardPanel = new ScoreBoardPanel(scores, gameLoop, this, gamePanel);
+        scoreBoardPanel.setVisible(true);
+        gamePanel.getGameWindow().addPanel(scoreBoardPanel, Integer.valueOf(1));
+    }
+
+    public void addEndGamePanel(GamePanel gamePanel, GameLoop gameLoop) {
+        endGamePanel = new EndGamePanel(scores, gamePanel, gameLoop);
+        endGamePanel.setVisible(true);
+        gamePanel.getGameWindow().addPanel(endGamePanel, Integer.valueOf(1));
     }
 
     public void resetLevel(GamePanel gamePanel) {
@@ -73,5 +87,16 @@ public class GameModel {
 
     public Level getCurrentLevel() {
         return currentLevel;
+    }
+
+    public ArrayList<Integer> getScores() {
+        return scores;
+    }
+
+    public void resetGame(GamePanel gamePanel) {
+        for (int i = 0; i < playerNumber; i++) {
+            scores.set(i, 0);
+        }
+        resetLevel(gamePanel);
     }
 }

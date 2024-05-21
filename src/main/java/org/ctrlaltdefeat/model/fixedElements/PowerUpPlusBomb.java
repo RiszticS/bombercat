@@ -11,13 +11,14 @@ public class PowerUpPlusBomb extends PowerUp {
 
     public PowerUpPlusBomb(MatrixPosition p) {
         super(p);
-        sg = null;
+        GraphicsController.addManager(sg);
     }
 
     @Override
     public void apply(Player p) {
-        p.getBombs().add(new Bomb(new MatrixPosition(0,0)));
+        p.getBombs().add(new Bomb(new MatrixPosition(0, 0)));
         GraphicsController.removeManager(sg);
+        setUsed(true);
     }
 
     @Override
@@ -26,5 +27,5 @@ public class PowerUpPlusBomb extends PowerUp {
         sg = new StaticGraphics("/images/plusBomb.png", this.position.convertToCoordinatePosition(tileSize), tileSize);
         GraphicsController.addManager(sg);
     }
-
 }
+

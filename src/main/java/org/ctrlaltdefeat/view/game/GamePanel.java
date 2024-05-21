@@ -9,20 +9,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
-    GameModel model;
+    private final GameModel gameModel;
+    private final GameWindow gameWindow;
 
-    public GamePanel(GameModel gameModel) {
-        this.model = gameModel;
-        int tileSize = GraphicProperties.getTileSize();
-        int numberOfColumns = GraphicProperties.getColNumber();
-        int numberOfRows = GraphicProperties.getRowNumber();;
-        int panelWidth = numberOfColumns * tileSize;
-        int panelHeight = numberOfRows * tileSize;
+    public GamePanel(GameModel gameModel,GameWindow gameWindow) {
+        this.gameModel = gameModel;
+        this.gameWindow=gameWindow;
         addKeyListenersForPlayers();
-        this.setPreferredSize(new Dimension(panelWidth, panelHeight));
+        this.setPreferredSize(getGameSize());
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+        this.setLayout(null);
     }
 
     @Override
@@ -35,14 +33,31 @@ public class GamePanel extends JPanel {
     }
 
     public void addKeyListenersForPlayers() {
-        for (Player p : model.getCurrentLevel().getPlayers()) {
+        for (Player p : gameModel.getCurrentLevel().getPlayers()) {
             this.addKeyListener(p);
         }
     }
 
     public void removeKeyListenersForPlayers() {
-        for (Player p : model.getCurrentLevel().getPlayers()) {
+        for (Player p : gameModel.getCurrentLevel().getPlayers()) {
             this.removeKeyListener(p);
         }
+    }
+
+    public Dimension getGameSize(){
+        int tileSize = GraphicProperties.getTileSize();
+        int numberOfColumns = GraphicProperties.getColNumber();
+        int numberOfRows = GraphicProperties.getRowNumber();
+        int panelWidth = numberOfColumns * tileSize;
+        int panelHeight = numberOfRows * tileSize;
+        return new Dimension(panelWidth,panelHeight);
+    }
+
+    public GameWindow getGameWindow(){
+        return gameWindow;
+    }
+
+    public GameModel getGameModel(){
+        return gameModel;
     }
 }

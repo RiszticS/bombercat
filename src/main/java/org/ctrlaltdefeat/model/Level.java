@@ -7,6 +7,7 @@ import org.ctrlaltdefeat.model.movingElements.Monster;
 import org.ctrlaltdefeat.model.movingElements.Player;
 import org.ctrlaltdefeat.model.positions.MatrixPosition;
 import org.ctrlaltdefeat.view.menu.LevelSelector;
+import org.ctrlaltdefeat.model.positions.Direction;
 
 import javax.imageio.ImageIO;
 import java.io.BufferedReader;
@@ -40,7 +41,7 @@ public class Level {
         this.winner = null;
 
         ArrayList<Chest> chests = new ArrayList<>();
-        readLevelFromFile(levelNumber, board, players, monsters, chests,createdLevel);
+        readLevelFromFile(levelNumber, board, players, monsters, chests, createdLevel);
         allocatePowerUpsToRandomChests(chests);
     }
 
@@ -61,50 +62,50 @@ public class Level {
                         board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                         break;
                     case "wall":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallDoubleLeft":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallDoubleRight":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallLeft":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallRight":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallWindowLeft":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallWindowRight":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallWindow":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallTop":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallRightCornerBottom":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallRightCornerTop":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallLeftCornerBottom":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "wallLeftCornerTop":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "obstacle":
-                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex),currentElement);
+                        board[rowIndex][colIndex] = new Wall(new MatrixPosition(rowIndex, colIndex), currentElement);
                         break;
                     case "player":
                         if (numberOfPlayerPositionsInTheFile < playerNumberProvidedInTheMenu) {
-                            players.add(new Player(new MatrixPosition(rowIndex, colIndex), board,numberOfPlayerPositionsInTheFile));
+                            players.add(new Player(new MatrixPosition(rowIndex, colIndex), board, numberOfPlayerPositionsInTheFile));
                         }
                         board[rowIndex][colIndex] = new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                         numberOfPlayerPositionsInTheFile++;
@@ -116,6 +117,7 @@ public class Level {
                     case "chest":
                         Chest c = new Chest(new MatrixPosition(rowIndex, colIndex));
                         board[rowIndex][colIndex] = c;
+                        EmptyTile e= new EmptyTile(new MatrixPosition(rowIndex, colIndex), true);
                         chests.add(c);
                         break;
                 }
@@ -123,8 +125,6 @@ public class Level {
             rowIndex++;
         }
     }
-
-
 
     public void update() {
         updateBoard();
@@ -154,14 +154,22 @@ public class Level {
             player.update(board, monsters);
         }
     }
+
     private void removeDeadPlayers() {
         Predicate<Player> dead = p -> !p.isAlive();
-        players.removeIf( dead );
+        players.stream()
+                .filter(dead)
+                .forEach(p -> {
+                    p.getMovingAnimationGraphics().changeDirection(Direction.DIE);
+                    p.getMovingAnimationGraphics().runToEnd();
+                });
+        players.removeIf(dead);
     }
+
 
     private void removeDeadMonsters() {
         Predicate<Monster> dead = p -> !p.isAlive();
-        monsters.removeIf( dead );
+        monsters.removeIf(dead);
     }
 
     private void checkForWin() {
@@ -184,7 +192,7 @@ public class Level {
 
     private void allocatePowerUpsToRandomChests(ArrayList<Chest> chests) {
         if (!chests.isEmpty()) {
-            ArrayList<PowerUp> powerUps = generateRandomPowerUpsInRange(1, (int)Math.ceil((float) chests.size() / 3) );
+            ArrayList<PowerUp> powerUps = generateRandomPowerUpsInRange(chests.size(), chests.size());
 
             ArrayList<Integer> alreadyPickedIndices = new ArrayList<>();
             for (PowerUp p : powerUps) {
@@ -217,10 +225,23 @@ public class Level {
                     ModelProperties.getNumberOfTypesOfPowerUps() + 1);
             switch (typeOfPowerUp) {
                 case 1:
-                    powerUps.add(new PowerUpBombRange(new MatrixPosition(0,0)));
+                    powerUps.add(new PowerUpBombRange(new MatrixPosition(0, 0)));
                     break;
                 case 2:
                     powerUps.add(new PowerUpPlusBomb(new MatrixPosition(0, 0)));
+                    break;
+                case 3:
+                    powerUps.add(new PowerUpBombBlocker(new MatrixPosition(0, 0)));
+                    break;
+                case 4:
+                    powerUps.add(new PowerUpRangeReducer(new MatrixPosition(0, 0)));
+                    break;
+                case 5:
+                    powerUps.add(new PowerUpSpeedReducer(new MatrixPosition(0, 0)));
+                    break;
+                case 6:
+                    powerUps.add(new PowerUpInstantPlacement(new MatrixPosition(0, 0)));
+                    break;
             }
         }
         return powerUps;

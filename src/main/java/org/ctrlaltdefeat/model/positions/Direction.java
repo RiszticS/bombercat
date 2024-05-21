@@ -8,7 +8,9 @@ public enum Direction {
     RIGHT(1),
     DOWN(2),
     LEFT(3),
-    IDLE(4);
+    IDLE(4),
+    DIE(5);
+
 
     private int index;
     private static final Random random = new Random();
