@@ -43,7 +43,7 @@ helyezzenek bombákat, vagy mikor és hogyan használják fel a bónuszokat a le
 ### Gameplay
 -**Jelenleg:**
 
-<img alt="Alt text" height="600" src="readme/gameplay_1.png" width="600"/>
+<img alt="Alt text" height="600" src="readme/gameplay.mp4" width="600"/>
 
 -**Terv:**
 
