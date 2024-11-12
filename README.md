@@ -38,7 +38,7 @@ helyezzenek bombákat, vagy mikor és hogyan használják fel a bónuszokat a le
 
 ### Main menu
 
-<img alt="Alt text" height="600" src="readme/main_menu.png" width="600"/>
+<img alt="Alt text" height="600" src="readme/main_menu.gif" width="600"/>
 
 ### Gameplay
 -**Jelenleg:**
