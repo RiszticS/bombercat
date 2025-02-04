@@ -1,56 +1,84 @@
-# CtrlAltDefeat
+# A Térképész Játék
 
-## A játék leírása
+## Rövid áttekintés
 
-A játék egy kétdimenziós pályán játszódik, amely négyzet alakú mezőkből áll. A játékot három játékos játssza,
-akiknek 1-1 Bombercat figurát irányítva céljuk, hogy egyedüliként maradjanak életben.
-A játékpálya mezőin falelemek, dobozok, szörnyek és maguk a játékosok figurái helyezkednek el.
-A játékosok bombákat lehelyezve felrobbanthatják a dobozokat, szörnyeket és a játékosokat (akár saját magukat is).
-Egy játékos veszt (és ezáltal ellenfele győz), ha felrobban, vagy ha egy szörny elkapja.
+Ebben az egyszemélyes játékban egy **11x11-es négyzetrácsos térképre** kell lehelyezni különböző alakzatú, különböző tereptípusú térképelemeket. Minden elemhez tartozik egy időérték (**1 vagy 2**), és a játék **28 időegységből** áll. A játék végén (vagy közben) a négyzetrács aktuális állapota alapján kell pár ellenőrzést (**küldetést**) elvégezni, és ezek alapján alakul ki a végső pontszám.
 
-## Mire is van lehetőség egy körben?
+---
 
- -**Játékos Mozgatása:**
-Minden játékosnak lehetősége van mozogni a játéktéren belül, hogy elkerülje a bombákat és más játékosokat,
- illetve hogy bónuszokat gyűjtsön be.
+## A térkép kiindulási állapota
 
--**Bombák Lerakása:**
-A játékosok bombákat helyezhetnek el a játéktér különböző pontjain. Ezek a bombák robbanáskor kárt okoznak a 
-környezetükben, például felrobbanthatnak falakat, megölhetnek más játékosokat vagy szörnyeket.
+A térkép egy **11x11-es négyzetrács**, kezdetben üres cellákkal feltöltve. A térképen **5 fix cellában hegymezők találhatóak**. A hegyek a térkép alábbi mezőiben helyezkednek el:
 
--**Bónuszok Felvétele:**
-A játékosok különféle bónuszokat gyűjthetnek be a játékmezőn, amelyek különféle előnyöket biztosítanak számukra.
-Például sebességnövelő bónuszok, nagyobb robbanási sugárzóna vagy extra bombák.
+- (2,2)
+- (4,9)
+- (6,4)
+- (9,10)
+- (10,6)
 
--**Ellenségek Elpusztítása:**
-A játékosoknek lehetőségük van bombákkal vagy más módon elpusztítani a játékban szereplő szörnyeket vagy
-más játékosokat. Ez pontokat vagy más előnyöket szerezhet nekik a játék során.
+![Térkép hegyekkel](assets/readme/ures_terkep_hegyekkel.png)
 
--**Támadások Elkerülése:**
-A játékosoknak figyelniük kell a körülöttük zajló eseményekre, és meg kell próbálniuk elkerülni a más játékosok
-által lerakott bombákat és támadásokat.
+---
 
--**Taktikai Döntések:**
-A játékosoknak taktikusan kell gondolkodniuk a játék során, például meg kell határozniuk, hogy mikor és hova
-helyezzenek bombákat, vagy mikor és hogyan használják fel a bónuszokat a legnagyobb hatékonyság érdekében.
+## Térképelemek lehelyezése
 
-## Hogyan is néz ki a Multiplayer Bomberman?
+A letehető térképelemek tereptípusai:
 
-### Main menu
+- **Erdő**
+- **Falu**
+- **Farm**
+- **Víz**
 
-<img alt="Alt text" height="600" src="readme/main_menu.gif" width="600"/>
+Az összes lehetséges elem meg van adva egy JavaScript tömbben, ezek közül néhány így néz ki:
 
-### Gameplay
--**Terv:**
+![Lehetséges alakzatok](assets/readme/lehetseges_alakzatok.png)
 
-<img alt="Alt text" height="600" src="readme/gameplay_2.png" width="600"/>
+A lehetséges elemeket **véletlenszerűen megkeverjük**, majd sorban egymás után egyesével kell őket lehelyezni a térképre. Minden térképelem **forgatható és tükrözhető**, de **nem fedhet le már teli mezőt** (a hegy is ennek számít), illetve **nem lóghat le a térképről**.
 
--**Végeredmény:**
+### Példák:
 
-<img alt="Alt text" height="600" src="readme/gameplay.gif" width="600"/>
+#### ✅ Jól lehelyezett elem:
+![Jó elhelyezés](assets/readme/jo.png)
 
+#### ❌ Rosszul lehelyezett elem:
+![Rossz elhelyezés](assets/readme/rossz.png)
 
+---
 
+## A játék időtartama
 
-## Játék futtatás
-A játék futtatásához Java SE 21-es verzióra van szükségünk. Ezen felül még egy környezeti változóra, amit "game_path"-nek hívnak. Ennek a környezeti változónak a zip fájlból kitömörített assets mappára kell mutatnia. 
+A játék **28 időegységig** tart. Minden térképelemhez tartozik egy **időérték** (1 vagy 2), ami meghatározza, hogy mennyi ideig tart őket felfedezni. Addig tudunk új térképelemeket húzni, amíg el nem érjük a **28 időegységet**.
+
+📌 **Példa:** Ha **1 időegység** maradt hátra, és egy **2 időegységgel rendelkező térképelemet** kapunk, azt még lehelyezhetjük, de utána a játék véget ér.
+
+---
+
+## Pontszámítás
+
+Minden játék elején ki kell választani **4 véletlenszerű küldetéskártyát** (**A, B, C, D**), amik alapján pontot lehet szerezni.
+
+Például:
+
+> "A hegymezőiddel szomszédos vízmezőidért három-három pontot kapsz."
+
+![Küldetés példa](assets/readme/kuldetes.png)
+
+Ha a **hegyeket 4 oldalról körbevesszük**, körbevett hegyenként **1-1 pontot kapunk**.
+
+![Hegy bekerítés](assets/readme/hegybekerites.png)
+
+A játék végén meg kell számolni mindegyik küldetés alapján kapott pontokat, és ezek összesített eredménye lesz a végleges pontszám.
+
+---
+
+## Évszakok
+
+A **28 időegységet** négy évszakra lehet bontani, minden évszak végén pontozás történik. Az évszakok segítenek a stratégia kialakításában.
+
+🎯 **Cél:** Minél magasabb pontszám elérése az adott küldetések teljesítésével!
+
+---
+
+## Készítette
+
+👨‍💻 **Adam Risztics**
